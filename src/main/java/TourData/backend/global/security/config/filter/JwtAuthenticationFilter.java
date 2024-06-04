@@ -1,9 +1,10 @@
 package TourData.backend.global.security.config.filter;
 
-import TourData.backend.global.security.dto.JwtTokenResponse;
+import TourData.backend.global.security.dto.TokenResponse;
 import TourData.backend.global.security.dto.UserLoginRequest;
 import TourData.backend.global.security.auth.CustomUserDetails;
 import TourData.backend.global.security.auth.CustomUserDetailsService;
+import TourData.backend.global.security.utils.ResponseWriter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     private final AuthenticationManager authenticationManager;
     private final CustomUserDetailsService customUserDetailsService;
+    private final ResponseWriter responseWriter;
 
     // 인증 시도
     @Override
@@ -46,18 +48,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         // userDetails 추출
         CustomUserDetails userDetails = (CustomUserDetails) authResult.getPrincipal();
         // JWT 토큰 발급
-        JwtTokenResponse jwtTokenResponse = customUserDetailsService.getJwtTokenResponse(userDetails);
+        TokenResponse tokenResponse = customUserDetailsService.getJwtTokenResponse(userDetails);
         // response body에 access 토큰 DTO 담기
-        writeJwtTokenResponse(response,jwtTokenResponse);
-    }
-
-    private void writeJwtTokenResponse(HttpServletResponse response, JwtTokenResponse jwtTokenResponse)
-            throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String responseBody = objectMapper.writeValueAsString(jwtTokenResponse);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(responseBody);
+        responseWriter.writeTokenResponse(response, tokenResponse);
     }
 
 }

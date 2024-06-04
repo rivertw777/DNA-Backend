@@ -3,6 +3,7 @@ package TourData.backend.global.security.config.handler;
 import static TourData.backend.global.security.exception.AuthExceptionMessage.LOGIN_FAILED;
 import static com.nimbusds.oauth2.sdk.http.HTTPResponse.SC_UNAUTHORIZED;
 
+import TourData.backend.global.exception.dto.CustomErrorResponse;
 import TourData.backend.global.security.utils.ResponseWriter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,6 +20,7 @@ public class JwtAuthenticationFailureHandler implements AuthenticationFailureHan
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException authenticationException) throws IOException {
-        responseWriter.writeErrorResponse(response, SC_UNAUTHORIZED, LOGIN_FAILED.getMessage());
+        CustomErrorResponse errorResponse = new CustomErrorResponse(LOGIN_FAILED.getMessage());
+        responseWriter.writeErrorResponse(response, SC_UNAUTHORIZED, errorResponse);
     }
 }

@@ -4,6 +4,7 @@ import static TourData.backend.global.security.jwt.JwtProperties.HEADER_STRING;
 import static TourData.backend.global.security.jwt.JwtProperties.TOKEN_PREFIX;
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
+import TourData.backend.global.exception.dto.CustomErrorResponse;
 import TourData.backend.global.security.auth.CustomUserDetailsService;
 import TourData.backend.global.security.utils.ResponseWriter;
 import jakarta.servlet.FilterChain;
@@ -44,7 +45,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         }
         // 예외 처리
         catch (Exception e) {
-            responseWriter.writeErrorResponse(response, SC_UNAUTHORIZED, e.getMessage());
+            CustomErrorResponse errorResponse = new CustomErrorResponse(e.getMessage());
+            responseWriter.writeErrorResponse(response, SC_UNAUTHORIZED, errorResponse);
         }
         chain.doFilter(request, response);
     }

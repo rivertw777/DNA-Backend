@@ -21,4 +21,5 @@ public class UserController {
     public void signUp(@Valid @RequestBody UserSignUpRequest reqeustParam){
         userSerivce.signUp(reqeustParam);
     }
+
 }
