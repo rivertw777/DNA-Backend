@@ -1,5 +1,8 @@
 package TourData.backend.global.security.jwt;
 
+import static TourData.backend.global.security.exception.JwtExceptionMessage.INVALID_TOKEN;
+import static TourData.backend.global.security.exception.JwtExceptionMessage.EXPIRED_TOKEN;
+
 import TourData.backend.global.security.auth.CustomUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -51,8 +54,10 @@ public class TokenProvider {
     public void validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(jwtSecretKey).build().parseClaimsJws(token);
-        } catch (ExpiredJwtException | MalformedJwtException | UnsupportedJwtException | SignatureException e) {
-            throw new JwtException("유효하지 않은 토큰입니다.");
+        } catch (ExpiredJwtException e) {
+            throw new JwtException(EXPIRED_TOKEN.getMessage());
+        } catch (MalformedJwtException | UnsupportedJwtException | SignatureException e) {
+            throw new JwtException(INVALID_TOKEN.getMessage());
         }
     }
 

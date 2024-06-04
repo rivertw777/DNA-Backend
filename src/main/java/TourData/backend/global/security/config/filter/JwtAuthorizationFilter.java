@@ -1,9 +1,11 @@
-package TourData.backend.global.security.jwt;
+package TourData.backend.global.security.config.filter;
 
 import static TourData.backend.global.security.jwt.JwtProperties.HEADER_STRING;
 import static TourData.backend.global.security.jwt.JwtProperties.TOKEN_PREFIX;
+import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import TourData.backend.global.security.auth.CustomUserDetailsService;
+import TourData.backend.global.security.utils.ResponseWriter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,6 +21,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private final CustomUserDetailsService customUserDetailsService;
+    private final ResponseWriter responseWriter;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -39,8 +42,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             // 사용자 인증 정보 저장
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-        // 나머지 예외 상황
+        // 예외 처리
         catch (Exception e) {
+            responseWriter.writeErrorResponse(response, SC_UNAUTHORIZED, e.getMessage());
         }
         chain.doFilter(request, response);
     }

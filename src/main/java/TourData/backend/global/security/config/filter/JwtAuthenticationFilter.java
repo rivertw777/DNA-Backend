@@ -1,4 +1,4 @@
-package TourData.backend.global.security.jwt;
+package TourData.backend.global.security.config.filter;
 
 import TourData.backend.global.security.dto.JwtTokenResponse;
 import TourData.backend.global.security.dto.UserLoginRequest;

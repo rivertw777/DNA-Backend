@@ -2,9 +2,13 @@ package TourData.backend.global.security.config;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
-import TourData.backend.global.security.jwt.JwtAuthenticationFilter;
-import TourData.backend.global.security.jwt.JwtAuthorizationFilter;
+import TourData.backend.global.security.config.filter.JwtAuthenticationFilter;
+import TourData.backend.global.security.config.filter.JwtAuthorizationFilter;
 import TourData.backend.global.security.auth.CustomUserDetailsService;
+import TourData.backend.global.security.config.handler.JwtAccessDeniedHandler;
+import TourData.backend.global.security.config.handler.JwtAuthenticationEntryPoint;
+import TourData.backend.global.security.config.handler.JwtAuthenticationFailureHandler;
+import TourData.backend.global.security.utils.ResponseWriter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +29,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
+    private final ResponseWriter responseWriter;
 
     // 보안 필터 체인 구성
     @Bean
@@ -37,6 +42,10 @@ public class SecurityConfig {
                 .sessionManagement(AbstractHttpConfigurer::disable)
                 // 커스텀 필터 적용
                 .apply(new MyCustomFilter())
+                .and()
+                .exceptionHandling()
+                .accessDeniedHandler(new JwtAccessDeniedHandler(responseWriter))
+                .authenticationEntryPoint(new JwtAuthenticationEntryPoint(responseWriter))
                 .and()
                 .authorizeHttpRequests((authz) -> authz
                         // 회원 가입
@@ -66,10 +75,11 @@ public class SecurityConfig {
 
             // 인증 필터 설정
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, customUserDetailsService);
+            jwtAuthenticationFilter.setAuthenticationFailureHandler(new JwtAuthenticationFailureHandler(responseWriter));
             jwtAuthenticationFilter.setFilterProcessesUrl("/api/login");
 
             // 인가 필터 설정
-            JwtAuthorizationFilter jwtAuthorizationFilter = new JwtAuthorizationFilter(customUserDetailsService);
+            JwtAuthorizationFilter jwtAuthorizationFilter = new JwtAuthorizationFilter(customUserDetailsService, responseWriter);
 
             http
                     .addFilter(jwtAuthenticationFilter)

@@ -1,5 +1,8 @@
 package TourData.backend.global.security.auth;
 
+import static TourData.backend.domain.user.exception.UserExceptionMessage.USER_NAME_NOT_FOUND;
+
+import TourData.backend.domain.user.exception.UserException;
 import TourData.backend.domain.user.model.entity.User;
 import TourData.backend.domain.user.repository.UserRepository;
 import TourData.backend.global.security.dto.JwtTokenResponse;
@@ -22,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public CustomUserDetails loadUserByUsername(String username) {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("해당 이름을 가진 이용자가 없습니다!"));
+                .orElseThrow(() -> new UserException(USER_NAME_NOT_FOUND.getMessage()));
         return new CustomUserDetails(user);
     }
 
