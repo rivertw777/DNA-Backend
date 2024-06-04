@@ -1,6 +1,9 @@
 package TourData.backend.domain.user.service;
 
+import static TourData.backend.domain.user.exception.UserExceptionMessage.DUPLICATE_NAME;
+
 import TourData.backend.domain.user.dto.UserSignUpRequest;
+import TourData.backend.domain.user.exception.UserException;
 import TourData.backend.domain.user.model.entity.User;
 import TourData.backend.domain.user.model.Role;
 import TourData.backend.domain.user.repository.UserRepository;
@@ -31,7 +34,7 @@ public class UserServiceImpl implements UserSerivce{
     private void validateDuplicateName(String username){
         Optional<User> findUser = userRepository.findByUsername(username);
         if (findUser.isPresent()) {
-            throw new IllegalArgumentException("중복된 이름입니다!");
+            throw new UserException(DUPLICATE_NAME.getMessage());
         }
     }
 
