@@ -50,7 +50,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         // JWT 토큰 발급
         TokenResponse tokenResponse = customUserDetailsService.getJwtTokenResponse(userDetails);
         // response body에 access 토큰 DTO 담기
-        responseWriter.writeTokenResponse(response, tokenResponse);
+        responseWriter.setResponse(response, 200, tokenResponse);
     }
 
 }

@@ -50,12 +50,24 @@ public class User {
     @Enumerated(EnumType.STRING)
     private List<Role> roles = new ArrayList<>();
 
+    @Column(name = "provider")
+    private String provider;
+
+    @Column(name = "provider_id")
+    private String providerId;
+
     @Builder
-    public User(String username, String email, String password, List<Role> roles) {
+    public User(String username, String password, List<Role> roles, String email, String provider, String providerId) {
         this.username = username;
-        this.email = email;
         this.password = password;
         this.roles = roles;
+        this.email = email;
+        this.provider = provider;
+        this.providerId = providerId;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 }

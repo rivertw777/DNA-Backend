@@ -21,6 +21,6 @@ public class JwtAuthenticationFailureHandler implements AuthenticationFailureHan
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException authenticationException) throws IOException {
         CustomErrorResponse errorResponse = new CustomErrorResponse(LOGIN_FAILED.getMessage());
-        responseWriter.writeErrorResponse(response, SC_UNAUTHORIZED, errorResponse);
+        responseWriter.setResponse(response, SC_UNAUTHORIZED, errorResponse);
     }
 }

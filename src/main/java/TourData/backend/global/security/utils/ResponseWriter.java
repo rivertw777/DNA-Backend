@@ -10,19 +10,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class ResponseWriter {
     public void writeErrorResponse(HttpServletResponse response, int httpStatus, CustomErrorResponse errorResponse) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String responseBody = objectMapper.writeValueAsString(errorResponse);
-        setResponse(response, httpStatus, responseBody);
+        setResponse(response, httpStatus, errorResponse);
     }
 
     public void writeTokenResponse(HttpServletResponse response, TokenResponse tokenResponse)
             throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String responseBody = objectMapper.writeValueAsString(tokenResponse);
-        setResponse(response, 200, responseBody);
+        setResponse(response, 200, tokenResponse);
     }
 
-    private void setResponse(HttpServletResponse response, int httpStatus, String responseBody) throws IOException {
+    public void setResponse(HttpServletResponse response, int httpStatus, Object responseDto) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String responseBody = objectMapper.writeValueAsString(responseDto);
         response.setStatus(httpStatus);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

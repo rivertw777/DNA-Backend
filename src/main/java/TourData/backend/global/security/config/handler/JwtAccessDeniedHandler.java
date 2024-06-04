@@ -23,7 +23,7 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
                        HttpServletResponse response,
                        AccessDeniedException accessDeniedException) throws IOException {
         CustomErrorResponse errorResponse = new CustomErrorResponse(NO_AUTHORITY.getMessage());
-        responseWriter.writeErrorResponse(response, SC_FORBIDDEN, errorResponse);
+        responseWriter.setResponse(response, SC_FORBIDDEN, errorResponse);
     }
 
 }

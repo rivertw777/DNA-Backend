@@ -46,7 +46,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         // 예외 처리
         catch (Exception e) {
             CustomErrorResponse errorResponse = new CustomErrorResponse(e.getMessage());
-            responseWriter.writeErrorResponse(response, SC_UNAUTHORIZED, errorResponse);
+            responseWriter.setResponse(response, SC_UNAUTHORIZED, errorResponse);
         }
         chain.doFilter(request, response);
     }

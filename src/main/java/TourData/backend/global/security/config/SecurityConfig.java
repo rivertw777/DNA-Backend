@@ -8,6 +8,8 @@ import TourData.backend.global.security.auth.CustomUserDetailsService;
 import TourData.backend.global.security.config.handler.JwtAccessDeniedHandler;
 import TourData.backend.global.security.config.handler.JwtAuthenticationEntryPoint;
 import TourData.backend.global.security.config.handler.JwtAuthenticationFailureHandler;
+import TourData.backend.global.security.config.handler.OAuth2LoginSuccessHandler;
+import TourData.backend.global.security.oauth.CustomOauth2UserService;
 import TourData.backend.global.security.utils.ResponseWriter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -30,6 +32,8 @@ public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
     private final ResponseWriter responseWriter;
+    private final CustomOauth2UserService customOauth2UserService;
+    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
     // 보안 필터 체인 구성
     @Bean
@@ -51,7 +55,12 @@ public class SecurityConfig {
                         // 회원 가입
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/users")).permitAll()
                         .anyRequest().authenticated()
-                );
+                )
+                // Oauth2 인증
+                .oauth2Login()
+                .successHandler(oAuth2LoginSuccessHandler)
+                .userInfoEndpoint()
+                .userService(customOauth2UserService);
         return http.build();
     }
 
