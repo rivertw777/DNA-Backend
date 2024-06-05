@@ -32,14 +32,13 @@ public class User {
     private Long id;
 
     @NotNull
-    @Column(unique = true, name = "username", length = 10)
+    @Column(unique = true, name = "username")
     private String username;
 
     @NotNull
     @Column(name = "email")
     private String email;
 
-    @NotNull
     @Column(name = "password", length = 60)
     private String password;
 

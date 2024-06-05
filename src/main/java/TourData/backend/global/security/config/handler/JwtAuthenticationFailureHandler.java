@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 public class JwtAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
     private final ResponseWriter responseWriter;
+
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException authenticationException) throws IOException {
