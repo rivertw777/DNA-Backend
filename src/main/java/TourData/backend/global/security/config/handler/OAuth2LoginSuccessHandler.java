@@ -2,8 +2,8 @@ package TourData.backend.global.security.config.handler;
 
 import TourData.backend.global.security.auth.CustomUserDetails;
 import TourData.backend.global.security.jwt.TokenProvider;
+import TourData.backend.global.security.utils.ResponseWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -12,8 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
@@ -21,32 +19,28 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final TokenProvider tokenProvider;
+    private final ResponseWriter responseWriter;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        // userDetails 추출
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        // JWT 토큰 발급
         String token = tokenProvider.generateToken(userDetails);
-        String uri = createURI(token).toString();
-
-        Cookie jwtCookie = new Cookie("JWT-TOKEN", token);
-        jwtCookie.setMaxAge(60 * 60 * 24); // 쿠키의 만료 시간 설정 (예: 1일)
-
-        // 응답에 쿠키 추가
-        response.addCookie(jwtCookie);
-
+        // 쿠키 저장
+        responseWriter.setCookie(response, token);
+        String uri = createURI().toString();
+        // 리다이렉트
         getRedirectStrategy().sendRedirect(request, response, uri);
     }
 
-    private URI createURI(String token) {
-        //MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        //queryParams.add("token", token);
+    private URI createURI() {
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("http")
                 .host("localhost")
                 .port(3000)
                 .path("/")
-                //.queryParams(queryParams)
                 .build()
                 .toUri();
     }

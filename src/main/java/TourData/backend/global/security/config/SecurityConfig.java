@@ -9,6 +9,7 @@ import TourData.backend.global.security.config.handler.JwtAccessDeniedHandler;
 import TourData.backend.global.security.config.handler.JwtAuthenticationEntryPoint;
 import TourData.backend.global.security.config.handler.JwtAuthenticationFailureHandler;
 import TourData.backend.global.security.config.handler.OAuth2LoginSuccessHandler;
+import TourData.backend.global.security.jwt.TokenProvider;
 import TourData.backend.global.security.oauth.CustomOauth2UserService;
 import TourData.backend.global.security.utils.ResponseWriter;
 import lombok.RequiredArgsConstructor;
@@ -31,9 +32,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
-    private final ResponseWriter responseWriter;
     private final CustomOauth2UserService customOauth2UserService;
-    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+    private final TokenProvider tokenProvider;
+    private final ResponseWriter responseWriter;
 
     // 보안 필터 체인 구성
     @Bean
@@ -47,6 +48,7 @@ public class SecurityConfig {
                 // 커스텀 필터 적용
                 .apply(new MyCustomFilter())
                 .and()
+                // 예외 처리 핸들러
                 .exceptionHandling()
                 .accessDeniedHandler(new JwtAccessDeniedHandler(responseWriter))
                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint(responseWriter))
@@ -58,7 +60,7 @@ public class SecurityConfig {
                 )
                 // Oauth2 인증
                 .oauth2Login()
-                .successHandler(oAuth2LoginSuccessHandler)
+                .successHandler(new OAuth2LoginSuccessHandler(tokenProvider, responseWriter))
                 .userInfoEndpoint()
                 .userService(customOauth2UserService);
         return http.build();
@@ -79,16 +81,16 @@ public class SecurityConfig {
     // 커스텀 필터 설정
     public class MyCustomFilter extends AbstractHttpConfigurer<MyCustomFilter, HttpSecurity> {
         @Override
-        public void configure(HttpSecurity http) throws Exception {
+        public void configure(HttpSecurity http) {
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
 
             // 인증 필터 설정
-            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, customUserDetailsService, responseWriter);
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, tokenProvider, responseWriter);
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new JwtAuthenticationFailureHandler(responseWriter));
-            jwtAuthenticationFilter.setFilterProcessesUrl("/api/login");
+            jwtAuthenticationFilter.setFilterProcessesUrl("/api/auth/login");
 
             // 인가 필터 설정
-            JwtAuthorizationFilter jwtAuthorizationFilter = new JwtAuthorizationFilter(customUserDetailsService, responseWriter);
+            JwtAuthorizationFilter jwtAuthorizationFilter = new JwtAuthorizationFilter(customUserDetailsService, tokenProvider, responseWriter);
 
             http
                     .addFilter(jwtAuthenticationFilter)

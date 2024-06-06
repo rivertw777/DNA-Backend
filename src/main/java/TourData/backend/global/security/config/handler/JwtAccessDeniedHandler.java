@@ -3,7 +3,6 @@ package TourData.backend.global.security.config.handler;
 import static TourData.backend.global.security.exception.AuthExceptionMessage.NO_AUTHORITY;
 import static com.nimbusds.oauth2.sdk.http.HTTPResponse.SC_FORBIDDEN;
 
-import TourData.backend.global.exception.dto.CustomErrorResponse;
 import TourData.backend.global.security.utils.ResponseWriter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,8 +21,7 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request,
                        HttpServletResponse response,
                        AccessDeniedException accessDeniedException) throws IOException {
-        CustomErrorResponse errorResponse = new CustomErrorResponse(NO_AUTHORITY.getMessage());
-        responseWriter.setResponse(response, SC_FORBIDDEN, errorResponse);
+        responseWriter.setErrorResponse(response, SC_FORBIDDEN, NO_AUTHORITY.getMessage());
     }
 
 }

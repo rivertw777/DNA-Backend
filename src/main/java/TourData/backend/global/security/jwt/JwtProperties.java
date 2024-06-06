@@ -7,8 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum JwtProperties {
 
-    HEADER_STRING("Authorization"),
-    TOKEN_PREFIX("Bearer ");
+    COOKIE_NAME("JWT-TOKEN");
 
     private final String value;
 

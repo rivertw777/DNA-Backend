@@ -5,7 +5,6 @@ import static TourData.backend.domain.user.exception.UserExceptionMessage.USER_N
 import TourData.backend.domain.user.exception.UserException;
 import TourData.backend.domain.user.model.entity.User;
 import TourData.backend.domain.user.repository.UserRepository;
-import TourData.backend.global.security.dto.TokenResponse;
 import TourData.backend.global.security.jwt.TokenProvider;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -27,17 +26,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserException(USER_NAME_NOT_FOUND.getMessage()));
         return new CustomUserDetails(user);
-    }
-
-    // JWT 토큰 DTO 반환
-    public TokenResponse getJwtTokenResponse(CustomUserDetails userDetails) {
-        String token = tokenProvider.generateToken(userDetails);
-        return new TokenResponse(token);
-    }
-
-    // 토큰 검증
-    public void validateToken(String token) {
-        tokenProvider.validateToken(token);
     }
 
     // 인증 정보 반환
