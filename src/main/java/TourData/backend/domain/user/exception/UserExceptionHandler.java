@@ -1,6 +1,6 @@
 package TourData.backend.domain.user.exception;
 
-import TourData.backend.global.exception.dto.CustomErrorResponse;
+import TourData.backend.global.dto.CustomErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

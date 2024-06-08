@@ -2,7 +2,7 @@ package TourData.backend.global.security.utils;
 
 import static TourData.backend.global.security.jwt.JwtProperties.COOKIE_NAME;
 
-import TourData.backend.global.exception.dto.CustomErrorResponse;
+import TourData.backend.global.dto.CustomErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;

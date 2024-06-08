@@ -1,4 +1,4 @@
-package TourData.backend.global.exception.dto;
+package TourData.backend.global.dto;
 
 public record CustomErrorResponse(String errorMessage){
 }
