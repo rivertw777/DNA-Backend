@@ -1,6 +1,5 @@
-package TourData.backend.domain.user.model.entity;
+package TourData.backend.domain.user.model;
 
-import TourData.backend.domain.user.model.Role;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;

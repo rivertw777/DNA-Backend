@@ -4,7 +4,7 @@ import static TourData.backend.domain.user.exception.UserExceptionMessage.DUPLIC
 
 import TourData.backend.domain.user.dto.UserSignUpRequest;
 import TourData.backend.domain.user.exception.UserException;
-import TourData.backend.domain.user.model.entity.User;
+import TourData.backend.domain.user.model.User;
 import TourData.backend.domain.user.model.Role;
 import TourData.backend.domain.user.repository.UserRepository;
 import java.util.Collections;
