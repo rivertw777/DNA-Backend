@@ -27,6 +27,12 @@ public class PostDataInitializer implements CommandLineRunner {
         postRepository.save(new Post( "location8", imagePath));
     }
 
+    private void savePostIfNotExists(String location, String imagePath) {
+        if (!postRepository.existsByLocation(location)) {
+            postRepository.save(new Post(location, imagePath));
+        }
+    }
+
     @PreDestroy
     public void cleanup() {
         postRepository.deleteAll();
