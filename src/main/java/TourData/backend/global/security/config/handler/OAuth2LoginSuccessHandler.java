@@ -37,9 +37,8 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     private URI createURI() {
         return UriComponentsBuilder
                 .newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(3000)
+                .scheme("https")
+                .host("dna-kangwon")
                 .path("/")
                 .build()
                 .toUri();
