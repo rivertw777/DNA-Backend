@@ -24,6 +24,7 @@ public class ResponseWriter {
     public void setCookie(HttpServletResponse response, String token) {
         Cookie jwtCookie = new Cookie(COOKIE_NAME.getValue(), token);
         jwtCookie.setHttpOnly(true);
+        jwtCookie.setSecure(true);
         jwtCookie.setMaxAge(-1);
         jwtCookie.setPath("/");
         response.addCookie(jwtCookie);

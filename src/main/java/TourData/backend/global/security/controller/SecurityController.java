@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,9 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class SecurityController {
 
     // 인증 확인
-    @GetMapping("check")
+    @GetMapping("/check")
     public CheckAuthenticationResponse checkAuthentication() {
-        return new CheckAuthenticationResponse(true);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return new CheckAuthenticationResponse(authentication.isAuthenticated());
     }
 
     // 로그아웃
