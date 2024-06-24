@@ -1,4 +1,4 @@
-package TourData.backend.domain.post.model;
+package TourData.backend.domain.location.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,25 +14,25 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@Table(name = "posts")
+@Table(name = "locations")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Post {
+public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    @Column(unique = true, name = "location")
-    private String location;
+    @Column(unique = true, name = "name")
+    private String name;
 
     @NotNull
     @Column(name = "thumbNail")
     private String thumbNail;
 
     @Builder
-    public Post(String location, String thumbNail) {
+    public Location(String name, String thumbNail) {
+        this.name = name;
         this.thumbNail = thumbNail;
-        this.location = location;
     }
 }

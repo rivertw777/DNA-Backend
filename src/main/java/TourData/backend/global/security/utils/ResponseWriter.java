@@ -4,7 +4,6 @@ import static TourData.backend.global.security.jwt.JwtProperties.COOKIE_NAME;
 
 import TourData.backend.global.dto.CustomErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import org.springframework.http.HttpHeaders;
@@ -24,7 +23,7 @@ public class ResponseWriter {
     }
 
     public void setCookie(HttpServletResponse response, String token) {
-        ResponseCookie jwtCookie = ResponseCookie.from("JWT_TOKEN", token)
+        ResponseCookie jwtCookie = ResponseCookie.from(COOKIE_NAME.getValue(), token)
                 .httpOnly(true)
                 .secure(true)
                 .sameSite("Strict")
