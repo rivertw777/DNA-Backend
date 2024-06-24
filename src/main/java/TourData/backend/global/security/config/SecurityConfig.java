@@ -57,7 +57,7 @@ public class SecurityConfig {
                         // 회원 가입
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/users")).permitAll()
                         // 게시물 전체 조회
-                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/posts")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations")).permitAll()
                         .anyRequest().authenticated()
                 )
                 // Oauth2 인증
