@@ -1,5 +1,7 @@
 package TourData.backend.domain.user.model;
 
+import TourData.backend.domain.location.model.LocationLike;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -11,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -54,6 +57,9 @@ public class User {
     @Column(name = "provider_id")
     private String providerId;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<LocationLike> locationLikes = new ArrayList<>();
+
     @Builder
     public User(String username, String password, List<Role> roles, String email, String provider, String providerId) {
         this.username = username;
@@ -66,6 +72,10 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setLocationLike(LocationLike locationLike){
+        this.locationLikes.add(locationLike);
     }
 
 }

@@ -1,5 +1,8 @@
 package TourData.backend.global.security.config.handler;
 
+import static TourData.backend.global.security.exception.AuthExceptionMessage.UNAUTHORIZED;
+import static com.nimbusds.oauth2.sdk.http.HTTPResponse.SC_UNAUTHORIZED;
+
 import TourData.backend.global.security.utils.ResponseWriter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,6 +21,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request,
                          HttpServletResponse response,
                          AuthenticationException authenticationException) throws IOException {
-        //responseWriter.setErrorResponse(response, SC_UNAUTHORIZED, UNAUTHORIZED.getMessage());
+        responseWriter.setErrorResponse(response, SC_UNAUTHORIZED, UNAUTHORIZED.getMessage());
     }
 }

@@ -1,6 +1,7 @@
 package TourData.backend.domain.user.service;
 
 import static TourData.backend.domain.user.exception.UserExceptionMessage.DUPLICATE_NAME;
+import static TourData.backend.domain.user.exception.UserExceptionMessage.USER_NAME_NOT_FOUND;
 
 import TourData.backend.domain.user.dto.UserSignUpRequest;
 import TourData.backend.domain.user.exception.UserException;
@@ -12,10 +13,11 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserSerivce{
+public class UserServiceImpl implements UserSerivce {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -46,6 +48,14 @@ public class UserServiceImpl implements UserSerivce{
                 .roles(Collections.singletonList(Role.USER))
                 .build();
         userRepository.save(user);
+    }
+
+    // 이름으로 조회
+    @Override
+    @Transactional(readOnly = true)
+    public User findUser(String username){
+        return userRepository.findByUsername(username)
+                .orElseThrow(()->new UserException(USER_NAME_NOT_FOUND.getMessage()));
     }
 
 }

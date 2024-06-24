@@ -4,4 +4,6 @@ public class LocationDto {
     public record LocationResponse(String name, String thumbNail) {
     }
 
+    public record LocationLikeCheckResponse (boolean isLike) {
+    }
 }
