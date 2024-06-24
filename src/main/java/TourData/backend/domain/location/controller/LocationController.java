@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/cards")
+@RequestMapping("/api/locations")
 public class LocationController {
 
     private final LocationService locationSerivce;
