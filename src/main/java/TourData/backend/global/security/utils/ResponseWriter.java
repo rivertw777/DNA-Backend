@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,12 +24,14 @@ public class ResponseWriter {
     }
 
     public void setCookie(HttpServletResponse response, String token) {
-        Cookie jwtCookie = new Cookie(COOKIE_NAME.getValue(), token);
-        jwtCookie.setHttpOnly(true);
-        jwtCookie.setSecure(true);
-        jwtCookie.setMaxAge(-1);
-        jwtCookie.setPath("/");
-        response.addCookie(jwtCookie);
+        ResponseCookie jwtCookie = ResponseCookie.from("JWT_TOKEN", token)
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("Strict")
+                .maxAge(-1)
+                .path("/")
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());
     }
 
 }
