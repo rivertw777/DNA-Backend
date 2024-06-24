@@ -25,12 +25,14 @@ public class LocationServiceImpl implements LocationService {
     private final LocationLikeRepository locationLikeRepository;
 
     private final UserSerivce userSerivce;
+    private final WeatherService weatherService;
 
     @Override
     @Transactional(readOnly = true)
     public List<LocationResponse> getAllLocations() {
         return locationRepository.findAll().stream()
-                .map(location -> new LocationResponse(location.getName(), location.getThumbNail()))
+                .map(location -> new LocationResponse(location.getName(), location.getThumbNail(),
+                        weatherService.getWeatherInfo(location.getName())))
                 .collect(Collectors.toList());
     }
 
