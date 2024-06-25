@@ -26,7 +26,7 @@ public class ResponseWriter {
         ResponseCookie jwtCookie = ResponseCookie.from(COOKIE_NAME.getValue(), token)
                 .httpOnly(true)
                 .secure(true)
-                //.sameSite("Strict")
+                .sameSite("Strict")
                 .maxAge(-1)
                 .path("/")
                 .build();
