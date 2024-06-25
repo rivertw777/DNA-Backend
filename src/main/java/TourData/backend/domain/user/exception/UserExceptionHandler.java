@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserExceptionHandler {
 
     @ExceptionHandler(UserException.class)
-    public ResponseEntity<CustomErrorResponse> handleMemberException(UserException e) {
+    public ResponseEntity<CustomErrorResponse> handleUserException(UserException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomErrorResponse(e.getMessage()));
     }
 
