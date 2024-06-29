@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
-public class SecurityController {
+public class AuthController {
 
     // 인증 확인
     @GetMapping("/check")
