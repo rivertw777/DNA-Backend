@@ -1,6 +1,7 @@
 package TourData.backend.global.security.controller;
 
 import TourData.backend.global.security.dto.CheckAuthenticationResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Arrays;
@@ -18,14 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    // 인증 확인
+    @Operation(summary = "인증 확인")
     @GetMapping("/check")
     public CheckAuthenticationResponse checkAuthentication() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return new CheckAuthenticationResponse(authentication.isAuthenticated());
     }
 
-    // 로그아웃
+    @Operation(summary = "로그아웃")
     @PostMapping("/logout")
     public void logout(HttpServletRequest request, HttpServletResponse response) {
         Optional.ofNullable(request.getCookies()).ifPresent(cookies ->
