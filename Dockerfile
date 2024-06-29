@@ -22,5 +22,8 @@ COPY --from=build /app/build/libs/*.jar app.jar
 # Expose the port
 EXPOSE 8080
 
+# Set Profile
+ENV SPRING_PROFILES_ACTIVE=prod
+
 # Run the application
 CMD ["java", "-jar", "app.jar"]
