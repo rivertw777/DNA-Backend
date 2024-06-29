@@ -14,6 +14,7 @@ import TourData.backend.domain.user.service.UserSerivce;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(cacheNames = "Location")
     public List<LocationResponse> getAllLocations() {
         return locationRepository.findAll().stream()
                 .map(location -> new LocationResponse(location.getName(), location.getThumbNail(),
