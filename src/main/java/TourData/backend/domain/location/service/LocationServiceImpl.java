@@ -3,6 +3,7 @@ package TourData.backend.domain.location.service;
 import static TourData.backend.domain.location.exception.LocationExceptionMessage.LOCATION_NOT_FOUND;
 
 import TourData.backend.domain.location.dto.LocationDto.LocationLikeCheckResponse;
+import TourData.backend.domain.location.dto.LocationDto.LocationLikeCountResponse;
 import TourData.backend.domain.location.dto.LocationDto.LocationResponse;
 import TourData.backend.domain.location.exception.LocationException;
 import TourData.backend.domain.location.model.Location;
@@ -27,13 +28,14 @@ public class LocationServiceImpl implements LocationService {
 
     private final UserSerivce userSerivce;
     private final WeatherService weatherService;
+    private final LocationLikeCountService locationLikeCountService;
 
     @Override
     @Transactional(readOnly = true)
     @Cacheable(cacheNames = "Location")
     public List<LocationResponse> getAllLocations() {
         return locationRepository.findAll().stream()
-                .map(location -> new LocationResponse(location.getName(), location.getThumbNail(),
+                .map(location -> new LocationResponse(location.getId(), location.getName(), location.getThumbNail(),
                         weatherService.getWeatherInfo(location.getName())))
                 .collect(Collectors.toList());
     }
@@ -53,6 +55,7 @@ public class LocationServiceImpl implements LocationService {
                 .user(user)
                 .build();
         locationLikeRepository.save(locationLike);
+        locationLikeCountService.increaseCount(locationId);
     }
 
     @Override
@@ -61,6 +64,7 @@ public class LocationServiceImpl implements LocationService {
         User user = userSerivce.findUser(username);
         Location location = findLocation(locationId);
         locationLikeRepository.deleteByLocationAndUser(location, user);
+        locationLikeCountService.decreaseCount(locationId);
     }
 
     @Override
@@ -70,6 +74,13 @@ public class LocationServiceImpl implements LocationService {
         Location location = findLocation(locationId);
         boolean isLike = locationLikeRepository.findByLocationAndUser(location, user).isPresent();
         return new LocationLikeCheckResponse(isLike);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public LocationLikeCountResponse getLocationLikeCount(Long locationId) {
+        Integer likeCount = locationLikeCountService.getCount(locationId);
+        return new LocationLikeCountResponse(likeCount);
     }
 
 }

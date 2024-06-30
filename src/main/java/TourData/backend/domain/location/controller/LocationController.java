@@ -1,6 +1,7 @@
 package TourData.backend.domain.location.controller;
 
 import TourData.backend.domain.location.dto.LocationDto.LocationLikeCheckResponse;
+import TourData.backend.domain.location.dto.LocationDto.LocationLikeCountResponse;
 import TourData.backend.domain.location.dto.LocationDto.LocationResponse;
 import TourData.backend.domain.location.service.LocationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,35 +21,39 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/locations")
 public class LocationController {
 
-    private final LocationService locationSerivce;
+    private final LocationService locationService;
 
-    // 지역 정보 조회
-    @Operation(summary = "지역 정보 조회")
+    @Operation(summary = "지역 전체 조회")
     @GetMapping
     public List<LocationResponse> getAllLocations(){
-        return locationSerivce.getAllLocations();
+        return locationService.getAllLocations();
     }
 
-    // 지역 좋아요
     @Operation(summary = "지역 좋아요")
     @PostMapping("/{locationId}/like")
     public void likeLocation(@AuthenticationPrincipal(expression = "username") String username,
                          @Valid @PathVariable("locationId") Long locationId) {
-        locationSerivce.likeLocation(username, locationId);
+        locationService.likeLocation(username, locationId);
     }
 
     @Operation(summary = "지역 좋아요 취소")
     @DeleteMapping("/{locationId}/like")
     public void unlikeLocation(@AuthenticationPrincipal(expression = "username") String username,
                            @Valid @PathVariable("locationId") Long locationId) {
-        locationSerivce.unlikeLocation(username, locationId);
+        locationService.unlikeLocation(username, locationId);
     }
 
     @Operation(summary = "지역 좋아요 여부 확인")
     @GetMapping("/{locationId}/like")
     public LocationLikeCheckResponse checkLocationLike(@AuthenticationPrincipal(expression = "username") String username,
                                                @Valid @PathVariable("locationId") Long locationId) {
-        return locationSerivce.checkLocationLike(username, locationId);
+        return locationService.checkLocationLike(username, locationId);
+    }
+
+    @Operation(summary = "지역 좋아요 수 조회")
+    @GetMapping("/{locationId}/like/count")
+    public LocationLikeCountResponse getLocationLikeCount(@Valid @PathVariable("locationId") Long locationId) {
+        return locationService.getLocationLikeCount(locationId);
     }
 
 }
