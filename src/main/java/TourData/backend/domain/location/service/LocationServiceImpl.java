@@ -1,5 +1,7 @@
 package TourData.backend.domain.location.service;
 
+import static TourData.backend.domain.location.exception.LocationExceptionMessage.ALREADY_LIKE;
+import static TourData.backend.domain.location.exception.LocationExceptionMessage.ALREADY_UNLIKE;
 import static TourData.backend.domain.location.exception.LocationExceptionMessage.LOCATION_NOT_FOUND;
 
 import TourData.backend.domain.location.dto.LocationDto.LocationLikeCheckResponse;
@@ -50,12 +52,23 @@ public class LocationServiceImpl implements LocationService {
     public void likeLocation(String username, Long locationId) {
         User user = userSerivce.findUser(username);
         Location location = findLocation(locationId);
+        ensureNotLiked(user, location);
+        saveLocation(user, location);
+        locationLikeCountService.increaseCount(locationId);
+    }
+
+    private void ensureNotLiked(User user, Location location) {
+        if (locationLikeRepository.findByLocationAndUser(location, user).isPresent()) {
+            throw new LocationException(ALREADY_LIKE.getMessage());
+        }
+    }
+
+    private void saveLocation(User user, Location location) {
         LocationLike locationLike = LocationLike.builder()
                 .location(location)
                 .user(user)
                 .build();
         locationLikeRepository.save(locationLike);
-        locationLikeCountService.increaseCount(locationId);
     }
 
     @Override
@@ -63,8 +76,15 @@ public class LocationServiceImpl implements LocationService {
     public void unlikeLocation(String username, Long locationId) {
         User user = userSerivce.findUser(username);
         Location location = findLocation(locationId);
+        ensureLiked(user, location);
         locationLikeRepository.deleteByLocationAndUser(location, user);
         locationLikeCountService.decreaseCount(locationId);
+    }
+
+    private void ensureLiked(User user, Location location) {
+        if (locationLikeRepository.findByLocationAndUser(location, user).isEmpty()) {
+            throw new LocationException(ALREADY_UNLIKE.getMessage());
+        }
     }
 
     @Override
