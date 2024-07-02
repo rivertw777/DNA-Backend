@@ -3,7 +3,7 @@ package TourData.backend.domain.user.service;
 import static TourData.backend.domain.user.exception.UserExceptionMessage.DUPLICATE_NAME;
 import static TourData.backend.domain.user.exception.UserExceptionMessage.USER_NAME_NOT_FOUND;
 
-import TourData.backend.domain.user.dto.UserSignUpRequest;
+import TourData.backend.domain.user.dto.UserDto.UserSignUpRequest;
 import TourData.backend.domain.user.exception.UserException;
 import TourData.backend.domain.user.model.User;
 import TourData.backend.domain.user.model.Role;

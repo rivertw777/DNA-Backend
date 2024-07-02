@@ -1,6 +1,6 @@
 package TourData.backend.domain.user.service;
 
-import TourData.backend.domain.user.dto.UserSignUpRequest;
+import TourData.backend.domain.user.dto.UserDto.UserSignUpRequest;
 import TourData.backend.domain.user.model.User;
 
 public interface UserSerivce {
