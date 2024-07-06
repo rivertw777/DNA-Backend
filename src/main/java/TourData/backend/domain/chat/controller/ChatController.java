@@ -2,7 +2,7 @@ package TourData.backend.domain.chat.controller;
 
 import TourData.backend.domain.chat.dto.ChatRequest;
 import jakarta.validation.Valid;
-=import lombok.RequiredArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
