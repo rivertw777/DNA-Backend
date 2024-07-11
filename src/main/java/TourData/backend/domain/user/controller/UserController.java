@@ -29,7 +29,7 @@ public class UserController {
     @Operation(summary = "인증된 사용자 이름")
     @GetMapping("/name")
     public UserNameResponse getUserName(@AuthenticationPrincipal(expression = "username") String username) {
-        return new UserNameResponse(username);
+        return userSerivce.getUserName(username);
     }
 
 }

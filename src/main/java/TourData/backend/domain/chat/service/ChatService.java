@@ -1,7 +1,7 @@
 package TourData.backend.domain.chat.service;
 
 import TourData.backend.domain.chat.dto.ChatMessage;
-import TourData.backend.global.redis.RedisPublisher;
+import TourData.backend.global.redis.chat.RedisPublisher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

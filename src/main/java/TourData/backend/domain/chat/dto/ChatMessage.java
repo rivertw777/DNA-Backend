@@ -1,8 +1,10 @@
 package TourData.backend.domain.chat.dto;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class ChatMessage {
 
     public enum MessageType {

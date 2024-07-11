@@ -1,4 +1,4 @@
-package TourData.backend.global.redis;
+package TourData.backend.global.redis.chat;
 
 import TourData.backend.domain.chat.dto.ChatMessage;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,8 +20,10 @@ public class RedisSubscriber {
             ChatMessage chatMessage = objectMapper.readValue(publishMessage, ChatMessage.class);
             String destination = String.format("/sub/rooms/%s", chatMessage.getRoomId());
             messagingTemplate.convertAndSend(destination, chatMessage);
+            log.info("Message sent to destination {}: {}", destination, chatMessage);
         } catch (Exception e) {
-            log.error("Exception {}", e);
+            log.error("Failed to send message: {}", publishMessage, e);
         }
     }
+
 }

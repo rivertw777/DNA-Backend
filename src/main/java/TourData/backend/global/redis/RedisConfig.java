@@ -1,5 +1,6 @@
 package TourData.backend.global.redis;
 
+import TourData.backend.global.redis.chat.RedisSubscriber;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.cache.annotation.EnableCaching;
@@ -45,7 +46,7 @@ public class RedisConfig {
             MessageListenerAdapter messageListenerAdapter) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.addMessageListener(messageListenerAdapter, new PatternTopic("chatroom.*"));
+        container.addMessageListener(messageListenerAdapter, new PatternTopic("chatroom:*"));
         return container;
     }
 

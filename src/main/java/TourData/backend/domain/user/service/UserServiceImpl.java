@@ -3,6 +3,7 @@ package TourData.backend.domain.user.service;
 import static TourData.backend.domain.user.exception.UserExceptionMessage.DUPLICATE_NAME;
 import static TourData.backend.domain.user.exception.UserExceptionMessage.USER_NAME_NOT_FOUND;
 
+import TourData.backend.domain.user.dto.UserDto.UserNameResponse;
 import TourData.backend.domain.user.dto.UserDto.UserSignUpRequest;
 import TourData.backend.domain.user.exception.UserException;
 import TourData.backend.domain.user.model.User;
@@ -56,6 +57,11 @@ public class UserServiceImpl implements UserSerivce {
     public User findUser(String username){
         return userRepository.findByUsername(username)
                 .orElseThrow(()->new UserException(USER_NAME_NOT_FOUND.getMessage()));
+    }
+
+    @Override
+    public UserNameResponse getUserName(String username) {
+        return new UserNameResponse(username);
     }
 
 }
