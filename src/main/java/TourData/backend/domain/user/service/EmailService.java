@@ -7,17 +7,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class EmailService {
 
     private final JavaMailSender emailSender;
 
-    public void sendEmail(String email, String title, String text) {
-        SimpleMailMessage emailForm = createEmailForm(email, title, text);
+    private static final String TITLE = "[DNA] Email Verification Code";
+    private static final String TEXT_PREFIX = "Please copy and enter the email verification code listed below.\n";
+
+    public void sendEmail(String email, String code) {
+        String text = TEXT_PREFIX + code;
+        SimpleMailMessage emailForm = createEmailForm(email, text);
         try {
             emailSender.send(emailForm);
         } catch (RuntimeException e) {
@@ -25,10 +27,10 @@ public class EmailService {
         }
     }
 
-    private SimpleMailMessage createEmailForm(String email, String title, String text) {
+    private SimpleMailMessage createEmailForm(String email, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
-        message.setSubject(title);
+        message.setSubject(TITLE);
         message.setText(text);
         return message;
     }

@@ -12,6 +12,7 @@ import TourData.backend.domain.user.exception.UserException;
 import TourData.backend.domain.user.model.User;
 import TourData.backend.domain.user.model.Role;
 import TourData.backend.domain.user.repository.UserRepository;
+import TourData.backend.global.redis.service.RedisService;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.Random;
@@ -29,9 +30,12 @@ public class UserServiceImpl implements UserSerivce {
     private long authCodeExpirationMillis;
 
     private final EmailService emailService;
+    private final RedisService redisService;
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
+    private static final String EMAIL_AUTH_CODE_PREFIX = "Email Auth Code: ";
 
     // 회원가입
     @Override
@@ -76,10 +80,9 @@ public class UserServiceImpl implements UserSerivce {
 
     @Override
     public void sendCode(SendCodeRequest reqeustParam) {
-        String title = "[DNA] Email Verification Code";
         String code = createCode();
-        String text = "code: " + code;
-        emailService.sendEmail(reqeustParam.email(), title, text);
+        emailService.sendEmail(reqeustParam.email(), code);
+        redisService.setValues( EMAIL_AUTH_CODE_PREFIX + reqeustParam.email(), code, authCodeExpirationMillis);
     }
 
     private String createCode() {
