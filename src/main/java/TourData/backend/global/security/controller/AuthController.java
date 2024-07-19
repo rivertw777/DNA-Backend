@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,14 +22,15 @@ public class AuthController {
 
     @Operation(summary = "인증 확인")
     @GetMapping("/check")
-    public CheckAuthenticationResponse checkAuthentication() {
+    public ResponseEntity<CheckAuthenticationResponse> checkAuthentication() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return new CheckAuthenticationResponse(authentication.isAuthenticated());
+        CheckAuthenticationResponse response = new CheckAuthenticationResponse(authentication.isAuthenticated());
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "로그아웃")
     @PostMapping("/logout")
-    public void logout(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<Void> logout(HttpServletRequest request, HttpServletResponse response) {
         Optional.ofNullable(request.getCookies()).ifPresent(cookies ->
                 Arrays.stream(cookies)
                         .forEach(cookie -> {
@@ -36,6 +38,7 @@ public class AuthController {
                             cookie.setMaxAge(0);
                             response.addCookie(cookie);
                         }));
+        return ResponseEntity.ok().build();
     }
 
 }
