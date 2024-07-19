@@ -34,4 +34,5 @@ public class EmailService {
         message.setText(text);
         return message;
     }
+
 }

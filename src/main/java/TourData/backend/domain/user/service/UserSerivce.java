@@ -11,6 +11,6 @@ public interface UserSerivce {
     void signUp(UserSignUpRequest requestParam);
     User findUser(String username);
     UserNameResponse getUserName(String username);
-    void sendCode(SendCodeRequest reqeustParam);
-    EmailVerificationResponse verifyCode(VerifyCodeRequest reqeustParam);
+    void sendCode(SendCodeRequest requestParam);
+    EmailVerificationResponse verifyCode(VerifyCodeRequest requestParam);
 }

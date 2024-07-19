@@ -9,7 +9,6 @@ import TourData.backend.domain.user.service.UserSerivce;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,21 +26,23 @@ public class UserController {
 
     @Operation(summary = "회원가입")
     @PostMapping
-    public void signUp(@Valid @RequestBody UserSignUpRequest reqeustParam) {
+    public ResponseEntity<Void> signUp(@Valid @RequestBody UserSignUpRequest reqeustParam) {
         userService.signUp(reqeustParam);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "인증된 사용자 이름")
     @GetMapping("/name")
-    public UserNameResponse getUserName(@AuthenticationPrincipal(expression = "username") String username) {
-        return userService.getUserName(username);
+    public ResponseEntity<UserNameResponse> getUserName(@AuthenticationPrincipal(expression = "username") String username) {
+        UserNameResponse response = userService.getUserName(username);
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "이메일 인증 코드 전송")
     @PostMapping("/emails/verify")
     public ResponseEntity<Void> sendCode(@Valid @RequestBody SendCodeRequest reqeustParam) {
         userService.sendCode(reqeustParam);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "이메일 인증 코드 검증")

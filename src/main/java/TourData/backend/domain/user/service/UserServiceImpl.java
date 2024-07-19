@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserSerivce {
     public void sendCode(SendCodeRequest reqeustParam) {
         String code = createCode();
         emailService.sendEmail(reqeustParam.email(), code);
-        redisService.setValues( EMAIL_AUTH_CODE_PREFIX + reqeustParam.email(), code, authCodeExpirationMillis);
+        redisService.saveWithExpiration(EMAIL_AUTH_CODE_PREFIX + reqeustParam.email(), code, authCodeExpirationMillis);
     }
 
     private String createCode() {
@@ -91,8 +91,10 @@ public class UserServiceImpl implements UserSerivce {
     }
 
     @Override
-    public EmailVerificationResponse verifyCode(VerifyCodeRequest reqeustParam) {
-        return null;
+    public EmailVerificationResponse verifyCode(VerifyCodeRequest requestParam) {
+        String findCode = (String) redisService.get(EMAIL_AUTH_CODE_PREFIX + requestParam.email());
+        boolean isVerified = requestParam.code().equals(findCode);
+        return new EmailVerificationResponse(isVerified);
     }
 
 }
