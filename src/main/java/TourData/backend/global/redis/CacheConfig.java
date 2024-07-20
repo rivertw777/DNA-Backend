@@ -36,7 +36,7 @@ public class CacheConfig {
 
     private Map<String, RedisCacheConfiguration> confMap() {
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
-        cacheConfigurations.put("Location", defaultConf().entryTtl(Duration.ofHours(1L)));
+        cacheConfigurations.put("Location", defaultConf().entryTtl(Duration.ofDays(1)));
         return cacheConfigurations;
     }
 

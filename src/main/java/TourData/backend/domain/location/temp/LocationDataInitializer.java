@@ -38,11 +38,11 @@ public class LocationDataInitializer implements CommandLineRunner {
         locationRepository.save(location5);
         locationLikeCountService.initCount(location5.getId());
 
-        Location location6 = new Location("Seoul", "https://images.unsplash.com/photo-1565149394348-c56457810899?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+        Location location6 = new Location("Yeongwol", "https://images.unsplash.com/photo-1565149394348-c56457810899?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
         locationRepository.save(location6);
         locationLikeCountService.initCount(location6.getId());
 
-        Location location7 = new Location("Anyang", "https://images.unsplash.com/photo-1644648123423-d3bd4b7ccc33?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+        Location location7 = new Location("Donghae", "https://images.unsplash.com/photo-1644648123423-d3bd4b7ccc33?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
         locationRepository.save(location7);
         locationLikeCountService.initCount(location7.getId());
 

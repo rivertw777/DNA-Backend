@@ -29,7 +29,6 @@ public class LocationServiceImpl implements LocationService {
     private final LocationLikeRepository locationLikeRepository;
 
     private final UserSerivce userSerivce;
-    private final WeatherService weatherService;
     private final LocationLikeCountService locationLikeCountService;
 
     @Override
@@ -37,8 +36,7 @@ public class LocationServiceImpl implements LocationService {
     @Cacheable(cacheNames = "Location")
     public List<LocationResponse> getAllLocations() {
         return locationRepository.findAll().stream()
-                .map(location -> new LocationResponse(location.getId(), location.getName(), location.getThumbNail(),
-                        weatherService.getWeatherInfo(location.getName())))
+                .map(location -> new LocationResponse(location.getId(), location.getName(), location.getThumbNail()))
                 .collect(Collectors.toList());
     }
 
