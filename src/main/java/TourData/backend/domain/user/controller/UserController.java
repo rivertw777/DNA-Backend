@@ -5,6 +5,8 @@ import TourData.backend.domain.user.dto.EmailDto.VerifyCodeRequest;
 import TourData.backend.domain.user.dto.EmailDto.SendCodeRequest;
 import TourData.backend.domain.user.dto.UserDto.UserSignUpRequest;
 import TourData.backend.domain.user.dto.UserDto.UserNameResponse;
+import TourData.backend.domain.user.dto.UserDto.ValidateDuplicateUserNameRequest;
+import TourData.backend.domain.user.dto.UserDto.ValidateDuplicateUserNameResponse;
 import TourData.backend.domain.user.service.UserSerivce;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -31,8 +33,15 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "이름 중복 체크")
+    @PostMapping("/names/validate")
+    public ResponseEntity<ValidateDuplicateUserNameResponse> validateDuplicateUserName(@Valid @RequestBody ValidateDuplicateUserNameRequest requestParam) {
+        ValidateDuplicateUserNameResponse response = userService.validateDuplicateUserName(requestParam);
+        return ResponseEntity.ok(response);
+    }
+
     @Operation(summary = "인증된 사용자 이름")
-    @GetMapping("/name")
+    @GetMapping("/names")
     public ResponseEntity<UserNameResponse> getUserName(@AuthenticationPrincipal(expression = "username") String username) {
         UserNameResponse response = userService.getUserName(username);
         return ResponseEntity.ok(response);

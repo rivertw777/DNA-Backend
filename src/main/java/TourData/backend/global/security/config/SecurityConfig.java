@@ -56,6 +56,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authz) -> authz
                         // 회원 가입
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/users")).permitAll()
+                        // 이름 중복 체크
+                        .requestMatchers(antMatcher(HttpMethod.POST, "/api/users/names/validate")).permitAll()
                         // 이메일 인증
                         .requestMatchers("api/users/emails/verify").permitAll()
                         // 지역 전체 조회
