@@ -4,7 +4,6 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 
 import TourData.backend.global.security.config.filter.JwtAuthenticationFilter;
 import TourData.backend.global.security.config.filter.JwtAuthorizationFilter;
-import TourData.backend.global.security.auth.CustomUserDetailsService;
 import TourData.backend.global.security.config.handler.JwtAccessDeniedHandler;
 import TourData.backend.global.security.config.handler.JwtAuthenticationEntryPoint;
 import TourData.backend.global.security.config.handler.JwtAuthenticationFailureHandler;
@@ -31,8 +30,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final CustomUserDetailsService customUserDetailsService;
+    private final JwtAuthorizationFilter jwtAuthorizationFilter;
+    private final JwtAuthenticationFailureHandler jwtAuthenticationFailureHandler;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
     private final CustomOauth2UserService customOauth2UserService;
+    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+
     private final TokenProvider tokenProvider;
     private final ResponseWriter responseWriter;
 
@@ -49,11 +54,11 @@ public class SecurityConfig {
                 .apply(new MyCustomFilter())
                 .and()
                 // 예외 처리 핸들러
-                .exceptionHandling()
-                .accessDeniedHandler(new JwtAccessDeniedHandler(responseWriter))
-                .authenticationEntryPoint(new JwtAuthenticationEntryPoint(responseWriter))
-                .and()
-                .authorizeHttpRequests((authz) -> authz
+                .exceptionHandling(exception -> exception
+                        .accessDeniedHandler(jwtAccessDeniedHandler)
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                )
+                .authorizeHttpRequests(authz -> authz
                         // 회원 가입
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/users")).permitAll()
                         // 이름 중복 체크
@@ -71,10 +76,13 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 // Oauth2 인증
-                .oauth2Login()
-                .successHandler(new OAuth2LoginSuccessHandler(tokenProvider, responseWriter))
-                .userInfoEndpoint()
-                .userService(customOauth2UserService);
+                .oauth2Login(oauth2 -> oauth2
+                        .successHandler(oAuth2LoginSuccessHandler)
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOauth2UserService)
+                        )
+                );
+
         return http.build();
     }
 
@@ -84,7 +92,6 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    // 비밀번호 인코더
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -98,11 +105,8 @@ public class SecurityConfig {
 
             // 인증 필터 설정
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, tokenProvider, responseWriter);
-            jwtAuthenticationFilter.setAuthenticationFailureHandler(new JwtAuthenticationFailureHandler(responseWriter));
+            jwtAuthenticationFilter.setAuthenticationFailureHandler(jwtAuthenticationFailureHandler);
             jwtAuthenticationFilter.setFilterProcessesUrl("/api/auth/login");
-
-            // 인가 필터 설정
-            JwtAuthorizationFilter jwtAuthorizationFilter = new JwtAuthorizationFilter(customUserDetailsService, tokenProvider, responseWriter);
 
             http
                     .addFilter(jwtAuthenticationFilter)

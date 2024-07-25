@@ -20,6 +20,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
     private final TokenProvider tokenProvider;
     private final ResponseWriter responseWriter;
+    private final UriProperties uriProperties;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -37,10 +38,10 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     private URI createURI() {
         return UriComponentsBuilder
                 .newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(3000)
-                .path("/users/login/check")
+                .scheme(uriProperties.getScheme())
+                .host(uriProperties.getHost())
+                .port(uriProperties.getPort())
+                .path(uriProperties.getPath())
                 .build()
                 .toUri();
     }
