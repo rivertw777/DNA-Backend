@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
     public CheckFirstLoginResponse checkFirstLogin(String username) {
-        boolean isFirstLogin = username.startsWith("Undefined");
+        boolean isFirstLogin = username.startsWith("default");
         return new CheckFirstLoginResponse(isFirstLogin);
     }
 
