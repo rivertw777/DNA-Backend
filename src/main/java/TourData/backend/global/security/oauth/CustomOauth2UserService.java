@@ -53,8 +53,9 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
             user = userOptional.get();
             user.setEmail(oAuth2UserInfo.getEmail());
         } else {
+            String username = "Undefined_" + oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId();
             user = User.builder()
-                    .username(oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId())
+                    .username(username)
                     .email(oAuth2UserInfo.getEmail())
                     .roles(Collections.singletonList(Role.USER))
                     .provider(oAuth2UserInfo.getProvider())
