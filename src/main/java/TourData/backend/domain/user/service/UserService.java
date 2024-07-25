@@ -5,11 +5,10 @@ import static TourData.backend.domain.user.exception.UserExceptionMessage.USER_N
 import TourData.backend.domain.user.dto.EmailDto.EmailVerificationResponse;
 import TourData.backend.domain.user.dto.EmailDto.SendCodeRequest;
 import TourData.backend.domain.user.dto.EmailDto.VerifyCodeRequest;
-import TourData.backend.domain.user.dto.UserDto.NewUserNameRequest;
-import TourData.backend.domain.user.dto.UserDto.UserNameResponse;
+import TourData.backend.domain.user.dto.UserDto.UsernameResponse;
 import TourData.backend.domain.user.dto.UserDto.UserSignUpRequest;
-import TourData.backend.domain.user.dto.UserDto.ValidateDuplicateUserNameRequest;
-import TourData.backend.domain.user.dto.UserDto.ValidateDuplicateUserNameResponse;
+import TourData.backend.domain.user.dto.UserDto.ValidateDuplicateUsernameRequest;
+import TourData.backend.domain.user.dto.UserDto.ValidateDuplicateUsernameResponse;
 import TourData.backend.domain.user.exception.UserException;
 import TourData.backend.domain.user.model.User;
 import TourData.backend.domain.user.model.Role;
@@ -59,9 +58,9 @@ public class UserService {
 
     // 이름 중복 체크
     @Transactional(readOnly = true)
-    public ValidateDuplicateUserNameResponse validateDuplicateUserName(ValidateDuplicateUserNameRequest requestParam){
+    public ValidateDuplicateUsernameResponse validateDuplicateUserName(ValidateDuplicateUsernameRequest requestParam){
         boolean isDuplicated = userRepository.findByUsername(requestParam.username()).isPresent();
-        return new ValidateDuplicateUserNameResponse(isDuplicated);
+        return new ValidateDuplicateUsernameResponse(isDuplicated);
     }
 
     // 이름으로 조회
@@ -71,16 +70,9 @@ public class UserService {
                 .orElseThrow(()->new UserException(USER_NAME_NOT_FOUND.getMessage()));
     }
 
-    // 사용자 새 이름 입력
-    @Transactional
-    public void setUserName(String username, NewUserNameRequest requestParam) {
-        User user = findUser(username);
-        user.setUserName(requestParam.newUserName());
-    }
-
     // 사용자 이름 조회
-    public UserNameResponse getUserName(String username) {
-        return new UserNameResponse(username);
+    public UsernameResponse getUserName(String username) {
+        return new UsernameResponse(username);
     }
 
     // 이메일 인증 코드 전송

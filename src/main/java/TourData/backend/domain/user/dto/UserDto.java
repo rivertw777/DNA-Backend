@@ -4,16 +4,13 @@ public class UserDto {
     public record UserSignUpRequest(String username, String email, String password) {
     }
 
-    public record ValidateDuplicateUserNameRequest(String username) {
+    public record ValidateDuplicateUsernameRequest(String username) {
     }
 
-    public record ValidateDuplicateUserNameResponse(boolean isDuplicated) {
+    public record ValidateDuplicateUsernameResponse(boolean isDuplicated) {
     }
 
-    public record NewUserNameRequest(String newUserName) {
-    }
-
-    public record UserNameResponse(String username) {
+    public record UsernameResponse(String username) {
     }
 
 }

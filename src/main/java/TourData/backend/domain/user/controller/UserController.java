@@ -3,11 +3,10 @@ package TourData.backend.domain.user.controller;
 import TourData.backend.domain.user.dto.EmailDto.EmailVerificationResponse;
 import TourData.backend.domain.user.dto.EmailDto.VerifyCodeRequest;
 import TourData.backend.domain.user.dto.EmailDto.SendCodeRequest;
-import TourData.backend.domain.user.dto.UserDto.NewUserNameRequest;
 import TourData.backend.domain.user.dto.UserDto.UserSignUpRequest;
-import TourData.backend.domain.user.dto.UserDto.UserNameResponse;
-import TourData.backend.domain.user.dto.UserDto.ValidateDuplicateUserNameRequest;
-import TourData.backend.domain.user.dto.UserDto.ValidateDuplicateUserNameResponse;
+import TourData.backend.domain.user.dto.UserDto.UsernameResponse;
+import TourData.backend.domain.user.dto.UserDto.ValidateDuplicateUsernameRequest;
+import TourData.backend.domain.user.dto.UserDto.ValidateDuplicateUsernameResponse;
 import TourData.backend.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -36,23 +35,15 @@ public class UserController {
 
     @Operation(summary = "사용자 이름 중복 체크")
     @PostMapping("/names/validate")
-    public ResponseEntity<ValidateDuplicateUserNameResponse> validateDuplicateUserName(@Valid @RequestBody ValidateDuplicateUserNameRequest requestParam) {
-        ValidateDuplicateUserNameResponse response = userService.validateDuplicateUserName(requestParam);
+    public ResponseEntity<ValidateDuplicateUsernameResponse> validateDuplicateUserName(@Valid @RequestBody ValidateDuplicateUsernameRequest requestParam) {
+        ValidateDuplicateUsernameResponse response = userService.validateDuplicateUserName(requestParam);
         return ResponseEntity.ok(response);
-    }
-
-    @Operation(summary = "사용자 새 이름 입력")
-    @PostMapping("/names")
-    public ResponseEntity<Void> setUserName(@AuthenticationPrincipal(expression = "username") String username,
-                                            @Valid @RequestBody NewUserNameRequest requestParam) {
-        userService.setUserName(username, requestParam);
-        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "사용자 이름 조회")
     @GetMapping("/names")
-    public ResponseEntity<UserNameResponse> getUserName(@AuthenticationPrincipal(expression = "username") String username) {
-        UserNameResponse response = userService.getUserName(username);
+    public ResponseEntity<UsernameResponse> getUserName(@AuthenticationPrincipal(expression = "username") String username) {
+        UsernameResponse response = userService.getUserName(username);
         return ResponseEntity.ok(response);
     }
 
