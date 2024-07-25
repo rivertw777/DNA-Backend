@@ -10,6 +10,9 @@ public class UserDto {
     public record ValidateDuplicateUserNameResponse(boolean isDuplicated) {
     }
 
+    public record NewUserNameRequest(String newUserName) {
+    }
+
     public record UserNameResponse(String username) {
     }
 

@@ -70,6 +70,10 @@ public class User {
         this.providerId = providerId;
     }
 
+    public void setUserName(String username) {
+        this.username = username;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }

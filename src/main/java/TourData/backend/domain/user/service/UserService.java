@@ -5,6 +5,7 @@ import static TourData.backend.domain.user.exception.UserExceptionMessage.USER_N
 import TourData.backend.domain.user.dto.EmailDto.EmailVerificationResponse;
 import TourData.backend.domain.user.dto.EmailDto.SendCodeRequest;
 import TourData.backend.domain.user.dto.EmailDto.VerifyCodeRequest;
+import TourData.backend.domain.user.dto.UserDto.NewUserNameRequest;
 import TourData.backend.domain.user.dto.UserDto.UserNameResponse;
 import TourData.backend.domain.user.dto.UserDto.UserSignUpRequest;
 import TourData.backend.domain.user.dto.UserDto.ValidateDuplicateUserNameRequest;
@@ -24,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserSerivce {
+public class UserService {
 
     @Value("${spring.mail.auth-code-expiration-millis}")
     private long authCodeExpirationMillis;
@@ -38,19 +39,12 @@ public class UserServiceImpl implements UserSerivce {
     private static final String EMAIL_AUTH_CODE_PREFIX = "Email Auth Code: ";
 
     // 회원가입
-    @Override
+    @Transactional
     public void signUp(UserSignUpRequest requestParam) {
         // 비밀번호 인코딩
         String encodedPassword = passwordEncoder.encode(requestParam.password());
         // User 엔티티 저장
         saveUser(requestParam, encodedPassword);
-    }
-
-    // 이름 중복 체크
-    @Override
-    public ValidateDuplicateUserNameResponse validateDuplicateUserName(ValidateDuplicateUserNameRequest requestParam){
-        boolean isDuplicated = userRepository.findByUsername(requestParam.username()).isPresent();
-        return new ValidateDuplicateUserNameResponse(isDuplicated);
     }
 
     private void saveUser(UserSignUpRequest requestParam, String encodedPassword){
@@ -63,20 +57,33 @@ public class UserServiceImpl implements UserSerivce {
         userRepository.save(user);
     }
 
+    // 이름 중복 체크
+    @Transactional(readOnly = true)
+    public ValidateDuplicateUserNameResponse validateDuplicateUserName(ValidateDuplicateUserNameRequest requestParam){
+        boolean isDuplicated = userRepository.findByUsername(requestParam.username()).isPresent();
+        return new ValidateDuplicateUserNameResponse(isDuplicated);
+    }
+
     // 이름으로 조회
-    @Override
     @Transactional(readOnly = true)
     public User findUser(String username){
         return userRepository.findByUsername(username)
                 .orElseThrow(()->new UserException(USER_NAME_NOT_FOUND.getMessage()));
     }
 
-    @Override
+    // 사용자 새 이름 입력
+    @Transactional
+    public void setUserName(String username, NewUserNameRequest requestParam) {
+        User user = findUser(username);
+        user.setUserName(requestParam.newUserName());
+    }
+
+    // 사용자 이름 조회
     public UserNameResponse getUserName(String username) {
         return new UserNameResponse(username);
     }
 
-    @Override
+    // 이메일 인증 코드 전송
     public void sendCode(SendCodeRequest reqeustParam) {
         String code = createCode();
         emailService.sendEmail(reqeustParam.email(), code);
@@ -88,7 +95,7 @@ public class UserServiceImpl implements UserSerivce {
         return String.format("%06d", random.nextInt(1000000));
     }
 
-    @Override
+    // 이메일 인증 코드 검증
     public EmailVerificationResponse verifyCode(VerifyCodeRequest requestParam) {
         String findCode = (String) redisService.get(EMAIL_AUTH_CODE_PREFIX + requestParam.email());
         boolean isVerified = requestParam.code().equals(findCode);
