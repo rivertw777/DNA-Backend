@@ -71,6 +71,8 @@ public class SecurityConfig {
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/weather")).permitAll()
                         // 지역 좋아요 수 조회
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/{\\d+}/like/count")).permitAll()
+                        // 시설 검색
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/facilities/search")).permitAll()
                         // 웹소켓
                         .requestMatchers("/ws/**").permitAll()
                         // Swagger
