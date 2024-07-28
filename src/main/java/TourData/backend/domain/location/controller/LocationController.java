@@ -3,6 +3,7 @@ package TourData.backend.domain.location.controller;
 import TourData.backend.domain.location.dto.LocationDto.LocationLikeCheckResponse;
 import TourData.backend.domain.location.dto.LocationDto.LocationLikeCountResponse;
 import TourData.backend.domain.location.dto.LocationDto.LocationResponse;
+import TourData.backend.domain.location.dto.WeatherDto.WeatherResponse;
 import TourData.backend.domain.location.service.LocationService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -27,8 +28,15 @@ public class LocationController {
     @Operation(summary = "지역 전체 조회")
     @GetMapping
     public ResponseEntity<List<LocationResponse>> getAllLocations() {
-        List<LocationResponse> locations = locationService.getAllLocations();
-        return ResponseEntity.ok(locations);
+        List<LocationResponse> responses = locationService.getAllLocations();
+        return ResponseEntity.ok(responses);
+    }
+
+    @Operation(summary = "전체 지역 날씨 조회")
+    @GetMapping("/weather")
+    public ResponseEntity<List<WeatherResponse>> getLocationWeatherInfo() {
+        List<WeatherResponse> responses = locationService.getLocationWeatherInfo();
+        return ResponseEntity.ok(responses);
     }
 
     @Operation(summary = "지역 좋아요")

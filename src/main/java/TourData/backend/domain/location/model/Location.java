@@ -31,6 +31,14 @@ public class Location {
     private String name;
 
     @NotNull
+    @Column(name = "latitude")
+    private double latitude;
+
+    @NotNull
+    @Column(name = "longitude")
+    private double longitude;
+
+    @NotNull
     @Column(name = "thumbNail")
     private String thumbNail;
 
@@ -38,8 +46,10 @@ public class Location {
     private List<LocationLike> locationLikes = new ArrayList<>();
 
     @Builder
-    public Location(String name, String thumbNail) {
+    public Location(String name, double latitude, double longitude, String thumbNail) {
         this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.thumbNail = thumbNail;
     }
 

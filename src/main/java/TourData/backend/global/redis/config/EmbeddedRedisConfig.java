@@ -1,4 +1,4 @@
-package TourData.backend.global.redis;
+package TourData.backend.global.redis.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;

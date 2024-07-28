@@ -1,4 +1,4 @@
-package TourData.backend.global.redis;
+package TourData.backend.global.redis.config;
 
 import static org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair.fromSerializer;
 
@@ -36,7 +36,8 @@ public class CacheConfig {
 
     private Map<String, RedisCacheConfiguration> confMap() {
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
-        cacheConfigurations.put("Location", defaultConf().entryTtl(Duration.ofDays(1)));
+        cacheConfigurations.put("Location", defaultConf());
+        cacheConfigurations.put("LocationWeather", defaultConf().entryTtl(Duration.ofHours(1)));
         return cacheConfigurations;
     }
 

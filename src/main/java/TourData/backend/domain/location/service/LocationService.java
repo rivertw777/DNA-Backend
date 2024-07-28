@@ -7,6 +7,7 @@ import static TourData.backend.domain.location.exception.LocationExceptionMessag
 import TourData.backend.domain.location.dto.LocationDto.LocationLikeCheckResponse;
 import TourData.backend.domain.location.dto.LocationDto.LocationLikeCountResponse;
 import TourData.backend.domain.location.dto.LocationDto.LocationResponse;
+import TourData.backend.domain.location.dto.WeatherDto.WeatherResponse;
 import TourData.backend.domain.location.exception.LocationException;
 import TourData.backend.domain.location.model.Location;
 import TourData.backend.domain.location.model.LocationLike;
@@ -29,6 +30,7 @@ public class LocationService {
     private final LocationLikeRepository locationLikeRepository;
 
     private final UserService userService;
+    private final WeatherService weatherService;
     private final LocationLikeCountService locationLikeCountService;
 
     // 지역 전체 조회
@@ -43,6 +45,14 @@ public class LocationService {
     private Location findLocation(Long locationId){
         return locationRepository.findById(locationId)
                 .orElseThrow(()->new LocationException(LOCATION_NOT_FOUND.getMessage()));
+    }
+
+    // 전체 지역 날씨 조회
+    @Transactional(readOnly = true)
+    @Cacheable(cacheNames = "LocationWeather")
+    public List<WeatherResponse> getLocationWeatherInfo() {
+        List<Location> locations = locationRepository.findAll();
+        return weatherService.getWeatherResponses(locations);
     }
 
     // 지역 좋아요

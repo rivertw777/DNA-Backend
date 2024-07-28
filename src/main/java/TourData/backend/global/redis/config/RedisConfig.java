@@ -1,4 +1,4 @@
-package TourData.backend.global.redis;
+package TourData.backend.global.redis.config;
 
 import TourData.backend.global.redis.chat.RedisSubscriber;
 import lombok.RequiredArgsConstructor;
