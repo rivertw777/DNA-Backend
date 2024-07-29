@@ -24,16 +24,17 @@ public class WeatherService {
 
     public List<WeatherResponse> getWeatherResponses(List<Location> locations) {
         return locations.stream()
-                .map(location -> WeatherResponse(location.getName(), location.getLatitude(), location.getLongitude()))
+                .map(this::getWeatherResponse)
                 .collect(Collectors.toList());
     }
 
-    private WeatherResponse WeatherResponse(String locationName, double latitude, double longitude) {
-        String url = String.format("%s?lat=%f&lon=%f&appid=%s&units=metric", weatherApiUrl, latitude, longitude, weatherApiKey);
+    private WeatherResponse getWeatherResponse(Location location) {
+        String url = String.format("%s?lat=%f&lon=%f&appid=%s&units=metric",
+                weatherApiUrl, location.getLatitude(), location.getLongitude(), weatherApiKey);
         WeatherApiResponse response = restTemplate.getForObject(url, WeatherApiResponse.class);
 
         return new WeatherResponse(
-                locationName,
+                location.getName(),
                 response.main().temp(),
                 response.main().humidity(),
                 response.clouds().all());

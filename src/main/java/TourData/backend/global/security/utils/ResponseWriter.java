@@ -31,7 +31,7 @@ public class ResponseWriter {
                 .httpOnly(true)
                 .secure(true)
                 .sameSite("Strict")
-                .maxAge(-1)
+                .maxAge(3600)
                 .path("/")
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());

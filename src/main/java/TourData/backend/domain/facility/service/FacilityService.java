@@ -34,14 +34,18 @@ public class FacilityService {
                 latMin, latMax, lngMin, lngMax, facilityType);
 
         return facilities.stream()
-                .map(facility -> new FacilitySearchResponse(
-                        facility.getId(),
-                        facility.getName(),
-                        facility.getType().getValue(),
-                        facility.getAddress(),
-                        facility.getLatitude(),
-                        facility.getLongitude()))
+                .map(this::convertToResponse)
                 .collect(Collectors.toList());
+    }
+
+    private FacilitySearchResponse convertToResponse(Facility facility) {
+        return new FacilitySearchResponse(
+                facility.getId(),
+                facility.getName(),
+                facility.getType().getValue(),
+                facility.getAddress(),
+                facility.getLatitude(),
+                facility.getLongitude());
     }
 
 }
