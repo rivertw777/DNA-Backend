@@ -9,6 +9,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,6 +40,14 @@ public class FacilityController {
     public ResponseEntity<Void> bookmarkFacility(@AuthenticationPrincipal(expression = "username") String username,
                                  @Valid @PathVariable("facilityId") Long facilityId) {
         facilityBookmarkService.bookmarkFacility(username, facilityId);
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "시설 북마크 취소")
+    @DeleteMapping("{facilityId}/bookmarks")
+    public ResponseEntity<Void> unbookmarkFacility(@AuthenticationPrincipal(expression = "username") String username,
+                                                 @Valid @PathVariable("facilityId") Long facilityId) {
+        facilityBookmarkService.unbookmarkFacility(username, facilityId);
         return ResponseEntity.ok().build();
     }
 

@@ -7,6 +7,6 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LocationLikeRepository extends JpaRepository<LocationLike, Long> {
-    Optional<LocationLike> findByLocationAndUser(Location location, User user);
-    void deleteByLocationAndUser(Location location, User user);
+    Optional<LocationLike> findByUserAndLocation(User user, Location location);
+    void deleteByUserAndLocation(User user, Location location);
 }

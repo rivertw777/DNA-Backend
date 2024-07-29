@@ -35,7 +35,7 @@ public class LocationLikeService {
     }
 
     private void validateLikeNotExists(User user, Location location) {
-        if (locationLikeRepository.findByLocationAndUser(location, user).isPresent()) {
+        if (locationLikeRepository.findByUserAndLocation(user, location).isPresent()) {
             throw new LocationException(ALREADY_LIKE.getMessage());
         }
     }
@@ -54,12 +54,12 @@ public class LocationLikeService {
         User user = userService.findUser(username);
         Location location = locationService.findLocation(locationId);
         validateLikeExists(user, location);
-        locationLikeRepository.deleteByLocationAndUser(location, user);
+        locationLikeRepository.deleteByUserAndLocation(user, location);
         locationLikeCountService.decreaseCount(locationId);
     }
 
     private void validateLikeExists(User user, Location location) {
-        if (locationLikeRepository.findByLocationAndUser(location, user).isEmpty()) {
+        if (locationLikeRepository.findByUserAndLocation(user, location).isEmpty()) {
             throw new LocationException(ALREADY_UNLIKE.getMessage());
         }
     }
@@ -69,7 +69,7 @@ public class LocationLikeService {
     public LocationLikeCheckResponse checkLocationLike(String username, Long locationId) {
         User user = userService.findUser(username);
         Location location = locationService.findLocation(locationId);
-        boolean isLike = locationLikeRepository.findByLocationAndUser(location, user).isPresent();
+        boolean isLike = locationLikeRepository.findByUserAndLocation(user, location).isPresent();
         return new LocationLikeCheckResponse(isLike);
     }
 
