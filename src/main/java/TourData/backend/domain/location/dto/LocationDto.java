@@ -1,6 +1,7 @@
 package TourData.backend.domain.location.dto;
 
 public class LocationDto {
+
     public record LocationResponse(Long id, String name, String thumbNail) {
     }
 
@@ -9,4 +10,5 @@ public class LocationDto {
 
     public record LocationLikeCountResponse (Integer likeCount) {
     }
+
 }

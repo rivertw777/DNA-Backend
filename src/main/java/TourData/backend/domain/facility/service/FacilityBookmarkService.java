@@ -3,6 +3,7 @@ package TourData.backend.domain.facility.service;
 import static TourData.backend.domain.facility.exception.FacilityExceptionMessage.ALREADY_BOOKMARK;
 import static TourData.backend.domain.facility.exception.FacilityExceptionMessage.ALREADY_UNBOOKMARK;
 
+import TourData.backend.domain.facility.dto.FacilityDto.FacilityBookmarkCheckResponse;
 import TourData.backend.domain.facility.exception.FacilityException;
 import TourData.backend.domain.facility.model.Facility;
 import TourData.backend.domain.facility.model.FacilityBookmark;
@@ -57,6 +58,14 @@ public class FacilityBookmarkService {
         if (facilityBookmarkRepository.findByUserAndFacility(user, facility).isEmpty()) {
             throw new FacilityException(ALREADY_UNBOOKMARK.getMessage());
         }
+    }
+
+    // 시설 북마크 여부 확인
+    public FacilityBookmarkCheckResponse checkFacilityBookmark(String username, Long facilityId) {
+        User user = userService.findUser(username);
+        Facility facility = facilityService.findFacility(facilityId);
+        boolean isBookmark = facilityBookmarkRepository.findByUserAndFacility(user, facility).isPresent();
+        return new FacilityBookmarkCheckResponse(isBookmark);
     }
 
 }

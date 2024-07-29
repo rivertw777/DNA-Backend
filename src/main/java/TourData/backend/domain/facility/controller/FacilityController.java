@@ -1,5 +1,6 @@
 package TourData.backend.domain.facility.controller;
 
+import TourData.backend.domain.facility.dto.FacilityDto.FacilityBookmarkCheckResponse;
 import TourData.backend.domain.facility.dto.FacilityDto.FacilitySearchResponse;
 import TourData.backend.domain.facility.service.FacilityBookmarkService;
 import TourData.backend.domain.facility.service.FacilityService;
@@ -49,6 +50,14 @@ public class FacilityController {
                                                  @Valid @PathVariable("facilityId") Long facilityId) {
         facilityBookmarkService.unbookmarkFacility(username, facilityId);
         return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "시설 북마크 여부 확인")
+    @GetMapping("{facilityId}/bookmarks")
+    public ResponseEntity<FacilityBookmarkCheckResponse> checkFacilityBookmark(@AuthenticationPrincipal(expression = "username") String username,
+                                                 @Valid @PathVariable("facilityId") Long facilityId) {
+        FacilityBookmarkCheckResponse response = facilityBookmarkService.checkFacilityBookmark(username, facilityId);
+        return ResponseEntity.ok(response);
     }
 
 }
