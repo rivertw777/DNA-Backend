@@ -3,8 +3,8 @@ package TourData.backend.domain.facility.service;
 import static TourData.backend.domain.facility.exception.FacilityExceptionMessage.ALREADY_BOOKMARK;
 import static TourData.backend.domain.facility.exception.FacilityExceptionMessage.ALREADY_UNBOOKMARK;
 
+import TourData.backend.domain.facility.dto.FacilityDto.BookmarkedFacilityResponse;
 import TourData.backend.domain.facility.dto.FacilityDto.FacilityBookmarkCheckResponse;
-import TourData.backend.domain.facility.dto.FacilityDto.FacilityBookmarkResponse;
 import TourData.backend.domain.facility.exception.FacilityException;
 import TourData.backend.domain.facility.model.Facility;
 import TourData.backend.domain.facility.model.FacilityBookmark;
@@ -74,16 +74,16 @@ public class FacilityBookmarkService {
 
     // 북마크 시설 전체 조회
     @Transactional(readOnly = true)
-    public List<FacilityBookmarkResponse> getAllBookmarks(String username) {
+    public List<BookmarkedFacilityResponse> getAllBookmarks(String username) {
         User user = userService.findUser(username);
         return facilityBookmarkRepository.findByUser(user).stream()
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
     }
 
-    private FacilityBookmarkResponse convertToResponse(FacilityBookmark facilityBookmark) {
+    private BookmarkedFacilityResponse convertToResponse(FacilityBookmark facilityBookmark) {
         Facility facility = facilityBookmark.getFacility();
-        return new FacilityBookmarkResponse(
+        return new BookmarkedFacilityResponse(
                 facility.getId(),
                 facility.getName(),
                 facility.getType().getValue(),

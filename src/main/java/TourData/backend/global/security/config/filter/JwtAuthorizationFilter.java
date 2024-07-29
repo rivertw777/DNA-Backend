@@ -38,6 +38,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             chain.doFilter(request, response);
             return;
         }
+
         // 토큰 검증 및 인가
         try {
             tokenProvider.validateToken(token);
@@ -49,6 +50,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         // 예외 처리
         catch (Exception e) {
             responseWriter.setErrorResponse(response, SC_UNAUTHORIZED, e.getMessage());
+            return;
         }
         chain.doFilter(request, response);
     }
