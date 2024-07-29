@@ -1,9 +1,7 @@
 package TourData.backend.global.security.controller;
 
-import TourData.backend.global.security.auth.CustomUserDetailsService;
 import TourData.backend.global.security.dto.AuthDto.NewUsernameRequest;
 import TourData.backend.global.security.dto.AuthDto.CheckFirstLoginResponse;
-import TourData.backend.global.security.jwt.TokenProvider;
 import TourData.backend.global.security.service.AuthService;
 import TourData.backend.global.security.utils.ResponseWriter;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,9 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService authService;
-    private final TokenProvider tokenProvider;
     private final ResponseWriter responseWriter;
-    private final CustomUserDetailsService customUserDetailsService;
 
     @Operation(summary = "소셜 계정 최초 로그인 확인")
     @GetMapping("/login/check")
@@ -38,11 +34,11 @@ public class AuthController {
 
     @Operation(summary = "사용자 새 이름 입력")
     @PostMapping("/names")
-    public ResponseEntity<Void> setUserName(HttpServletRequest request, HttpServletResponse response,
+    public ResponseEntity<Void> setUsername(HttpServletRequest request, HttpServletResponse response,
                                             @AuthenticationPrincipal(expression = "username") String username,
                                             @Valid @RequestBody NewUsernameRequest requestParam) {
         responseWriter.deleteCookie(request, response);
-        authService.setUserName(username, requestParam);
+        authService.setUsername(username, requestParam);
         String token = authService.getToken(requestParam);
         responseWriter.setCookie(response, token);
         return ResponseEntity.ok().build();

@@ -4,6 +4,7 @@ import TourData.backend.domain.location.dto.LocationDto.LocationLikeCheckRespons
 import TourData.backend.domain.location.dto.LocationDto.LocationLikeCountResponse;
 import TourData.backend.domain.location.dto.LocationDto.LocationResponse;
 import TourData.backend.domain.location.dto.WeatherDto.WeatherResponse;
+import TourData.backend.domain.location.service.LocationLikeService;
 import TourData.backend.domain.location.service.LocationService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LocationController {
 
     private final LocationService locationService;
+    private final LocationLikeService locationLikeService;
 
     @Operation(summary = "지역 전체 조회")
     @GetMapping
@@ -43,30 +45,30 @@ public class LocationController {
     @PostMapping("/{locationId}/like")
     public ResponseEntity<Void> likeLocation(@AuthenticationPrincipal(expression = "username") String username,
                                              @Valid @PathVariable("locationId") Long locationId) {
-        locationService.likeLocation(username, locationId);
+        locationLikeService.likeLocation(username, locationId);
         return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "지역 좋아요 취소")
     @DeleteMapping("/{locationId}/like")
     public ResponseEntity<Void> unlikeLocation(@AuthenticationPrincipal(expression = "username") String username,
-                                               @Valid @PathVariable("locationId") long locationId) {
-        locationService.unlikeLocation(username, locationId);
+                                               @Valid @PathVariable("locationId") Long locationId) {
+        locationLikeService.unlikeLocation(username, locationId);
         return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "지역 좋아요 여부 확인")
     @GetMapping("/{locationId}/like")
     public ResponseEntity<LocationLikeCheckResponse> checkLocationLike(@AuthenticationPrincipal(expression = "username") String username,
-                                                                       @Valid @PathVariable("locationId") long locationId) {
-        LocationLikeCheckResponse response = locationService.checkLocationLike(username, locationId);
+                                                                       @Valid @PathVariable("locationId") Long locationId) {
+        LocationLikeCheckResponse response = locationLikeService.checkLocationLike(username, locationId);
         return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "지역 좋아요 수 조회")
     @GetMapping("/{locationId}/like/count")
-    public ResponseEntity<LocationLikeCountResponse> getLocationLikeCount(@Valid @PathVariable("locationId") long locationId) {
-        LocationLikeCountResponse response = locationService.getLocationLikeCount(locationId);
+    public ResponseEntity<LocationLikeCountResponse> getLocationLikeCount(@Valid @PathVariable("locationId") Long locationId) {
+        LocationLikeCountResponse response = locationLikeService.getLocationLikeCount(locationId);
         return ResponseEntity.ok(response);
     }
 

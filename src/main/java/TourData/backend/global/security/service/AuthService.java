@@ -15,10 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AuthService {
 
+    private final CustomUserDetailsService customUserDetailsService;
     private final UserService userService;
     private final TokenProvider tokenProvider;
-    private final CustomUserDetailsService customUserDetailsService;
 
+    // 소셜 계정 최초 로그인 확인
     public CheckFirstLoginResponse checkFirstLogin(String username) {
         boolean isFirstLogin = username.startsWith("default");
         return new CheckFirstLoginResponse(isFirstLogin);
@@ -26,11 +27,12 @@ public class AuthService {
 
     // 사용자 새 이름 입력
     @Transactional
-    public void setUserName(String username, NewUsernameRequest requestParam) {
+    public void setUsername(String username, NewUsernameRequest requestParam) {
         User user = userService.findUser(username);
         user.setUserName(requestParam.newUsername());
     }
 
+    // 토큰 얻기
     @Transactional(readOnly = true)
     public String getToken(NewUsernameRequest requestParam) {
         CustomUserDetails userDetails = customUserDetailsService.loadUserByUsername(requestParam.newUsername());

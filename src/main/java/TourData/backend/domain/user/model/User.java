@@ -1,5 +1,6 @@
 package TourData.backend.domain.user.model;
 
+import TourData.backend.domain.facility.model.FacilityBookmark;
 import TourData.backend.domain.location.model.LocationLike;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
@@ -60,6 +61,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<LocationLike> locationLikes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<FacilityBookmark> facilityBookmarks = new ArrayList<>();
+
     @Builder
     public User(String username, String password, List<Role> roles, String email, String provider, String providerId) {
         this.username = username;
@@ -78,8 +82,12 @@ public class User {
         this.email = email;
     }
 
-    public void setLocationLike(LocationLike locationLike){
+    public void addLocationLike(LocationLike locationLike){
         this.locationLikes.add(locationLike);
+    }
+
+    public void addFacilityBookmark(FacilityBookmark facilityBookmark){
+        this.facilityBookmarks.add(facilityBookmark);
     }
 
 }

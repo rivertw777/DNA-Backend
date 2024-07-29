@@ -26,16 +26,15 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserService {
 
+    private static final String EMAIL_AUTH_CODE_PREFIX = "Email Auth Code: ";
+
     @Value("${spring.mail.auth-code-expiration-millis}")
     private long authCodeExpirationMillis;
 
+    private final UserRepository userRepository;
     private final EmailService emailService;
     private final RedisService redisService;
-
-    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
-    private static final String EMAIL_AUTH_CODE_PREFIX = "Email Auth Code: ";
 
     // 회원가입
     @Transactional

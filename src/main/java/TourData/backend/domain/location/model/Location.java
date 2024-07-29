@@ -39,21 +39,21 @@ public class Location {
     private double longitude;
 
     @NotNull
-    @Column(name = "thumbNail")
-    private String thumbNail;
+    @Column(name = "thumbnail")
+    private String thumbnail;
 
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
     private List<LocationLike> locationLikes = new ArrayList<>();
 
     @Builder
-    public Location(String name, double latitude, double longitude, String thumbNail) {
+    public Location(String name, double latitude, double longitude, String thumbnail) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.thumbNail = thumbNail;
+        this.thumbnail = thumbnail;
     }
 
-    public void setLocationLike(LocationLike locationLike){
+    public void addLocationLike(LocationLike locationLike){
         this.locationLikes.add(locationLike);
     }
 

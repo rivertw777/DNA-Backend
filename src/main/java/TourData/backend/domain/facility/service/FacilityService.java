@@ -22,6 +22,7 @@ public class FacilityService {
 
         return facilities.stream()
                 .map(facility -> new FacilitySearchResponse(
+                        facility.getId(),
                         facility.getName(),
                         facility.getType().getValue(),
                         facility.getAddress(),

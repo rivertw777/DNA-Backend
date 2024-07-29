@@ -15,7 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "locationLike")
+@Table(name = "location_like")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LocationLike {
@@ -25,12 +25,12 @@ public class LocationLike {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "locationId")
-    private Location location;
+    @JoinColumn(name = "user_Id", nullable = false)
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
-    private User user;
+    @JoinColumn(name = "location_id", nullable = false)
+    private Location location;
 
     @Builder
     public LocationLike(Location location, User user) {
@@ -40,12 +40,12 @@ public class LocationLike {
 
     public void setLocation(Location location){
         this.location = location;
-        location.setLocationLike(this);
+        location.addLocationLike(this);
     }
 
     public void setUser(User user){
         this.user = user;
-        user.setLocationLike(this);
+        user.addLocationLike(this);
     }
 
 }

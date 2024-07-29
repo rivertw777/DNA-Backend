@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class EmailService {
 
-    private final JavaMailSender emailSender;
-
     private static final String TITLE = "[DNA] Email Verification Code";
     private static final String TEXT_PREFIX = "Please copy and enter the email verification code listed below.\nVerification Code: ";
+
+    private final JavaMailSender emailSender;
 
     public void sendEmail(String email, String code) {
         String text = TEXT_PREFIX + code;

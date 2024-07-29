@@ -1,5 +1,6 @@
 package TourData.backend.domain.facility.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -7,8 +8,11 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -45,6 +49,9 @@ public class Facility {
     @Column(name = "longitude")
     private double longitude;
 
+    @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL)
+    private List<FacilityBookmark> facilityBookmarks = new ArrayList<>();
+
     @Builder
     public Facility(String name, FacilityType type, String address, double latitude, double longitude) {
         this.name = name;
@@ -52,6 +59,10 @@ public class Facility {
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public void addFacilityBookmarks(FacilityBookmark facilityBookmark) {
+        this.facilityBookmarks.add(facilityBookmark);
     }
 
 }
