@@ -73,20 +73,19 @@ public class SecurityConfig {
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/{\\d+}/like/count")).permitAll()
                         // 시설 검색
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/facilities/search")).permitAll()
-                        // 웹소켓
+                        // 웹소켓 연결
                         .requestMatchers("/ws/**").permitAll()
                         // Swagger
                         .requestMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                // Oauth2 인증
+                // OAuth2 인증
                 .oauth2Login(oauth2 -> oauth2
                         .successHandler(oAuth2LoginSuccessHandler)
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(customOauth2UserService)
                         )
                 );
-
         return http.build();
     }
 

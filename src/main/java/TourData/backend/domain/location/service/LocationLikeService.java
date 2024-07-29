@@ -29,18 +29,18 @@ public class LocationLikeService {
     public void likeLocation(String username, Long locationId) {
         User user = userService.findUser(username);
         Location location = locationService.findLocation(locationId);
-        ensureNotLiked(user, location);
-        saveLocation(user, location);
+        validateLikeNotExists(user, location);
+        saveLocationLike(user, location);
         locationLikeCountService.increaseCount(locationId);
     }
 
-    private void ensureNotLiked(User user, Location location) {
+    private void validateLikeNotExists(User user, Location location) {
         if (locationLikeRepository.findByLocationAndUser(location, user).isPresent()) {
             throw new LocationException(ALREADY_LIKE.getMessage());
         }
     }
 
-    private void saveLocation(User user, Location location) {
+    private void saveLocationLike(User user, Location location) {
         LocationLike locationLike = LocationLike.builder()
                 .location(location)
                 .user(user)
@@ -53,12 +53,12 @@ public class LocationLikeService {
     public void unlikeLocation(String username, Long locationId) {
         User user = userService.findUser(username);
         Location location = locationService.findLocation(locationId);
-        ensureLiked(user, location);
+        validateLikeExists(user, location);
         locationLikeRepository.deleteByLocationAndUser(location, user);
         locationLikeCountService.decreaseCount(locationId);
     }
 
-    private void ensureLiked(User user, Location location) {
+    private void validateLikeExists(User user, Location location) {
         if (locationLikeRepository.findByLocationAndUser(location, user).isEmpty()) {
             throw new LocationException(ALREADY_UNLIKE.getMessage());
         }

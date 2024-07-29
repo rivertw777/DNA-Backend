@@ -36,6 +36,13 @@ public class UserService {
     private final RedisService redisService;
     private final PasswordEncoder passwordEncoder;
 
+    // 이름으로 조회
+    @Transactional(readOnly = true)
+    public User findUser(String username){
+        return userRepository.findByUsername(username)
+                .orElseThrow(()->new UserException(USER_NAME_NOT_FOUND.getMessage()));
+    }
+
     // 회원가입
     @Transactional
     public void signUp(UserSignUpRequest requestParam) {
@@ -60,13 +67,6 @@ public class UserService {
     public ValidateDuplicateUsernameResponse validateDuplicateUserName(ValidateDuplicateUsernameRequest requestParam){
         boolean isDuplicated = userRepository.findByUsername(requestParam.username()).isPresent();
         return new ValidateDuplicateUsernameResponse(isDuplicated);
-    }
-
-    // 이름으로 조회
-    @Transactional(readOnly = true)
-    public User findUser(String username){
-        return userRepository.findByUsername(username)
-                .orElseThrow(()->new UserException(USER_NAME_NOT_FOUND.getMessage()));
     }
 
     // 사용자 이름 조회
