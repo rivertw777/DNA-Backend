@@ -2,7 +2,7 @@ package TourData.backend.global.security.config.handler;
 
 import TourData.backend.global.security.auth.CustomUserDetails;
 import TourData.backend.global.security.jwt.TokenProvider;
-import TourData.backend.global.security.utils.ResponseWriter;
+import TourData.backend.global.security.util.CookieManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,7 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final TokenProvider tokenProvider;
-    private final ResponseWriter responseWriter;
+    private final CookieManager cookieManager;
     private final UriProperties uriProperties;
 
     @Override
@@ -29,7 +29,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         // JWT 토큰 발급
         String token = tokenProvider.generateToken(userDetails);
         // 쿠키 저장
-        responseWriter.setCookie(response, token);
+        cookieManager.setCookie(response, token);
         String uri = createURI().toString();
         // 리다이렉트
         getRedirectStrategy().sendRedirect(request, response, uri);

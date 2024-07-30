@@ -1,19 +1,16 @@
 package TourData.backend.global.security.config.filter;
 
-import static TourData.backend.global.security.jwt.JwtProperties.COOKIE_NAME;
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import TourData.backend.global.security.auth.CustomUserDetailsService;
 import TourData.backend.global.security.jwt.TokenProvider;
-import TourData.backend.global.security.utils.ResponseWriter;
+import TourData.backend.global.security.util.CookieManager;
+import TourData.backend.global.security.util.ResponseWriter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,12 +25,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final CustomUserDetailsService customUserDetailsService;
     private final TokenProvider tokenProvider;
     private final ResponseWriter responseWriter;
+    private final CookieManager cookieManager;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         // 쿠키에서 토큰 추출
-        String token = getTokenFromCookie(request);
+        String token = cookieManager.getTokenFromCookie(request);
         if (token == null) {
             chain.doFilter(request, response);
             return;
@@ -53,14 +51,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             return;
         }
         chain.doFilter(request, response);
-    }
-
-    private String getTokenFromCookie(HttpServletRequest request) {
-        return Arrays.stream(Optional.ofNullable(request.getCookies()).orElse(new Cookie[0]))
-                .filter(cookie -> COOKIE_NAME.getValue().equals(cookie.getName()))
-                .findFirst()
-                .map(Cookie::getValue)
-                .orElse(null);
     }
 
 }

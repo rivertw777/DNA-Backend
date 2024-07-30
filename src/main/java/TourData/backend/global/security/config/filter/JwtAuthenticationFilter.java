@@ -3,7 +3,7 @@ package TourData.backend.global.security.config.filter;
 import TourData.backend.global.security.auth.CustomUserDetails;
 import TourData.backend.global.security.dto.AuthDto.UserLoginRequest;
 import TourData.backend.global.security.jwt.TokenProvider;
-import TourData.backend.global.security.utils.ResponseWriter;
+import TourData.backend.global.security.util.CookieManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     private final AuthenticationManager authenticationManager;
     private final TokenProvider tokenProvider;
-    private final ResponseWriter responseWriter;
+    private final CookieManager cookieManager;
 
     // 인증 시도
     @Override
@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         // JWT 토큰 발급
         String token = tokenProvider.generateToken(userDetails);
         // 쿠키 저장
-        responseWriter.setCookie(response, token);
+        cookieManager.setCookie(response, token);
     }
 
 }

@@ -3,7 +3,7 @@ package TourData.backend.global.security.config.handler;
 import static TourData.backend.global.security.exception.AuthExceptionMessage.NO_AUTHORITY;
 import static com.nimbusds.oauth2.sdk.http.HTTPResponse.SC_FORBIDDEN;
 
-import TourData.backend.global.security.utils.ResponseWriter;
+import TourData.backend.global.security.util.ResponseWriter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;

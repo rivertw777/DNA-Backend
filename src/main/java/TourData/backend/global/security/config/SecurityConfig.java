@@ -10,7 +10,7 @@ import TourData.backend.global.security.config.handler.JwtAuthenticationFailureH
 import TourData.backend.global.security.config.handler.OAuth2LoginSuccessHandler;
 import TourData.backend.global.security.jwt.TokenProvider;
 import TourData.backend.global.security.oauth.CustomOauth2UserService;
-import TourData.backend.global.security.utils.ResponseWriter;
+import TourData.backend.global.security.util.CookieManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,7 +39,7 @@ public class SecurityConfig {
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
     private final TokenProvider tokenProvider;
-    private final ResponseWriter responseWriter;
+    private final CookieManager cookieManager;
 
     // 보안 필터 체인 구성
     @Bean
@@ -107,7 +107,7 @@ public class SecurityConfig {
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
 
             // 인증 필터 설정
-            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, tokenProvider, responseWriter);
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, tokenProvider, cookieManager);
             jwtAuthenticationFilter.setAuthenticationFailureHandler(jwtAuthenticationFailureHandler);
             jwtAuthenticationFilter.setFilterProcessesUrl("/api/auth/login");
 
