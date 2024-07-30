@@ -6,6 +6,7 @@ import TourData.backend.domain.location.dto.LocationDto.LocationResponse;
 import TourData.backend.domain.location.dto.WeatherDto.WeatherResponse;
 import TourData.backend.domain.location.service.LocationLikeService;
 import TourData.backend.domain.location.service.LocationService;
+import TourData.backend.global.security.auth.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -43,25 +44,25 @@ public class LocationController {
 
     @Operation(summary = "지역 좋아요")
     @PostMapping("/{locationId}/like")
-    public ResponseEntity<Void> likeLocation(@AuthenticationPrincipal(expression = "username") String username,
+    public ResponseEntity<Void> likeLocation(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                              @Valid @PathVariable("locationId") Long locationId) {
-        locationLikeService.likeLocation(username, locationId);
+        locationLikeService.likeLocation(customUserDetails.getUser(), locationId);
         return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "지역 좋아요 취소")
     @DeleteMapping("/{locationId}/like")
-    public ResponseEntity<Void> unlikeLocation(@AuthenticationPrincipal(expression = "username") String username,
+    public ResponseEntity<Void> unlikeLocation(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                                @Valid @PathVariable("locationId") Long locationId) {
-        locationLikeService.unlikeLocation(username, locationId);
+        locationLikeService.unlikeLocation(customUserDetails.getUser(), locationId);
         return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "지역 좋아요 여부 확인")
     @GetMapping("/{locationId}/like")
-    public ResponseEntity<LocationLikeCheckResponse> checkLocationLike(@AuthenticationPrincipal(expression = "username") String username,
+    public ResponseEntity<LocationLikeCheckResponse> checkLocationLike(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                                                        @Valid @PathVariable("locationId") Long locationId) {
-        LocationLikeCheckResponse response = locationLikeService.checkLocationLike(username, locationId);
+        LocationLikeCheckResponse response = locationLikeService.checkLocationLike(customUserDetails.getUser(), locationId);
         return ResponseEntity.ok(response);
     }
 

@@ -1,7 +1,5 @@
 package TourData.backend.domain.user.service;
 
-import static TourData.backend.domain.user.exception.UserExceptionMessage.USER_NAME_NOT_FOUND;
-
 import TourData.backend.domain.user.dto.EmailDto.EmailVerificationResponse;
 import TourData.backend.domain.user.dto.EmailDto.SendCodeRequest;
 import TourData.backend.domain.user.dto.EmailDto.VerifyCodeRequest;
@@ -9,7 +7,6 @@ import TourData.backend.domain.user.dto.UserDto.UsernameResponse;
 import TourData.backend.domain.user.dto.UserDto.UserSignUpRequest;
 import TourData.backend.domain.user.dto.UserDto.ValidateDuplicateUsernameRequest;
 import TourData.backend.domain.user.dto.UserDto.ValidateDuplicateUsernameResponse;
-import TourData.backend.domain.user.exception.UserException;
 import TourData.backend.domain.user.model.User;
 import TourData.backend.domain.user.model.Role;
 import TourData.backend.domain.user.repository.UserRepository;
@@ -35,13 +32,6 @@ public class UserService {
     private final EmailService emailService;
     private final RedisService redisService;
     private final PasswordEncoder passwordEncoder;
-
-    // 이름으로 조회
-    @Transactional(readOnly = true)
-    public User findUser(String username){
-        return userRepository.findByUsername(username)
-                .orElseThrow(()->new UserException(USER_NAME_NOT_FOUND.getMessage()));
-    }
 
     // 회원가입
     @Transactional

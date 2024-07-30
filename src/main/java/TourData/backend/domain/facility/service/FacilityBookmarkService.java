@@ -10,7 +10,6 @@ import TourData.backend.domain.facility.model.Facility;
 import TourData.backend.domain.facility.model.FacilityBookmark;
 import TourData.backend.domain.facility.repository.FacilityBookmarkRepository;
 import TourData.backend.domain.user.model.User;
-import TourData.backend.domain.user.service.UserService;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class FacilityBookmarkService {
 
     private final FacilityBookmarkRepository facilityBookmarkRepository;
-    private final UserService userService;
     private final FacilityService facilityService;
 
     // 시설 북마크
     @Transactional
-    public void bookmarkFacility(String username, Long facilityId) {
-        User user = userService.findUser(username);
+    public void bookmarkFacility(User user, Long facilityId) {
         Facility facility = facilityService.findFacility(facilityId);
         validateBookmarkNotExists(user, facility);
         saveFacilityBookmark(user, facility);
@@ -50,8 +47,7 @@ public class FacilityBookmarkService {
 
     // 시설 북마크 취소
     @Transactional
-    public void unbookmarkFacility(String username, Long facilityId) {
-        User user = userService.findUser(username);
+    public void unbookmarkFacility(User user, Long facilityId) {
         Facility facility = facilityService.findFacility(facilityId);
         validateBookmarkExists(user, facility);
         facilityBookmarkRepository.deleteByUserAndFacility(user, facility);
@@ -65,8 +61,7 @@ public class FacilityBookmarkService {
 
     // 시설 북마크 여부 확인
     @Transactional(readOnly = true)
-    public FacilityBookmarkCheckResponse checkFacilityBookmark(String username, Long facilityId) {
-        User user = userService.findUser(username);
+    public FacilityBookmarkCheckResponse checkFacilityBookmark(User user, Long facilityId) {
         Facility facility = facilityService.findFacility(facilityId);
         boolean isBookmark = facilityBookmarkRepository.findByUserAndFacility(user, facility).isPresent();
         return new FacilityBookmarkCheckResponse(isBookmark);
@@ -74,8 +69,7 @@ public class FacilityBookmarkService {
 
     // 북마크 시설 전체 조회
     @Transactional(readOnly = true)
-    public List<BookmarkedFacilityResponse> getAllBookmarks(String username) {
-        User user = userService.findUser(username);
+    public List<BookmarkedFacilityResponse> getAllBookmarks(User user) {
         return facilityBookmarkRepository.findByUser(user).stream()
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());

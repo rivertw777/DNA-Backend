@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 public class CustomUserDetails implements UserDetails, OAuth2User {
 
-    private User user;
+    private final User user;
     private Map<String, Object> attributes;
 
     public CustomUserDetails(User user) {
@@ -23,6 +23,10 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     public CustomUserDetails(User user, Map<String, Object> attributes) {
         this.user = user;
         this.attributes = attributes;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     // 권환 반환

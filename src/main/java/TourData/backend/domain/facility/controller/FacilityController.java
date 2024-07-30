@@ -5,6 +5,7 @@ import TourData.backend.domain.facility.dto.FacilityDto.FacilityBookmarkCheckRes
 import TourData.backend.domain.facility.dto.FacilityDto.FacilitySearchResponse;
 import TourData.backend.domain.facility.service.FacilityBookmarkService;
 import TourData.backend.domain.facility.service.FacilityService;
+import TourData.backend.global.security.auth.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -39,32 +40,32 @@ public class FacilityController {
 
     @Operation(summary = "시설 북마크")
     @PostMapping("{facilityId}/bookmarks")
-    public ResponseEntity<Void> bookmarkFacility(@AuthenticationPrincipal(expression = "username") String username,
-                                 @Valid @PathVariable("facilityId") Long facilityId) {
-        facilityBookmarkService.bookmarkFacility(username, facilityId);
+    public ResponseEntity<Void> bookmarkFacility(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                                 @Valid @PathVariable("facilityId") Long facilityId) {
+        facilityBookmarkService.bookmarkFacility(customUserDetails.getUser(), facilityId);
         return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "시설 북마크 취소")
     @DeleteMapping("{facilityId}/bookmarks")
-    public ResponseEntity<Void> unbookmarkFacility(@AuthenticationPrincipal(expression = "username") String username,
+    public ResponseEntity<Void> unbookmarkFacility(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                                  @Valid @PathVariable("facilityId") Long facilityId) {
-        facilityBookmarkService.unbookmarkFacility(username, facilityId);
+        facilityBookmarkService.unbookmarkFacility(customUserDetails.getUser(), facilityId);
         return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "시설 북마크 여부 확인")
     @GetMapping("{facilityId}/bookmarks")
-    public ResponseEntity<FacilityBookmarkCheckResponse> checkFacilityBookmark(@AuthenticationPrincipal(expression = "username") String username,
+    public ResponseEntity<FacilityBookmarkCheckResponse> checkFacilityBookmark(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                                  @Valid @PathVariable("facilityId") Long facilityId) {
-        FacilityBookmarkCheckResponse response = facilityBookmarkService.checkFacilityBookmark(username, facilityId);
+        FacilityBookmarkCheckResponse response = facilityBookmarkService.checkFacilityBookmark(customUserDetails.getUser(), facilityId);
         return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "북마크 시설 전체 조회")
     @GetMapping("/bookmarks")
-    public ResponseEntity<List<BookmarkedFacilityResponse>> getAllBookmarks(@AuthenticationPrincipal(expression = "username") String username) {
-        List<BookmarkedFacilityResponse> responses = facilityBookmarkService.getAllBookmarks(username);
+    public ResponseEntity<List<BookmarkedFacilityResponse>> getAllBookmarks(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        List<BookmarkedFacilityResponse> responses = facilityBookmarkService.getAllBookmarks(customUserDetails.getUser());
         return ResponseEntity.ok(responses);
     }
 
