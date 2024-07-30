@@ -46,7 +46,8 @@ public class LocationController {
     @PostMapping("/{locationId}/like")
     public ResponseEntity<Void> likeLocation(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                              @Valid @PathVariable("locationId") Long locationId) {
-        locationLikeService.likeLocation(customUserDetails.getUser(), locationId);
+        Long userId = customUserDetails.getUser().getId();
+        locationLikeService.likeLocation(userId, locationId);
         return ResponseEntity.ok().build();
     }
 
@@ -54,7 +55,8 @@ public class LocationController {
     @DeleteMapping("/{locationId}/like")
     public ResponseEntity<Void> unlikeLocation(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                                @Valid @PathVariable("locationId") Long locationId) {
-        locationLikeService.unlikeLocation(customUserDetails.getUser(), locationId);
+        Long userId = customUserDetails.getUser().getId();
+        locationLikeService.unlikeLocation(userId, locationId);
         return ResponseEntity.ok().build();
     }
 
@@ -62,7 +64,8 @@ public class LocationController {
     @GetMapping("/{locationId}/like")
     public ResponseEntity<LocationLikeCheckResponse> checkLocationLike(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                                                        @Valid @PathVariable("locationId") Long locationId) {
-        LocationLikeCheckResponse response = locationLikeService.checkLocationLike(customUserDetails.getUser(), locationId);
+        Long userId = customUserDetails.getUser().getId();
+        LocationLikeCheckResponse response = locationLikeService.checkLocationLike(userId, locationId);
         return ResponseEntity.ok(response);
     }
 

@@ -10,6 +10,7 @@ import TourData.backend.domain.location.model.Location;
 import TourData.backend.domain.location.model.LocationLike;
 import TourData.backend.domain.location.repository.LocationLikeRepository;
 import TourData.backend.domain.user.model.User;
+import TourData.backend.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,18 +22,20 @@ public class LocationLikeService {
     private final LocationLikeRepository locationLikeRepository;
     private final LocationService locationService;
     private final LocationLikeCountService locationLikeCountService;
+    private final UserService userService;
 
     // 지역 좋아요
     @Transactional
-    public void likeLocation(User user, Long locationId) {
+    public void likeLocation(Long userId, Long locationId) {
+        User user = userService.findUser(userId);
         Location location = locationService.findLocation(locationId);
-        validateLikeNotExists(user, location);
+        validateLikeNotExists(user.getId(), locationId);
         saveLocationLike(user, location);
         locationLikeCountService.increaseCount(locationId);
     }
 
-    private void validateLikeNotExists(User user, Location location) {
-        if (locationLikeRepository.findByUserAndLocation(user, location).isPresent()) {
+    private void validateLikeNotExists(Long userId, Long locationId) {
+        if (locationLikeRepository.findByUserIdAndLocationId(userId, locationId).isPresent()) {
             throw new LocationException(ALREADY_LIKE.getMessage());
         }
     }
@@ -47,24 +50,22 @@ public class LocationLikeService {
 
     // 지역 좋아요 취소
     @Transactional
-    public void unlikeLocation(User user, Long locationId) {
-        Location location = locationService.findLocation(locationId);
-        validateLikeExists(user, location);
-        locationLikeRepository.deleteByUserAndLocation(user, location);
+    public void unlikeLocation(Long userId, Long locationId) {
+        validateLikeExists(userId, locationId);
+        locationLikeRepository.deleteByUserIdAndLocationId(userId, locationId);
         locationLikeCountService.decreaseCount(locationId);
     }
 
-    private void validateLikeExists(User user, Location location) {
-        if (locationLikeRepository.findByUserAndLocation(user, location).isEmpty()) {
+    private void validateLikeExists(Long userId, Long locationId) {
+        if (locationLikeRepository.findByUserIdAndLocationId(userId, locationId).isEmpty()) {
             throw new LocationException(ALREADY_UNLIKE.getMessage());
         }
     }
 
     // 지역 좋아요 여부 확인
     @Transactional(readOnly = true)
-    public LocationLikeCheckResponse checkLocationLike(User user, Long locationId) {
-        Location location = locationService.findLocation(locationId);
-        boolean isLike = locationLikeRepository.findByUserAndLocation(user, location).isPresent();
+    public LocationLikeCheckResponse checkLocationLike(Long userId, Long locationId) {
+        boolean isLike = locationLikeRepository.findByUserIdAndLocationId(userId, locationId).isPresent();
         return new LocationLikeCheckResponse(isLike);
     }
 

@@ -10,6 +10,7 @@ import TourData.backend.domain.facility.model.Facility;
 import TourData.backend.domain.facility.model.FacilityBookmark;
 import TourData.backend.domain.facility.repository.FacilityBookmarkRepository;
 import TourData.backend.domain.user.model.User;
+import TourData.backend.domain.user.service.UserService;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -22,17 +23,19 @@ public class FacilityBookmarkService {
 
     private final FacilityBookmarkRepository facilityBookmarkRepository;
     private final FacilityService facilityService;
+    private final UserService userService;
 
     // 시설 북마크
     @Transactional
-    public void bookmarkFacility(User user, Long facilityId) {
+    public void bookmarkFacility(Long userId, Long facilityId) {
+        User user = userService.findUser(userId);
         Facility facility = facilityService.findFacility(facilityId);
-        validateBookmarkNotExists(user, facility);
+        validateBookmarkNotExists(user.getId(), facilityId);
         saveFacilityBookmark(user, facility);
     }
 
-    private void validateBookmarkNotExists(User user, Facility facility) {
-        if (facilityBookmarkRepository.findByUserAndFacility(user, facility).isPresent()) {
+    private void validateBookmarkNotExists(Long userId, Long facilityId) {
+        if (facilityBookmarkRepository.findByUserIdAndFacilityId(userId, facilityId).isPresent()) {
             throw new FacilityException(ALREADY_BOOKMARK.getMessage());
         }
     }
@@ -47,30 +50,28 @@ public class FacilityBookmarkService {
 
     // 시설 북마크 취소
     @Transactional
-    public void unbookmarkFacility(User user, Long facilityId) {
-        Facility facility = facilityService.findFacility(facilityId);
-        validateBookmarkExists(user, facility);
-        facilityBookmarkRepository.deleteByUserAndFacility(user, facility);
+    public void unbookmarkFacility(Long userId, Long facilityId) {
+        validateBookmarkExists(userId, facilityId);
+        facilityBookmarkRepository.deleteByUserIdAndFacilityId(userId, facilityId);
     }
 
-    private void validateBookmarkExists(User user, Facility facility) {
-        if (facilityBookmarkRepository.findByUserAndFacility(user, facility).isEmpty()) {
+    private void validateBookmarkExists(Long userId, Long facilityId) {
+        if (facilityBookmarkRepository.findByUserIdAndFacilityId(userId, facilityId).isEmpty()) {
             throw new FacilityException(ALREADY_UNBOOKMARK.getMessage());
         }
     }
 
     // 시설 북마크 여부 확인
     @Transactional(readOnly = true)
-    public FacilityBookmarkCheckResponse checkFacilityBookmark(User user, Long facilityId) {
-        Facility facility = facilityService.findFacility(facilityId);
-        boolean isBookmark = facilityBookmarkRepository.findByUserAndFacility(user, facility).isPresent();
+    public FacilityBookmarkCheckResponse checkFacilityBookmark(Long userId, Long facilityId) {
+        boolean isBookmark = facilityBookmarkRepository.findByUserIdAndFacilityId(userId, facilityId).isPresent();
         return new FacilityBookmarkCheckResponse(isBookmark);
     }
 
     // 북마크 시설 전체 조회
     @Transactional(readOnly = true)
-    public List<BookmarkedFacilityResponse> getAllBookmarks(User user) {
-        return facilityBookmarkRepository.findByUser(user).stream()
+    public List<BookmarkedFacilityResponse> getAllBookmarks(Long userId) {
+        return facilityBookmarkRepository.findByUserId(userId).stream()
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
     }

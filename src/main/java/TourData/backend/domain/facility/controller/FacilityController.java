@@ -42,7 +42,8 @@ public class FacilityController {
     @PostMapping("{facilityId}/bookmarks")
     public ResponseEntity<Void> bookmarkFacility(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                                  @Valid @PathVariable("facilityId") Long facilityId) {
-        facilityBookmarkService.bookmarkFacility(customUserDetails.getUser(), facilityId);
+        Long userId = customUserDetails.getUser().getId();
+        facilityBookmarkService.bookmarkFacility(userId, facilityId);
         return ResponseEntity.ok().build();
     }
 
@@ -50,7 +51,8 @@ public class FacilityController {
     @DeleteMapping("{facilityId}/bookmarks")
     public ResponseEntity<Void> unbookmarkFacility(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                                  @Valid @PathVariable("facilityId") Long facilityId) {
-        facilityBookmarkService.unbookmarkFacility(customUserDetails.getUser(), facilityId);
+        Long userId = customUserDetails.getUser().getId();
+        facilityBookmarkService.unbookmarkFacility(userId, facilityId);
         return ResponseEntity.ok().build();
     }
 
@@ -58,14 +60,16 @@ public class FacilityController {
     @GetMapping("{facilityId}/bookmarks")
     public ResponseEntity<FacilityBookmarkCheckResponse> checkFacilityBookmark(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                                  @Valid @PathVariable("facilityId") Long facilityId) {
-        FacilityBookmarkCheckResponse response = facilityBookmarkService.checkFacilityBookmark(customUserDetails.getUser(), facilityId);
+        Long userId = customUserDetails.getUser().getId();
+        FacilityBookmarkCheckResponse response = facilityBookmarkService.checkFacilityBookmark(userId, facilityId);
         return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "북마크 시설 전체 조회")
     @GetMapping("/bookmarks")
     public ResponseEntity<List<BookmarkedFacilityResponse>> getAllBookmarks(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        List<BookmarkedFacilityResponse> responses = facilityBookmarkService.getAllBookmarks(customUserDetails.getUser());
+        Long userId = customUserDetails.getUser().getId();
+        List<BookmarkedFacilityResponse> responses = facilityBookmarkService.getAllBookmarks(userId);
         return ResponseEntity.ok(responses);
     }
 
