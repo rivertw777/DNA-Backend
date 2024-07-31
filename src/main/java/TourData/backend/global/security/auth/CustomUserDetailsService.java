@@ -33,9 +33,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         // 토큰 복호화
         Claims claims = tokenProvider.parseClaims(token);
         // 회원 이름 추출
-        String userName = claims.getSubject();
+        String username = claims.getSubject();
         // userDetails 조회
-        CustomUserDetails userDetails = loadUserByUsername(userName);
+        CustomUserDetails userDetails = loadUserByUsername(username);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
