@@ -1,5 +1,7 @@
-package TourData.backend.global.webSocket;
+package TourData.backend.global.webSocket.config;
 
+import TourData.backend.global.webSocket.interceptor.WebSocketHandshakeInterceptor;
+import TourData.backend.global.webSocket.interceptor.WebSocketInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

@@ -33,7 +33,7 @@ public class CacheConfig {
         return RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(fromSerializer(new GenericJackson2JsonRedisSerializer()))
-                .entryTtl(Duration.ZERO);
+                .entryTtl(Duration.ofDays(1));
     }
 
     private Map<String, RedisCacheConfiguration> confMap() {

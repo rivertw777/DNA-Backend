@@ -2,6 +2,7 @@ package TourData.backend.domain.user.model;
 
 import TourData.backend.domain.facility.model.FacilityBookmark;
 import TourData.backend.domain.location.model.LocationLike;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -58,9 +59,11 @@ public class User {
     @Column(name = "provider_id")
     private String providerId;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<LocationLike> locationLikes = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<FacilityBookmark> facilityBookmarks = new ArrayList<>();
 

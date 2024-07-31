@@ -30,7 +30,7 @@ public class LocationService {
 
     // 지역 전체 조회
     @Transactional(readOnly = true)
-    @Cacheable(cacheNames = "Location")
+    @Cacheable(cacheNames = "Location", cacheManager = "redisCacheManager")
     public List<LocationResponse> getAllLocations() {
         return locationRepository.findAll().stream()
                 .map(location -> new LocationResponse(location.getId(), location.getName(), location.getThumbnail()))
@@ -39,7 +39,7 @@ public class LocationService {
 
     // 전체 지역 날씨 조회
     @Transactional(readOnly = true)
-    @Cacheable(cacheNames = "LocationWeather")
+    @Cacheable(cacheNames = "LocationWeather", cacheManager = "redisCacheManager")
     public List<WeatherResponse> getLocationWeatherInfo() {
         List<Location> locations = locationRepository.findAll();
         return weatherService.getWeatherResponses(locations);

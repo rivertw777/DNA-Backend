@@ -31,6 +31,7 @@ public class LocationLikeCountService {
         String count = (String) redisService.get(LOCATION_LIKE_COUNT_KEY + locationId);
         return count != null ? Long.parseLong(count) : 0L;
     }
+
 }
 
 

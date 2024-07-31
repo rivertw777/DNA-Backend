@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum CasheName {
 
-    LOCATION("location"),
+    LOCATION("Location"),
     LOCATION_WEATHER("LocationWeather");
 
     private final String value;

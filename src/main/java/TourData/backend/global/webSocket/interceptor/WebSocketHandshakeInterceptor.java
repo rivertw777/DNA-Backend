@@ -1,4 +1,4 @@
-package TourData.backend.global.webSocket;
+package TourData.backend.global.webSocket.interceptor;
 
 import static TourData.backend.global.security.util.CookieProperties.COOKIE_NAME;
 
