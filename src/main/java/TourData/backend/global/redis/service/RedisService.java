@@ -11,11 +11,11 @@ public class RedisService {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public void save(String key, Object value) {
+    public void save(String key, String value) {
         redisTemplate.opsForValue().set(key, value);
     }
 
-    public void saveWithExpiration(String key, Object value, long expiration) {
+    public void saveWithExpiration(String key, String value, long expiration) {
         redisTemplate.opsForValue().set(key, value, expiration, TimeUnit.MILLISECONDS);
     }
 
@@ -29,6 +29,14 @@ public class RedisService {
 
     public boolean exists(String key) {
         return redisTemplate.hasKey(key);
+    }
+
+    public void increase(String key) {
+        redisTemplate.opsForValue().increment(key);
+    }
+
+    public void decrease(String key) {
+        redisTemplate.opsForValue().decrement(key);
     }
 
 }
