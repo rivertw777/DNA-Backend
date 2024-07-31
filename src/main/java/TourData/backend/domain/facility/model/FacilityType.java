@@ -1,5 +1,8 @@
 package TourData.backend.domain.facility.model;
 
+import static TourData.backend.domain.facility.exception.FacilityExceptionMessage.UNKNOWN_TYPE;
+
+import TourData.backend.domain.facility.exception.FacilityException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +23,7 @@ public enum FacilityType {
                 return type;
             }
         }
-        throw new IllegalArgumentException("Unknown FacilityType: " + value);
+        throw new FacilityException(UNKNOWN_TYPE + value);
     }
 
 }

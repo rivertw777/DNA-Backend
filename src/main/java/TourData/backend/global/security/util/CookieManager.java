@@ -1,6 +1,6 @@
 package TourData.backend.global.security.util;
 
-import static TourData.backend.global.security.jwt.JwtProperties.COOKIE_NAME;
+import static TourData.backend.global.security.util.CookieProperties.COOKIE_NAME;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -46,11 +46,10 @@ public class CookieManager {
 
     public String getTokenFromCookie(ServerHttpRequest request) {
         return Optional.ofNullable(request.getHeaders().getFirst(HttpHeaders.COOKIE))
-                .map(cookieHeader -> Arrays.stream(cookieHeader.split("; "))
+                .flatMap(cookieHeader -> Arrays.stream(cookieHeader.split("; "))
                         .filter(cookie -> cookie.startsWith(COOKIE_NAME.getValue() + "="))
                         .map(cookie -> cookie.substring(COOKIE_NAME.getValue().length() + 1))
-                        .findFirst()
-                        .orElse(null))
+                        .findFirst())
                 .orElse(null);
     }
 

@@ -1,6 +1,6 @@
 package TourData.backend.global.webSocket;
 
-import static TourData.backend.global.security.jwt.JwtProperties.COOKIE_NAME;
+import static TourData.backend.global.security.util.CookieProperties.COOKIE_NAME;
 
 import TourData.backend.global.security.util.CookieManager;
 import java.util.Map;
