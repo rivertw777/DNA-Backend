@@ -1,6 +1,5 @@
 package TourData.backend.domain.user.service;
 
-import static TourData.backend.domain.facility.exception.FacilityExceptionMessage.FACILITY_NOT_FOUND;
 import static TourData.backend.domain.user.exception.UserExceptionMessage.USER_NOT_FOUND;
 
 import TourData.backend.domain.user.dto.EmailDto.EmailVerificationResponse;
@@ -79,7 +78,7 @@ public class UserService {
     public void sendCode(SendCodeRequest reqeustParam) {
         String code = createCode();
         emailService.sendEmail(reqeustParam.email(), code);
-        redisService.saveWithExpiration(EMAIL_AUTH_CODE_PREFIX + reqeustParam.email(), code, authCodeExpirationMillis);
+        redisService.setWithExpiration(EMAIL_AUTH_CODE_PREFIX + reqeustParam.email(), code, authCodeExpirationMillis);
     }
 
     private String createCode() {
@@ -89,7 +88,7 @@ public class UserService {
 
     // 이메일 인증 코드 검증
     public EmailVerificationResponse verifyCode(VerifyCodeRequest requestParam) {
-        String findCode = (String) redisService.get(EMAIL_AUTH_CODE_PREFIX + requestParam.email());
+        String findCode = redisService.get(EMAIL_AUTH_CODE_PREFIX + requestParam.email());
         boolean isVerified = requestParam.code().equals(findCode);
         return new EmailVerificationResponse(isVerified);
     }
