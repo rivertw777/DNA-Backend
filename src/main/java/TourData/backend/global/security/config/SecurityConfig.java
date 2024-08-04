@@ -63,8 +63,10 @@ public class SecurityConfig {
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/users")).permitAll()
                         // 이름 중복 체크
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/users/names/validate")).permitAll()
-                        // 이메일 인증
-                        .requestMatchers("api/users/emails/verify").permitAll()
+                        // 이메일 인증 코드 전송
+                        .requestMatchers(HttpMethod.POST, "api/users/emails/code").permitAll()
+                        // 이메일 인증 코드 검증
+                        .requestMatchers(HttpMethod.POST, "api/users/emails/verify").permitAll()
                         // 지역 전체 조회
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations")).permitAll()
                         // 전체 지역 날씨 조회

@@ -48,14 +48,14 @@ public class UserController {
     }
 
     @Operation(summary = "이메일 인증 코드 전송")
-    @PostMapping("/emails/verify")
+    @PostMapping("/emails/code")
     public ResponseEntity<Void> sendCode(@Valid @RequestBody SendCodeRequest reqeustParam) {
         userService.sendCode(reqeustParam);
         return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "이메일 인증 코드 검증")
-    @GetMapping("/emails/verify")
+    @PostMapping("/emails/verify")
     public ResponseEntity<EmailVerificationResponse> verifyCode(@Valid @RequestBody VerifyCodeRequest reqeustParam) {
         EmailVerificationResponse response = userService.verifyCode(reqeustParam);
         return ResponseEntity.ok(response);
