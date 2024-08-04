@@ -1,5 +1,6 @@
 package TourData.backend.domain.user.service;
 
+import static TourData.backend.domain.user.exception.UserExceptionMessage.USER_NAME_NOT_FOUND;
 import static TourData.backend.domain.user.exception.UserExceptionMessage.USER_NOT_FOUND;
 
 import TourData.backend.domain.user.dto.EmailDto.EmailVerificationResponse;
@@ -41,6 +42,13 @@ public class UserService {
     public User findUser(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(()->new UserException(USER_NOT_FOUND.getMessage()));
+    }
+
+    // 이름으로 조회
+    @Transactional(readOnly = true)
+    public User findUser(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(()->new UserException(USER_NAME_NOT_FOUND.getMessage()));
     }
 
     // 회원 가입

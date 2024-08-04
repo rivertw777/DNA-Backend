@@ -1,6 +1,7 @@
 package TourData.backend.global.security.service;
 
 import TourData.backend.domain.user.model.User;
+import TourData.backend.domain.user.service.UserService;
 import TourData.backend.global.security.auth.CustomUserDetails;
 import TourData.backend.global.security.auth.CustomUserDetailsService;
 import TourData.backend.global.security.dto.AuthDto.CheckFirstLoginResponse;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
 
     private final CustomUserDetailsService customUserDetailsService;
+    private final UserService userService;
     private final TokenProvider tokenProvider;
 
     // 소셜 계정 최초 로그인 확인
@@ -25,7 +27,8 @@ public class AuthService {
 
     // 사용자 새 이름 입력
     @Transactional
-    public void setUsername(User user, NewUsernameRequest requestParam) {
+    public void setUsername(String username, NewUsernameRequest requestParam) {
+        User user = userService.findUser(username);
         user.setUserName(requestParam.newUsername());
     }
 

@@ -1,6 +1,5 @@
 package TourData.backend.global.security.controller;
 
-import TourData.backend.domain.user.model.User;
 import TourData.backend.global.security.dto.AuthDto.NewUsernameRequest;
 import TourData.backend.global.security.dto.AuthDto.CheckFirstLoginResponse;
 import TourData.backend.global.security.service.AuthService;
@@ -36,10 +35,10 @@ public class AuthController {
     @Operation(summary = "사용자 새 이름 입력")
     @PostMapping("/names")
     public ResponseEntity<Void> setUsername(HttpServletRequest request, HttpServletResponse response,
-                                            @AuthenticationPrincipal(expression = "user") User user,
+                                            @AuthenticationPrincipal(expression = "username") String username,
                                             @Valid @RequestBody NewUsernameRequest requestParam) {
         cookieManager.deleteCookie(request, response);
-        authService.setUsername(user, requestParam);
+        authService.setUsername(username, requestParam);
         String token = authService.getToken(requestParam);
         cookieManager.setCookie(response, token);
         return ResponseEntity.ok().build();
