@@ -43,7 +43,7 @@ public class UserService {
                 .orElseThrow(()->new UserException(USER_NOT_FOUND.getMessage()));
     }
 
-    // 회원가입
+    // 회원 가입
     @Transactional
     public void signUp(UserSignUpRequest requestParam) {
         // 비밀번호 인코딩

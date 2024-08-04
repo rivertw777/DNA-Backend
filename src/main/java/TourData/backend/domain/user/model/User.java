@@ -42,7 +42,6 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @NotNull
     @Column(name = "password", length = 60)
     private String password;
 

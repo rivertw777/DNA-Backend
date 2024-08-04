@@ -26,7 +26,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @Operation(summary = "회원가입")
+    @Operation(summary = "회원 가입")
     @PostMapping
     public ResponseEntity<Void> signUp(@Valid @RequestBody UserSignUpRequest reqeustParam) {
         userService.signUp(reqeustParam);

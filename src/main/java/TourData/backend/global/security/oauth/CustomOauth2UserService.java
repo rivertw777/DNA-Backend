@@ -53,6 +53,7 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
             user = userOptional.get();
             user.setEmail(oAuth2UserInfo.getEmail());
         } else {
+            // 회원 가입
             String username = "default_" + oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId();
             user = User.builder()
                     .username(username)
