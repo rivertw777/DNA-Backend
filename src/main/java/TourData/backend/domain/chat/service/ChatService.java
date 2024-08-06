@@ -10,15 +10,30 @@ import org.springframework.stereotype.Service;
 public class ChatService {
 
     private final RedisPublisher redisPublisher;
+    private final ParticipantCountService participantCountService;
 
     public void handleMessage(String username, ChatMessage chatMessage) {
         chatMessage.setSender(username);
+
         if (ChatMessage.MessageType.JOIN.equals(chatMessage.getType())) {
-            chatMessage.setMessage(chatMessage.getSender() + "님이 입장하셨습니다.");
+            handleJoin(chatMessage);
         } else if (ChatMessage.MessageType.LEAVE.equals(chatMessage.getType())) {
-            chatMessage.setMessage(chatMessage.getSender() + "님이 퇴장하셨습니다.");
+            handleLeave(chatMessage);
         }
+
         redisPublisher.publishMessage(chatMessage);
+    }
+
+    private void handleJoin(ChatMessage chatMessage) {
+        chatMessage.setMessage(chatMessage.getSender() + "님이 입장하셨습니다.");
+        int participantCount = participantCountService.increaseParticipantCount(chatMessage.getRoomId());
+        chatMessage.setParticipantCount(participantCount);
+    }
+
+    private void handleLeave(ChatMessage chatMessage) {
+        chatMessage.setMessage(chatMessage.getSender() + "님이 퇴장하셨습니다.");
+        int participantCount = participantCountService.decreaseParticipantCount(chatMessage.getRoomId());
+        chatMessage.setParticipantCount(participantCount);
     }
 
 }
