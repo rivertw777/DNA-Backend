@@ -4,13 +4,10 @@ import TourData.backend.domain.user.model.Role;
 import TourData.backend.domain.user.model.User;
 import TourData.backend.domain.user.repository.UserRepository;
 import TourData.backend.global.security.auth.CustomUserDetails;
-import TourData.backend.global.security.oauth.provider.FaceBookUserInfo;
 import TourData.backend.global.security.oauth.provider.GoogleUserInfo;
 import TourData.backend.global.security.oauth.provider.KakaoUserInfo;
-import TourData.backend.global.security.oauth.provider.NaverUserInfo;
 import TourData.backend.global.security.oauth.provider.OAuth2UserInfo;
 import java.util.Collections;
-import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -36,10 +33,6 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
         OAuth2UserInfo oAuth2UserInfo = null;
         if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
             oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
-        } else if (userRequest.getClientRegistration().getRegistrationId().equals("facebook")) {
-            oAuth2UserInfo = new FaceBookUserInfo(oAuth2User.getAttributes());
-        } else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")){
-            oAuth2UserInfo = new NaverUserInfo((Map)oAuth2User.getAttributes().get("response"));
         } else if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")){
             oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
         }

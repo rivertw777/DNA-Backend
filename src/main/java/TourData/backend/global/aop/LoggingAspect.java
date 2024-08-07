@@ -15,7 +15,11 @@ import org.springframework.stereotype.Component;
 public class LoggingAspect {
 
     // 예외 발생 시 로깅
-    @AfterThrowing(pointcut = "(execution(* TourData.backend.*.*.service..*(..)) || "
+    @AfterThrowing(pointcut = "( execution(* TourData.backend.domain.user.service.UserService..*(..)) || "
+            + "execution(* TourData.backend.domain.location.service.LocationService..*(..)) || "
+            + "execution(* TourData.backend.domain.location.service.LocationLikeService..*(..)) || "
+            + "execution(* TourData.backend.domain.facility.service.FacilityService..*(..)) || "
+            + "execution(* TourData.backend.domain.facility.service.FacilityBookmarkService..*(..)) || "
             + "execution(* TourData.backend.global.security.auth.CustomUserDetailsService..*(..))) && "
             + "!execution(* TourData.backend.domain.chat.service.ChatService..*(..))", throwing = "ex")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable ex) {
@@ -27,9 +31,13 @@ public class LoggingAspect {
     }
 
     // 메서드 실행 이전 로깅
-    @Before("(execution(* TourData.backend.*.*.service..*(..)) || "
-            + "execution(* TourData.backend.global.security.auth.CustomUserDetailsService..*(..))) && "
-            + "!execution(* TourData.backend.domain.chat.service.ChatService..*(..))")
+    @Before("( execution(* TourData.backend.domain.user.service.UserService..*(..)) || "
+        + "execution(* TourData.backend.domain.location.service.LocationService..*(..)) || "
+        + "execution(* TourData.backend.domain.location.service.LocationLikeService..*(..)) || "
+        + "execution(* TourData.backend.domain.facility.service.FacilityService..*(..)) || "
+        + "execution(* TourData.backend.domain.facility.service.FacilityBookmarkService..*(..)) || "
+        + "execution(* TourData.backend.global.security.auth.CustomUserDetailsService..*(..))) && "
+        + "!execution(* TourData.backend.domain.chat.service.ChatService..*(..))")
     public void logBefore(JoinPoint joinPoint) {
         String methodName = joinPoint.getSignature().getName();
         String className = joinPoint.getSignature().getDeclaringTypeName();
@@ -39,7 +47,11 @@ public class LoggingAspect {
     }
 
     // 메서드 실행 이후 로깅
-    @Around("(execution(* TourData.backend.*.*.service..*(..)) || "
+    @Around("( execution(* TourData.backend.domain.user.service.UserService..*(..)) || "
+            + "execution(* TourData.backend.domain.location.service.LocationService..*(..)) || "
+            + "execution(* TourData.backend.domain.location.service.LocationLikeService..*(..)) || "
+            + "execution(* TourData.backend.domain.facility.service.FacilityService..*(..)) || "
+            + "execution(* TourData.backend.domain.facility.service.FacilityBookmarkService..*(..)) || "
             + "execution(* TourData.backend.global.security.auth.CustomUserDetailsService..*(..))) && "
             + "!execution(* TourData.backend.domain.chat.service.ChatService..*(..))")
     public Object logAfter(ProceedingJoinPoint joinPoint) throws Throwable {
