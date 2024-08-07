@@ -1,5 +1,6 @@
 package TourData.backend.domain.location.model;
 
+import TourData.backend.domain.facility.model.Facility;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,6 +32,10 @@ public class Location {
     private String name;
 
     @NotNull
+    @Column(name = "code")
+    private String code;
+
+    @NotNull
     @Column(name = "latitude")
     private double latitude;
 
@@ -45,9 +50,13 @@ public class Location {
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
     private List<LocationLike> locationLikes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
+    private List<Facility> facilities = new ArrayList<>();
+
     @Builder
-    public Location(String name, double latitude, double longitude, String thumbnail) {
+    public Location(String name, String code, double latitude, double longitude, String thumbnail) {
         this.name = name;
+        this.code = code;
         this.latitude = latitude;
         this.longitude = longitude;
         this.thumbnail = thumbnail;

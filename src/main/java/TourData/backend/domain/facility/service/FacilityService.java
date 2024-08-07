@@ -26,12 +26,23 @@ public class FacilityService {
                 .orElseThrow(()->new FacilityException(FACILITY_NOT_FOUND.getMessage()));
     }
 
-    // 시설 검색
+    // 시설 검색 by 위도, 경도
     @Transactional(readOnly = true)
     public List<FacilitySearchResponse> searchFacilities(double latMin, double latMax, double lngMin, double lngMax, String type) {
         FacilityType facilityType = FacilityType.fromValue(type);
         List<Facility> facilities = facilityRepository.findByLatitudeBetweenAndLongitudeBetweenAndType(
                 latMin, latMax, lngMin, lngMax, facilityType);
+
+        return facilities.stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+    }
+
+    // 시설 검색 by 지역 코드
+    @Transactional(readOnly = true)
+    public List<FacilitySearchResponse> searchFacilitiesByLocationCode(String locationCode, String type) {
+        FacilityType facilityType = FacilityType.fromValue(type);
+        List<Facility> facilities = facilityRepository.findByLocation_CodeAndType(locationCode, facilityType);
 
         return facilities.stream()
                 .map(this::convertToResponse)

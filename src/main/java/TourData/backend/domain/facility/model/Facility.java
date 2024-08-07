@@ -1,13 +1,17 @@
 package TourData.backend.domain.facility.model;
 
+import TourData.backend.domain.location.model.Location;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -49,16 +53,21 @@ public class Facility {
     @Column(name = "longitude")
     private double longitude;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "location_id", nullable = false)
+    private Location location;
+
     @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL)
     private List<FacilityBookmark> facilityBookmarks = new ArrayList<>();
 
     @Builder
-    public Facility(String name, FacilityType type, String address, double latitude, double longitude) {
+    public Facility(String name, FacilityType type, String address, double latitude, double longitude, Location location) {
         this.name = name;
         this.type = type;
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.location = location;
     }
 
     public void addFacilityBookmarks(FacilityBookmark facilityBookmark) {
