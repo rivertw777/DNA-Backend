@@ -28,10 +28,10 @@ public class FacilityService {
 
     // 시설 검색 by 위도, 경도
     @Transactional(readOnly = true)
-    public List<FacilitySearchResponse> searchFacilities(double latMin, double latMax, double lngMin, double lngMax, String type) {
-        FacilityType facilityType = FacilityType.fromValue(type);
+    public List<FacilitySearchResponse> searchFacilities(double latMin, double latMax, double lngMin, double lngMax, String facilityType) {
+        FacilityType type = FacilityType.fromValue(facilityType);
         List<Facility> facilities = facilityRepository.findByLatitudeBetweenAndLongitudeBetweenAndType(
-                latMin, latMax, lngMin, lngMax, facilityType);
+                latMin, latMax, lngMin, lngMax, type);
 
         return facilities.stream()
                 .map(this::toResponseDto)
@@ -40,9 +40,9 @@ public class FacilityService {
 
     // 시설 검색 by 지역 코드
     @Transactional(readOnly = true)
-    public List<FacilitySearchResponse> searchFacilitiesByLocationCode(String locationCode, String type) {
-        FacilityType facilityType = FacilityType.fromValue(type);
-        List<Facility> facilities = facilityRepository.findByLocation_CodeAndType(locationCode, facilityType);
+    public List<FacilitySearchResponse> searchFacilitiesByLocationCode(String locationCode, String facilityType) {
+        FacilityType type = FacilityType.fromValue(facilityType);
+        List<Facility> facilities = facilityRepository.findByLocationCodeAndType(locationCode, type);
 
         return facilities.stream()
                 .map(this::toResponseDto)

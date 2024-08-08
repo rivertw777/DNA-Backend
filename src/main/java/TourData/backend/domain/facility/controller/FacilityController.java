@@ -33,8 +33,8 @@ public class FacilityController {
     public ResponseEntity<List<FacilitySearchResponse>> searchFacilities(
             @Valid @RequestParam(name = "latMin") Double latMin, @Valid @RequestParam(name = "latMax") Double latMax,
             @Valid @RequestParam(name = "lngMin") Double lngMin, @Valid @RequestParam(name = "lngMax") Double lngMax,
-            @Valid @RequestParam(name = "type") String type) {
-        List<FacilitySearchResponse> responses = facilityService.searchFacilities(latMin, latMax, lngMin, lngMax, type);
+            @Valid @RequestParam(name = "facilityType") String facilityType) {
+        List<FacilitySearchResponse> responses = facilityService.searchFacilities(latMin, latMax, lngMin, lngMax, facilityType);
         return ResponseEntity.ok(responses);
     }
 
@@ -42,8 +42,8 @@ public class FacilityController {
     @GetMapping("/search/code")
     public ResponseEntity<List<FacilitySearchResponse>> searchFacilitiesByLocationCode(
             @Valid @RequestParam(name = "locationCode") String locationCode,
-            @Valid @RequestParam(name = "type") String type) {
-        List<FacilitySearchResponse> responses = facilityService.searchFacilitiesByLocationCode(locationCode, type);
+            @Valid @RequestParam(name = "facilityType") String facilityType) {
+        List<FacilitySearchResponse> responses = facilityService.searchFacilitiesByLocationCode(locationCode, facilityType);
         return ResponseEntity.ok(responses);
     }
 

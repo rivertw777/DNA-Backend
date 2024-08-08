@@ -24,19 +24,19 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        Location location1 = Location.createLocation("Sokcho", "01", 38.2072, 128.5911,
+        Location location1 = Location.createLocation("Sokcho",  "01",38.2072, 128.5911,
                 "https://images.unsplash.com/photo-1698767676786-03457d067360?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
         locationRepository.save(location1);
         locationLikeCountService.initCount(location1.getId());
         participantCountService.initCount(location1.getId());
 
-        Location location2 = Location.createLocation("Chuncheon", "02", 37.8825, 127.7295,
+        Location location2 = Location.createLocation("Chuncheon",  "02",37.8825, 127.7295,
                 "https://images.unsplash.com/photo-1622628036982-f82aa2fd4fc5?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
         locationRepository.save(location2);
         locationLikeCountService.initCount(location2.getId());
         participantCountService.initCount(location2.getId());
 
-        Location location3 = Location.createLocation("Yangyang", "03", 38.1304, 128.6615,
+        Location location3 = Location.createLocation("Yangyang", "03",38.1304, 128.6615,
                 "https://images.unsplash.com/photo-1661926388505-334021844cec?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
         locationRepository.save(location3);
         locationLikeCountService.initCount(location3.getId());
@@ -66,10 +66,10 @@ public class DataInitializer implements CommandLineRunner {
         locationLikeCountService.initCount(location7.getId());
         participantCountService.initCount(location7.getId());
 
-        Facility facility1 = Facility.createFacility("맥도날드", FacilityType.RESTAURANT, "강원도 속초시",37.3972, 126.9296, location1);
+        Facility facility1 = Facility.createFacility("맥도날드", FacilityType.RESTAURANT, "01","강원도 속초시",37.3972, 126.9296);
         facilityRepository.save(facility1);
 
-        Facility facility2 = Facility.createFacility("이디야", FacilityType.CAFE, "강원도 속초시",37.3944, 126.9306, location2);
+        Facility facility2 = Facility.createFacility("이디야", FacilityType.CAFE, "02", "강원도 속초시",37.3944, 126.9306);
         facilityRepository.save(facility2);
     }
 
