@@ -5,7 +5,7 @@ import static TourData.backend.domain.location.exception.LocationExceptionMessag
 import TourData.backend.domain.location.dto.LocationDto.LocationResponse;
 import TourData.backend.domain.location.dto.WeatherDto.WeatherResponse;
 import TourData.backend.domain.location.exception.LocationException;
-import TourData.backend.domain.location.model.Location;
+import TourData.backend.domain.location.model.entity.Location;
 import TourData.backend.domain.location.repository.LocationRepository;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,7 +33,7 @@ public class LocationService {
     @Cacheable(cacheNames = "Location", cacheManager = "redisCacheManager")
     public List<LocationResponse> getAllLocations() {
         return locationRepository.findAll().stream()
-                .map(location -> new LocationResponse(location.getId(), location.getName(), location.getThumbnail()))
+                .map(this::toResponseDto) // 메서드 참조를 사용하여 가독성 향상
                 .collect(Collectors.toList());
     }
 
@@ -43,6 +43,14 @@ public class LocationService {
     public List<WeatherResponse> getLocationWeatherInfo() {
         List<Location> locations = locationRepository.findAll();
         return weatherService.getWeatherResponses(locations);
+    }
+
+    private LocationResponse toResponseDto(Location location) {
+        return new LocationResponse(
+                location.getId(),
+                location.getName(),
+                location.getThumbnail()
+        );
     }
 
 }

@@ -75,7 +75,7 @@ public class FacilityController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "북마크 시설 전체 조회")
+    @Operation(summary = "사용자 북마크 시설 전체 조회")
     @GetMapping("/bookmarks")
     public ResponseEntity<List<BookmarkedFacilityResponse>> getAllBookmarks(
             @AuthenticationPrincipal CustomUserDetails customUserDetails) {

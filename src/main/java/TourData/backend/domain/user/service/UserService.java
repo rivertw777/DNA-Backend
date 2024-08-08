@@ -11,11 +11,9 @@ import TourData.backend.domain.user.dto.UserDto.UserSignUpRequest;
 import TourData.backend.domain.user.dto.UserDto.ValidateDuplicateUsernameRequest;
 import TourData.backend.domain.user.dto.UserDto.ValidateDuplicateUsernameResponse;
 import TourData.backend.domain.user.exception.UserException;
-import TourData.backend.domain.user.model.User;
-import TourData.backend.domain.user.model.Role;
+import TourData.backend.domain.user.model.entity.User;
 import TourData.backend.domain.user.repository.UserRepository;
 import TourData.backend.global.redis.service.RedisService;
-import java.util.Collections;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,19 +52,12 @@ public class UserService {
     // 회원 가입
     @Transactional
     public void signUp(UserSignUpRequest requestParam) {
-        // 비밀번호 인코딩
         String encodedPassword = passwordEncoder.encode(requestParam.password());
-        // User 엔티티 저장
         saveUser(requestParam, encodedPassword);
     }
 
     private void saveUser(UserSignUpRequest requestParam, String encodedPassword){
-        User user = User.builder()
-                .username(requestParam.username())
-                .email(requestParam.email())
-                .password(encodedPassword)
-                .roles(Collections.singletonList(Role.USER))
-                .build();
+        User user = User.createUser(requestParam, encodedPassword);
         userRepository.save(user);
     }
 

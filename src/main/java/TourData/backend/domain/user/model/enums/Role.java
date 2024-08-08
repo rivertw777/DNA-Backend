@@ -1,4 +1,4 @@
-package TourData.backend.domain.user.model;
+package TourData.backend.domain.user.model.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

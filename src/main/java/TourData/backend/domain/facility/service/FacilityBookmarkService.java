@@ -6,10 +6,10 @@ import static TourData.backend.domain.facility.exception.FacilityExceptionMessag
 import TourData.backend.domain.facility.dto.FacilityDto.BookmarkedFacilityResponse;
 import TourData.backend.domain.facility.dto.FacilityDto.FacilityBookmarkCheckResponse;
 import TourData.backend.domain.facility.exception.FacilityException;
-import TourData.backend.domain.facility.model.Facility;
-import TourData.backend.domain.facility.model.FacilityBookmark;
+import TourData.backend.domain.facility.model.entity.Facility;
+import TourData.backend.domain.facility.model.entity.FacilityBookmark;
 import TourData.backend.domain.facility.repository.FacilityBookmarkRepository;
-import TourData.backend.domain.user.model.User;
+import TourData.backend.domain.user.model.entity.User;
 import TourData.backend.domain.user.service.UserService;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,10 +41,7 @@ public class FacilityBookmarkService {
     }
 
     private void saveFacilityBookmark(User user, Facility facility) {
-        FacilityBookmark facilityBookmark = FacilityBookmark.builder()
-                .user(user)
-                .facility(facility)
-                .build();
+        FacilityBookmark facilityBookmark = FacilityBookmark.createFacilityBookmark(user, facility);
         facilityBookmarkRepository.save(facilityBookmark);
     }
 
@@ -68,15 +65,15 @@ public class FacilityBookmarkService {
         return new FacilityBookmarkCheckResponse(isBookmark);
     }
 
-    // 북마크 시설 전체 조회
+    // 사용자 북마크 시설 전체 조회
     @Transactional(readOnly = true)
     public List<BookmarkedFacilityResponse> getAllBookmarks(Long userId) {
         return facilityBookmarkRepository.findByUserId(userId).stream()
-                .map(this::convertToResponse)
+                .map(this::toResponseDto)
                 .collect(Collectors.toList());
     }
 
-    private BookmarkedFacilityResponse convertToResponse(FacilityBookmark facilityBookmark) {
+    private BookmarkedFacilityResponse toResponseDto(FacilityBookmark facilityBookmark) {
         Facility facility = facilityBookmark.getFacility();
         return new BookmarkedFacilityResponse(
                 facility.getId(),

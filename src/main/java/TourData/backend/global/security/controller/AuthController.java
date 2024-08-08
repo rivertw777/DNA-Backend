@@ -38,8 +38,8 @@ public class AuthController {
                                             @AuthenticationPrincipal(expression = "username") String username,
                                             @Valid @RequestBody NewUsernameRequest requestParam) {
         cookieManager.deleteCookie(request, response);
-        authService.setUsername(username, requestParam);
-        String token = authService.getToken(requestParam);
+        authService.setUsername(username, requestParam.newUsername());
+        String token = authService.getToken(requestParam.newUsername());
         cookieManager.setCookie(response, token);
         return ResponseEntity.ok().build();
     }

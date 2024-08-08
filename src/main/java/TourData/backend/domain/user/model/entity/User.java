@@ -1,7 +1,10 @@
-package TourData.backend.domain.user.model;
+package TourData.backend.domain.user.model.entity;
 
-import TourData.backend.domain.facility.model.FacilityBookmark;
-import TourData.backend.domain.location.model.LocationLike;
+import TourData.backend.domain.facility.model.entity.FacilityBookmark;
+import TourData.backend.domain.location.model.entity.LocationLike;
+import TourData.backend.domain.user.dto.UserDto.UserSignUpRequest;
+import TourData.backend.domain.user.model.enums.Role;
+import TourData.backend.global.security.oauth.provider.OAuth2UserInfo;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -20,14 +23,17 @@ import jakarta.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "users")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
     @Id
@@ -74,12 +80,39 @@ public class User {
         this.providerId = providerId;
     }
 
+    // 일반 회원 가입
+    public static User createUser(UserSignUpRequest requestParam, String encodedPassword) {
+        User user = User.builder()
+                .username(requestParam.username())
+                .password(encodedPassword)
+                .email(requestParam.email())
+                .build();
+        user.addRole(Role.USER);
+        return user;
+    }
+
+    // 소셜 계정 회원 가입
+    public static User createUser(String username, OAuth2UserInfo oAuth2UserInfo) {
+        User user = User.builder()
+                .username(username)
+                .email(oAuth2UserInfo.getEmail())
+                .provider(oAuth2UserInfo.getProvider())
+                .providerId(oAuth2UserInfo.getProviderId())
+                .build();
+        user.addRole(Role.USER);
+        return user;
+    }
+
     public void setUserName(String username) {
         this.username = username;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void addRole(Role role){
+        this.roles.add(role);
     }
 
     public void addLocationLike(LocationLike locationLike){

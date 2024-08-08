@@ -2,7 +2,7 @@ package TourData.backend.domain.location.service;
 
 import TourData.backend.domain.location.dto.WeatherDto.WeatherApiResponse;
 import TourData.backend.domain.location.dto.WeatherDto.WeatherResponse;
-import TourData.backend.domain.location.model.Location;
+import TourData.backend.domain.location.model.entity.Location;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;

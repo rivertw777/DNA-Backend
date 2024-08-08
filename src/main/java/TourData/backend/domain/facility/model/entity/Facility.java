@@ -1,6 +1,7 @@
-package TourData.backend.domain.facility.model;
+package TourData.backend.domain.facility.model.entity;
 
-import TourData.backend.domain.location.model.Location;
+import TourData.backend.domain.facility.model.enums.FacilityType;
+import TourData.backend.domain.location.model.entity.Location;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,14 +19,18 @@ import jakarta.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "facilities")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Facility {
 
     @Id
@@ -60,14 +65,15 @@ public class Facility {
     @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL)
     private List<FacilityBookmark> facilityBookmarks = new ArrayList<>();
 
-    @Builder
-    public Facility(String name, FacilityType type, String address, double latitude, double longitude, Location location) {
-        this.name = name;
-        this.type = type;
-        this.address = address;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.location = location;
+    public static Facility createFacility(String name, FacilityType type, String address, double latitude, double longitude, Location location) {
+        return Facility.builder()
+                .name(name)
+                .type(type)
+                .address(address)
+                .latitude(latitude)
+                .longitude(longitude)
+                .location(location)
+                .build();
     }
 
     public void addFacilityBookmarks(FacilityBookmark facilityBookmark) {

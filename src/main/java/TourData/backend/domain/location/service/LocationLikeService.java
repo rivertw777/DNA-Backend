@@ -6,10 +6,10 @@ import static TourData.backend.domain.location.exception.LocationExceptionMessag
 import TourData.backend.domain.location.dto.LocationDto.LocationLikeCheckResponse;
 import TourData.backend.domain.location.dto.LocationDto.LocationLikeCountResponse;
 import TourData.backend.domain.location.exception.LocationException;
-import TourData.backend.domain.location.model.Location;
-import TourData.backend.domain.location.model.LocationLike;
+import TourData.backend.domain.location.model.entity.Location;
+import TourData.backend.domain.location.model.entity.LocationLike;
 import TourData.backend.domain.location.repository.LocationLikeRepository;
-import TourData.backend.domain.user.model.User;
+import TourData.backend.domain.user.model.entity.User;
 import TourData.backend.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -41,10 +41,7 @@ public class LocationLikeService {
     }
 
     private void saveLocationLike(User user, Location location) {
-        LocationLike locationLike = LocationLike.builder()
-                .location(location)
-                .user(user)
-                .build();
+        LocationLike locationLike = LocationLike.createLocationLike(user, location);
         locationLikeRepository.save(locationLike);
     }
 

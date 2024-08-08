@@ -4,8 +4,8 @@ import static TourData.backend.domain.facility.exception.FacilityExceptionMessag
 
 import TourData.backend.domain.facility.dto.FacilityDto.FacilitySearchResponse;
 import TourData.backend.domain.facility.exception.FacilityException;
-import TourData.backend.domain.facility.model.Facility;
-import TourData.backend.domain.facility.model.FacilityType;
+import TourData.backend.domain.facility.model.entity.Facility;
+import TourData.backend.domain.facility.model.enums.FacilityType;
 import TourData.backend.domain.facility.repository.FacilityRepository;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,7 +34,7 @@ public class FacilityService {
                 latMin, latMax, lngMin, lngMax, facilityType);
 
         return facilities.stream()
-                .map(this::convertToResponse)
+                .map(this::toResponseDto)
                 .collect(Collectors.toList());
     }
 
@@ -45,11 +45,11 @@ public class FacilityService {
         List<Facility> facilities = facilityRepository.findByLocation_CodeAndType(locationCode, facilityType);
 
         return facilities.stream()
-                .map(this::convertToResponse)
+                .map(this::toResponseDto)
                 .collect(Collectors.toList());
     }
 
-    private FacilitySearchResponse convertToResponse(Facility facility) {
+    private FacilitySearchResponse toResponseDto(Facility facility) {
         return new FacilitySearchResponse(
                 facility.getId(),
                 facility.getName(),

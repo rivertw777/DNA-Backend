@@ -1,7 +1,7 @@
 package TourData.backend.global.security.auth;
 
-import TourData.backend.domain.user.model.Role;
-import TourData.backend.domain.user.model.User;
+import TourData.backend.domain.user.model.enums.Role;
+import TourData.backend.domain.user.model.entity.User;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;

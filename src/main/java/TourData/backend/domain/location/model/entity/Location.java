@@ -1,6 +1,5 @@
-package TourData.backend.domain.location.model;
+package TourData.backend.domain.location.model.entity;
 
-import TourData.backend.domain.facility.model.Facility;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,14 +12,17 @@ import jakarta.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "locations")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Location {
 
     @Id
@@ -50,16 +52,14 @@ public class Location {
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
     private List<LocationLike> locationLikes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
-    private List<Facility> facilities = new ArrayList<>();
-
-    @Builder
-    public Location(String name, String code, double latitude, double longitude, String thumbnail) {
-        this.name = name;
-        this.code = code;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.thumbnail = thumbnail;
+    public static Location createLocation(String name, String code, double latitude, double longitude, String thumbnail) {
+        return Location.builder()
+                .name(name)
+                .code(code)
+                .latitude(latitude)
+                .longitude(longitude)
+                .thumbnail(thumbnail)
+                .build();
     }
 
     public void addLocationLike(LocationLike locationLike){
