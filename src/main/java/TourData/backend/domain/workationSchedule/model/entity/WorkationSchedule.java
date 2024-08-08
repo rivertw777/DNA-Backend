@@ -51,7 +51,7 @@ public class WorkationSchedule {
     public static WorkationSchedule createWorkationSchedule(User user, WorkationScheduleCreateRequest requestParam) {
         WorkationSchedule workationSchedule = WorkationSchedule.builder()
                 .user(user)
-                .locationName(requestParam.LocationName())
+                .locationName(requestParam.locationName())
                 .startDate(requestParam.startDate())
                 .endDate(requestParam.endDate())
                 .build();

@@ -1,6 +1,6 @@
 package TourData.backend.domain.workationSchedule.controller;
 
-import TourData.backend.domain.workationSchedule.dto.WorkationScheduleDto;
+import TourData.backend.domain.workationSchedule.dto.WorkationScheduleDto.WorkationScheduleCreateRequest;
 import TourData.backend.domain.workationSchedule.dto.WorkationScheduleDto.WorkationScheduleResponse;
 import TourData.backend.domain.workationSchedule.service.WorkationScheduleService;
 import TourData.backend.global.security.auth.CustomUserDetails;
@@ -26,7 +26,7 @@ public class WorkationScheduleController {
     @Operation(summary = "사용자 워케이션 일정 등록")
     @PostMapping
     public ResponseEntity<Void> createWorkationSchedule(@AuthenticationPrincipal CustomUserDetails customUserDetails,
-                                               @Valid @RequestBody WorkationScheduleDto.WorkationScheduleCreateRequest requestParam) {
+                                               @Valid @RequestBody WorkationScheduleCreateRequest requestParam) {
         Long userId = customUserDetails.getUser().getId();
         workationScheduleService.createWorkationSchedule(userId, requestParam);
         return ResponseEntity.ok().build();

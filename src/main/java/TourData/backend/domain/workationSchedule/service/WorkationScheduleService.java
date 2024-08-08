@@ -1,6 +1,6 @@
 package TourData.backend.domain.workationSchedule.service;
 
-import static TourData.backend.domain.workationSchedule.exception.WorkationScheduleExceptionMessage.START_DATE_AFTER_END_DATE;
+import static TourData.backend.domain.workationSchedule.exception.WorkationScheduleExceptionMessage.OVERLAPPING_SCHEDULE;
 
 import TourData.backend.domain.workationSchedule.dto.WorkationScheduleDto.WorkationScheduleCreateRequest;
 import TourData.backend.domain.workationSchedule.dto.WorkationScheduleDto.WorkationScheduleResponse;
@@ -27,14 +27,25 @@ public class WorkationScheduleService {
     @Transactional
     public void createWorkationSchedule(Long userId, WorkationScheduleCreateRequest requestParam) {
         User user = userService.findUser(userId);
-        validateScheduleDates(requestParam.startDate(), requestParam.endDate());
+        // 일정 중복 검증
+        validateScheduleOverlap(userId, requestParam.startDate(), requestParam.endDate());
         saveSchedule(user, requestParam);
     }
 
-    private void validateScheduleDates(LocalDateTime startDate, LocalDateTime endDate) {
-        if (startDate.isAfter(endDate)) {
-            throw new WorkationScheduleException(START_DATE_AFTER_END_DATE.getMessage());
-        }
+    private void validateScheduleOverlap(Long userId, LocalDateTime startDate, LocalDateTime endDate) {
+        List<WorkationSchedule> schedules = workationScheduleRepository.findByUserId(userId);
+
+        schedules.stream()
+                .filter(schedule -> isOverlapping(schedule.getStartDate(), schedule.getEndDate(), startDate, endDate))
+                .findAny()
+                .ifPresent(schedule -> {
+                    throw new WorkationScheduleException(OVERLAPPING_SCHEDULE.getMessage());
+                });
+    }
+
+    private boolean isOverlapping(LocalDateTime existingStart, LocalDateTime existingEnd, LocalDateTime newStart, LocalDateTime newEnd) {
+        return (existingStart.isBefore(newEnd) && existingEnd.isAfter(newStart)) ||
+                (existingStart.isEqual(newEnd) || existingEnd.isEqual(newStart));
     }
 
     private void saveSchedule(User user, WorkationScheduleCreateRequest requestParam) {

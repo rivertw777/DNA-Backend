@@ -1,6 +1,5 @@
 package TourData.backend.domain.location.model.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -49,7 +48,7 @@ public class Location {
     @Column(name = "thumbnail")
     private String thumbnail;
 
-    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "location")
     private List<LocationLike> locationLikes = new ArrayList<>();
 
     public static Location createLocation(String name, String code, double latitude, double longitude, String thumbnail) {

@@ -1,7 +1,6 @@
 package TourData.backend.domain.facility.model.entity;
 
 import TourData.backend.domain.facility.model.enums.FacilityType;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -57,7 +56,7 @@ public class Facility {
     @Column(name = "longitude")
     private double longitude;
 
-    @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "facility")
     private List<FacilityBookmark> facilityBookmarks = new ArrayList<>();
 
     public static Facility createFacility(String name, FacilityType type, String locationcode, String address,
