@@ -1,6 +1,6 @@
-package TourData.backend.domain.schedule.model.entity;
+package TourData.backend.domain.workationSchedule.model.entity;
 
-import TourData.backend.domain.schedule.dto.ScheduleDto.ScheduleCreateRequest;
+import TourData.backend.domain.workationSchedule.dto.WorkationScheduleDto.WorkationScheduleCreateRequest;
 import TourData.backend.domain.user.model.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,8 +24,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder(access = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "schedules")
-public class Schedule {
+@Table(name = "workation_schedules")
+public class WorkationSchedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,11 +36,11 @@ public class Schedule {
     private String locationName;
 
     @NotNull
-    @Column(name = "start_date", nullable = false)
+    @Column(name = "start_date")
     private LocalDateTime startDate;
 
     @NotNull
-    @Column(name = "end_date", nullable = false)
+    @Column(name = "end_date")
     private LocalDateTime endDate;
 
     @NotNull
@@ -48,15 +48,15 @@ public class Schedule {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public static Schedule createSchedule(User user, ScheduleCreateRequest requestParam) {
-        Schedule schedule = Schedule.builder()
+    public static WorkationSchedule createWorkationSchedule(User user, WorkationScheduleCreateRequest requestParam) {
+        WorkationSchedule workationSchedule = WorkationSchedule.builder()
                 .user(user)
-                .locationName(requestParam.locationName())
+                .locationName(requestParam.LocationName())
                 .startDate(requestParam.startDate())
                 .endDate(requestParam.endDate())
                 .build();
-        user.addSchedule(schedule);
-        return schedule;
+        user.addSchedule(workationSchedule);
+        return workationSchedule;
     }
 
 }

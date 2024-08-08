@@ -75,8 +75,8 @@ public class DataInitializer implements CommandLineRunner {
 
     @PreDestroy
     public void cleanup() {
-        locationRepository.deleteAll();
         facilityRepository.deleteAll();
+        locationRepository.deleteAll();
     }
 
 }

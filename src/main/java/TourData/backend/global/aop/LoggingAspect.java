@@ -20,6 +20,7 @@ public class LoggingAspect {
             + "execution(* TourData.backend.domain.location.service.LocationLikeService..*(..)) || "
             + "execution(* TourData.backend.domain.facility.service.FacilityService..*(..)) || "
             + "execution(* TourData.backend.domain.facility.service.FacilityBookmarkService..*(..)) || "
+            + "execution(* TourData.backend.domain.schedule.service.ScheduleService..*(..)) || "
             + "execution(* TourData.backend.global.security.auth.CustomUserDetailsService..*(..))) && "
             + "!execution(* TourData.backend.domain.chat.service.ChatService..*(..))", throwing = "ex")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable ex) {
@@ -32,12 +33,13 @@ public class LoggingAspect {
 
     // 메서드 실행 이전 로깅
     @Before("( execution(* TourData.backend.domain.user.service.UserService..*(..)) || "
-        + "execution(* TourData.backend.domain.location.service.LocationService..*(..)) || "
-        + "execution(* TourData.backend.domain.location.service.LocationLikeService..*(..)) || "
-        + "execution(* TourData.backend.domain.facility.service.FacilityService..*(..)) || "
-        + "execution(* TourData.backend.domain.facility.service.FacilityBookmarkService..*(..)) || "
-        + "execution(* TourData.backend.global.security.auth.CustomUserDetailsService..*(..))) && "
-        + "!execution(* TourData.backend.domain.chat.service.ChatService..*(..))")
+            + "execution(* TourData.backend.domain.location.service.LocationService..*(..)) || "
+            + "execution(* TourData.backend.domain.location.service.LocationLikeService..*(..)) || "
+            + "execution(* TourData.backend.domain.facility.service.FacilityService..*(..)) || "
+            + "execution(* TourData.backend.domain.facility.service.FacilityBookmarkService..*(..)) || "
+            + "execution(* TourData.backend.domain.schedule.service.ScheduleService..*(..)) || "
+            + "execution(* TourData.backend.global.security.auth.CustomUserDetailsService..*(..))) && "
+            + "!execution(* TourData.backend.domain.chat.service.ChatService..*(..))")
     public void logBefore(JoinPoint joinPoint) {
         String methodName = joinPoint.getSignature().getName();
         String className = joinPoint.getSignature().getDeclaringTypeName();
@@ -52,6 +54,7 @@ public class LoggingAspect {
             + "execution(* TourData.backend.domain.location.service.LocationLikeService..*(..)) || "
             + "execution(* TourData.backend.domain.facility.service.FacilityService..*(..)) || "
             + "execution(* TourData.backend.domain.facility.service.FacilityBookmarkService..*(..)) || "
+            + "execution(* TourData.backend.domain.schedule.service.ScheduleService..*(..)) || "
             + "execution(* TourData.backend.global.security.auth.CustomUserDetailsService..*(..))) && "
             + "!execution(* TourData.backend.domain.chat.service.ChatService..*(..))")
     public Object logAfter(ProceedingJoinPoint joinPoint) throws Throwable {

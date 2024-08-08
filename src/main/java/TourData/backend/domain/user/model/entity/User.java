@@ -2,7 +2,7 @@ package TourData.backend.domain.user.model.entity;
 
 import TourData.backend.domain.facility.model.entity.FacilityBookmark;
 import TourData.backend.domain.location.model.entity.LocationLike;
-import TourData.backend.domain.schedule.model.entity.Schedule;
+import TourData.backend.domain.workationSchedule.model.entity.WorkationSchedule;
 import TourData.backend.domain.user.dto.UserDto.UserSignUpRequest;
 import TourData.backend.domain.user.model.enums.Role;
 import TourData.backend.global.security.oauth.provider.OAuth2UserInfo;
@@ -72,7 +72,7 @@ public class User {
     private List<FacilityBookmark> facilityBookmarks = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Schedule> schedules = new ArrayList<>();
+    private List<WorkationSchedule> workationSchedules = new ArrayList<>();
 
     // 일반 회원 가입
     public static User createUser(UserSignUpRequest requestParam, String encodedPassword) {
@@ -117,8 +117,8 @@ public class User {
         this.facilityBookmarks.add(facilityBookmark);
     }
 
-    public void addSchedule(Schedule schedule){
-        this.schedules.add(schedule);
+    public void addSchedule(WorkationSchedule workationSchedule){
+        this.workationSchedules.add(workationSchedule);
     }
 
 }
