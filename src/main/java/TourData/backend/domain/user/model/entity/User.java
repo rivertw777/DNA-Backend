@@ -2,6 +2,7 @@ package TourData.backend.domain.user.model.entity;
 
 import TourData.backend.domain.facility.model.entity.FacilityBookmark;
 import TourData.backend.domain.location.model.entity.LocationLike;
+import TourData.backend.domain.schedule.model.entity.Schedule;
 import TourData.backend.domain.user.dto.UserDto.UserSignUpRequest;
 import TourData.backend.domain.user.model.enums.Role;
 import TourData.backend.global.security.oauth.provider.OAuth2UserInfo;
@@ -70,15 +71,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<FacilityBookmark> facilityBookmarks = new ArrayList<>();
 
-    @Builder
-    public User(String username, String password, List<Role> roles, String email, String provider, String providerId) {
-        this.username = username;
-        this.password = password;
-        this.roles = roles;
-        this.email = email;
-        this.provider = provider;
-        this.providerId = providerId;
-    }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Schedule> schedules = new ArrayList<>();
 
     // 일반 회원 가입
     public static User createUser(UserSignUpRequest requestParam, String encodedPassword) {
@@ -121,6 +115,10 @@ public class User {
 
     public void addFacilityBookmark(FacilityBookmark facilityBookmark){
         this.facilityBookmarks.add(facilityBookmark);
+    }
+
+    public void addSchedule(Schedule schedule){
+        this.schedules.add(schedule);
     }
 
 }

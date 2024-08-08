@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum AuthExceptionMessage {
+public enum SecurityExceptionMessage {
 
     LOGIN_FAILED("로그인에 실패하였습니다. 올바른 정보를 입력해주세요."),
     UNAUTHORIZED("인증이 필요합니다. 로그인해주세요."),

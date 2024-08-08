@@ -42,7 +42,7 @@ public class LocationController {
         return ResponseEntity.ok(responses);
     }
 
-    @Operation(summary = "지역 좋아요")
+    @Operation(summary = "사용자 지역 좋아요")
     @PostMapping("/{locationId}/like")
     public ResponseEntity<Void> likeLocation(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                              @Valid @PathVariable("locationId") Long locationId) {
@@ -51,7 +51,7 @@ public class LocationController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "지역 좋아요 취소")
+    @Operation(summary = "사용자 지역 좋아요 취소")
     @DeleteMapping("/{locationId}/like")
     public ResponseEntity<Void> unlikeLocation(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                                @Valid @PathVariable("locationId") Long locationId) {
@@ -60,7 +60,7 @@ public class LocationController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "지역 좋아요 여부 확인")
+    @Operation(summary = "사용자 지역 좋아요 여부 확인")
     @GetMapping("/{locationId}/like")
     public ResponseEntity<LocationLikeCheckResponse> checkLocationLike(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                                                        @Valid @PathVariable("locationId") Long locationId) {

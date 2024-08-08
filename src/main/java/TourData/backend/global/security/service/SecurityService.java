@@ -4,7 +4,7 @@ import TourData.backend.domain.user.model.entity.User;
 import TourData.backend.domain.user.service.UserService;
 import TourData.backend.global.security.auth.CustomUserDetails;
 import TourData.backend.global.security.auth.CustomUserDetailsService;
-import TourData.backend.global.security.dto.AuthDto.CheckFirstLoginResponse;
+import TourData.backend.global.security.dto.SecurityDto.CheckFirstLoginResponse;
 import TourData.backend.global.security.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class SecurityService {
 
     private final CustomUserDetailsService customUserDetailsService;
     private final UserService userService;

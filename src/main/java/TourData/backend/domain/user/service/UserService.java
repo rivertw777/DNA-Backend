@@ -61,7 +61,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    // 이름 중복 체크
+    // 사용자 이름 중복 체크
     @Transactional(readOnly = true)
     public ValidateDuplicateUsernameResponse validateDuplicateUserName(ValidateDuplicateUsernameRequest requestParam){
         boolean isDuplicated = userRepository.findByUsername(requestParam.username()).isPresent();

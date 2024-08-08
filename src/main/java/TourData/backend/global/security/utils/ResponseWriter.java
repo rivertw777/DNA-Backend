@@ -1,4 +1,4 @@
-package TourData.backend.global.security.util;
+package TourData.backend.global.security.utils;
 
 import TourData.backend.global.dto.CustomErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;

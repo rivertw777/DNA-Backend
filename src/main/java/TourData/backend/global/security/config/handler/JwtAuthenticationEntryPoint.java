@@ -1,9 +1,9 @@
 package TourData.backend.global.security.config.handler;
 
-import static TourData.backend.global.security.exception.AuthExceptionMessage.UNAUTHORIZED;
+import static TourData.backend.global.security.exception.SecurityExceptionMessage.UNAUTHORIZED;
 import static com.nimbusds.oauth2.sdk.http.HTTPResponse.SC_UNAUTHORIZED;
 
-import TourData.backend.global.security.util.ResponseWriter;
+import TourData.backend.global.security.utils.ResponseWriter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;

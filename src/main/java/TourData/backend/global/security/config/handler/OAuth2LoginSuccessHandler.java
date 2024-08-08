@@ -2,7 +2,7 @@ package TourData.backend.global.security.config.handler;
 
 import TourData.backend.global.security.auth.CustomUserDetails;
 import TourData.backend.global.security.jwt.TokenProvider;
-import TourData.backend.global.security.util.CookieManager;
+import TourData.backend.global.security.utils.CookieManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

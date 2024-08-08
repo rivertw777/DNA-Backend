@@ -1,9 +1,9 @@
 package TourData.backend.global.security.controller;
 
-import TourData.backend.global.security.dto.AuthDto.NewUsernameRequest;
-import TourData.backend.global.security.dto.AuthDto.CheckFirstLoginResponse;
-import TourData.backend.global.security.service.AuthService;
-import TourData.backend.global.security.util.CookieManager;
+import TourData.backend.global.security.dto.SecurityDto.NewUsernameRequest;
+import TourData.backend.global.security.dto.SecurityDto.CheckFirstLoginResponse;
+import TourData.backend.global.security.service.SecurityService;
+import TourData.backend.global.security.utils.CookieManager;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,15 +20,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
-public class AuthController {
+public class SecurityController {
 
-    private final AuthService authService;
+    private final SecurityService securityService;
     private final CookieManager cookieManager;
 
     @Operation(summary = "소셜 계정 최초 로그인 확인")
     @GetMapping("/login/check")
     public ResponseEntity<CheckFirstLoginResponse> checkFirstLogin(@AuthenticationPrincipal(expression = "username") String username) {
-        CheckFirstLoginResponse response = authService.checkFirstLogin(username);
+        CheckFirstLoginResponse response = securityService.checkFirstLogin(username);
         return ResponseEntity.ok(response);
     }
 
@@ -38,8 +38,8 @@ public class AuthController {
                                             @AuthenticationPrincipal(expression = "username") String username,
                                             @Valid @RequestBody NewUsernameRequest requestParam) {
         cookieManager.deleteCookie(request, response);
-        authService.setUsername(username, requestParam.newUsername());
-        String token = authService.getToken(requestParam.newUsername());
+        securityService.setUsername(username, requestParam.newUsername());
+        String token = securityService.getToken(requestParam.newUsername());
         cookieManager.setCookie(response, token);
         return ResponseEntity.ok().build();
     }

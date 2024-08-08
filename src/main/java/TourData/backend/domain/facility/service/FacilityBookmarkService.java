@@ -25,7 +25,7 @@ public class FacilityBookmarkService {
     private final FacilityService facilityService;
     private final UserService userService;
 
-    // 시설 북마크
+    // 사용자 시설 북마크
     @Transactional
     public void bookmarkFacility(Long userId, Long facilityId) {
         User user = userService.findUser(userId);
@@ -45,7 +45,7 @@ public class FacilityBookmarkService {
         facilityBookmarkRepository.save(facilityBookmark);
     }
 
-    // 시설 북마크 취소
+    // 사용자 시설 북마크 취소
     @Transactional
     public void unbookmarkFacility(Long userId, Long facilityId) {
         validateBookmarkExists(userId, facilityId);
@@ -58,7 +58,7 @@ public class FacilityBookmarkService {
         }
     }
 
-    // 시설 북마크 여부 확인
+    // 사용자 시설 북마크 여부 확인
     @Transactional(readOnly = true)
     public FacilityBookmarkCheckResponse checkFacilityBookmark(Long userId, Long facilityId) {
         boolean isBookmark = facilityBookmarkRepository.findByUserIdAndFacilityId(userId, facilityId).isPresent();

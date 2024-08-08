@@ -1,6 +1,6 @@
 package TourData.backend.global.webSocket.interceptor;
 
-import static TourData.backend.global.security.util.CookieProperties.COOKIE_NAME;
+import static TourData.backend.global.security.utils.CookieProperties.COOKIE_NAME;
 
 import TourData.backend.global.security.auth.CustomUserDetailsService;
 import TourData.backend.global.security.jwt.TokenProvider;

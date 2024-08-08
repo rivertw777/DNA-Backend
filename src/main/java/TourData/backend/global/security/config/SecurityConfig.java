@@ -10,7 +10,7 @@ import TourData.backend.global.security.config.handler.JwtAuthenticationFailureH
 import TourData.backend.global.security.config.handler.OAuth2LoginSuccessHandler;
 import TourData.backend.global.security.jwt.TokenProvider;
 import TourData.backend.global.security.oauth.CustomOauth2UserService;
-import TourData.backend.global.security.util.CookieManager;
+import TourData.backend.global.security.utils.CookieManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

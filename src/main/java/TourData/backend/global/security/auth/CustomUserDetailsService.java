@@ -35,6 +35,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         // 회원 이름 추출
         String username = claims.getSubject();
         // userDetails 조회
+
         CustomUserDetails userDetails = loadUserByUsername(username);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }

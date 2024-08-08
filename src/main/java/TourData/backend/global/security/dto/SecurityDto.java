@@ -1,6 +1,6 @@
 package TourData.backend.global.security.dto;
 
-public class AuthDto {
+public class SecurityDto {
     public record CheckFirstLoginResponse(boolean isFirstLogin) {
     }
 

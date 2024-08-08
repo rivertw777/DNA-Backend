@@ -1,8 +1,8 @@
 package TourData.backend.global.webSocket.interceptor;
 
-import static TourData.backend.global.security.util.CookieProperties.COOKIE_NAME;
+import static TourData.backend.global.security.utils.CookieProperties.COOKIE_NAME;
 
-import TourData.backend.global.security.util.CookieManager;
+import TourData.backend.global.security.utils.CookieManager;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.server.ServerHttpRequest;

@@ -47,7 +47,7 @@ public class FacilityController {
         return ResponseEntity.ok(responses);
     }
 
-    @Operation(summary = "시설 북마크")
+    @Operation(summary = "사용자 시설 북마크")
     @PostMapping("{facilityId}/bookmarks")
     public ResponseEntity<Void> bookmarkFacility(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                                  @Valid @PathVariable("facilityId") Long facilityId) {
@@ -56,7 +56,7 @@ public class FacilityController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "시설 북마크 취소")
+    @Operation(summary = "사용자 시설 북마크 취소")
     @DeleteMapping("{facilityId}/bookmarks")
     public ResponseEntity<Void> unbookmarkFacility(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                                    @Valid @PathVariable("facilityId") Long facilityId) {
@@ -65,7 +65,7 @@ public class FacilityController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "시설 북마크 여부 확인")
+    @Operation(summary = "사용자 시설 북마크 여부 확인")
     @GetMapping("{facilityId}/bookmarks")
     public ResponseEntity<FacilityBookmarkCheckResponse> checkFacilityBookmark(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
