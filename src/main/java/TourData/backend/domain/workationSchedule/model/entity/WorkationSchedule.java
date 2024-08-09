@@ -1,7 +1,9 @@
 package TourData.backend.domain.workationSchedule.model.entity;
 
+import TourData.backend.domain.review.model.entity.Review;
 import TourData.backend.domain.workationSchedule.dto.WorkationScheduleDto.WorkationScheduleCreateRequest;
 import TourData.backend.domain.user.model.entity.User;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -52,6 +55,9 @@ public class WorkationSchedule {
     @Column(name = "is_expired")
     private boolean isExpired;
 
+    @OneToOne(mappedBy = "workationSchedule", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Review review;
+
     public static WorkationSchedule createWorkationSchedule(User user, WorkationScheduleCreateRequest requestParam) {
         WorkationSchedule workationSchedule = WorkationSchedule.builder()
                 .user(user)
@@ -66,6 +72,10 @@ public class WorkationSchedule {
 
     public void setIsExpired(boolean isExpired){
         this.isExpired = isExpired;
+    }
+
+    public void setReview(Review review){
+        this.review = review;
     }
 
 }

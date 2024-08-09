@@ -1,4 +1,4 @@
-package TourData.backend.global.security.utils;
+package TourData.backend.global.security.utils.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

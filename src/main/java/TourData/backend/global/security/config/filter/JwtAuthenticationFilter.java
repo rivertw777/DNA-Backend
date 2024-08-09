@@ -2,7 +2,7 @@ package TourData.backend.global.security.config.filter;
 
 import TourData.backend.global.security.auth.CustomUserDetails;
 import TourData.backend.global.security.dto.SecurityDto.UserLoginRequest;
-import TourData.backend.global.security.jwt.TokenProvider;
+import TourData.backend.global.security.utils.TokenProvider;
 import TourData.backend.global.security.utils.CookieManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;

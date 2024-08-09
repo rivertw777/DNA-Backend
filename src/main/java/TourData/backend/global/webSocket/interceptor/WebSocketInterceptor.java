@@ -1,9 +1,9 @@
 package TourData.backend.global.webSocket.interceptor;
 
-import static TourData.backend.global.security.utils.CookieProperties.COOKIE_NAME;
+import static TourData.backend.global.security.utils.enums.CookieProperties.COOKIE_NAME;
 
 import TourData.backend.global.security.auth.CustomUserDetailsService;
-import TourData.backend.global.security.jwt.TokenProvider;
+import TourData.backend.global.security.utils.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;

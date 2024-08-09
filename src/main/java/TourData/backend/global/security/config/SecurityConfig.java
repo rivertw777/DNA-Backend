@@ -8,7 +8,7 @@ import TourData.backend.global.security.config.handler.JwtAccessDeniedHandler;
 import TourData.backend.global.security.config.handler.JwtAuthenticationEntryPoint;
 import TourData.backend.global.security.config.handler.JwtAuthenticationFailureHandler;
 import TourData.backend.global.security.config.handler.OAuth2LoginSuccessHandler;
-import TourData.backend.global.security.jwt.TokenProvider;
+import TourData.backend.global.security.utils.TokenProvider;
 import TourData.backend.global.security.oauth.CustomOauth2UserService;
 import TourData.backend.global.security.utils.CookieManager;
 import lombok.RequiredArgsConstructor;

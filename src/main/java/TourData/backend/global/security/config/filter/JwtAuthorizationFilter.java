@@ -3,7 +3,7 @@ package TourData.backend.global.security.config.filter;
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import TourData.backend.global.security.auth.CustomUserDetailsService;
-import TourData.backend.global.security.jwt.TokenProvider;
+import TourData.backend.global.security.utils.TokenProvider;
 import TourData.backend.global.security.utils.CookieManager;
 import TourData.backend.global.security.utils.ResponseWriter;
 import jakarta.servlet.FilterChain;

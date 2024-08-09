@@ -1,4 +1,4 @@
-package TourData.backend.global.security.jwt;
+package TourData.backend.global.security.utils;
 
 import static TourData.backend.global.security.exception.JwtExceptionMessage.INVALID_TOKEN;
 import static TourData.backend.global.security.exception.JwtExceptionMessage.EXPIRED_TOKEN;

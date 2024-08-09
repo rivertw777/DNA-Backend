@@ -24,6 +24,13 @@ public class WorkationScheduleService {
     private final WorkationScheduleRepository workationScheduleRepository;
     private final UserService userService;
 
+    // id로 조회
+    @Transactional(readOnly = true)
+    public WorkationSchedule findWorkationSchedule(Long scheduleId) {
+        return workationScheduleRepository.findById(scheduleId)
+                .orElseThrow(()->new WorkationScheduleException((SCHEDULE_NOT_FOUND.getMessage())));
+    }
+
     // 사용자 워케이션 일정 등록
     @Transactional
     public void createWorkationSchedule(Long userId, WorkationScheduleCreateRequest requestParam) {

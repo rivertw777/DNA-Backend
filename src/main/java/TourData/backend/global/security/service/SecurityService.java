@@ -5,7 +5,7 @@ import TourData.backend.domain.user.service.UserService;
 import TourData.backend.global.security.auth.CustomUserDetails;
 import TourData.backend.global.security.auth.CustomUserDetailsService;
 import TourData.backend.global.security.dto.SecurityDto.CheckFirstLoginResponse;
-import TourData.backend.global.security.jwt.TokenProvider;
+import TourData.backend.global.security.utils.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

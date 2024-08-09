@@ -5,7 +5,7 @@ import static TourData.backend.domain.user.exception.UserExceptionMessage.USER_N
 import TourData.backend.domain.user.exception.UserException;
 import TourData.backend.domain.user.model.entity.User;
 import TourData.backend.domain.user.repository.UserRepository;
-import TourData.backend.global.security.jwt.TokenProvider;
+import TourData.backend.global.security.utils.TokenProvider;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
