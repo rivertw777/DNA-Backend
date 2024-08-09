@@ -96,4 +96,13 @@ public class WorkationScheduleService {
         workationScheduleRepository.deleteByUser_IdAndId(userId, scheduleId);
     }
 
+    // 사용자 리뷰가 없는 만료된 전체 워케이션 일정 조회
+    @Transactional(readOnly = true)
+    public List<WorkationScheduleResponse> getExpiredSchedulesWithoutReview(Long userId) {
+        List<WorkationSchedule> workationSchedules = workationScheduleRepository.findByUserIdAndIsExpiredTrueAndReviewIsNull(userId);
+        return workationSchedules.stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
 }

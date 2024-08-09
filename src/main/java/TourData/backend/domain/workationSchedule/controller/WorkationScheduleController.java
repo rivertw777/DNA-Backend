@@ -60,4 +60,12 @@ public class WorkationScheduleController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "사용자 리뷰가 없는 만료된 전체 워케이션 일정 조회")
+    @GetMapping("/unreviewed-expired")
+    public ResponseEntity<List<WorkationScheduleResponse>> getUnreviewedExpiredSchedules(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        Long userId = customUserDetails.getUser().getId();
+        List<WorkationScheduleResponse> responses = workationScheduleService.getExpiredSchedulesWithoutReview(userId);
+        return ResponseEntity.ok(responses);
+    }
+
 }
