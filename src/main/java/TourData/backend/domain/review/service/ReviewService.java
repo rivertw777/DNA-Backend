@@ -1,7 +1,10 @@
 package TourData.backend.domain.review.service;
 
+import static TourData.backend.domain.review.exception.ReviewExceptionMessage.REVIEW_ALREADY_EXISTS;
+
 import TourData.backend.domain.review.dto.ReviewDto.ReviewResponse;
 import TourData.backend.domain.review.dto.ReviewDto.ReviewWriteRequest;
+import TourData.backend.domain.review.exception.ReviewException;
 import TourData.backend.domain.review.model.entity.Review;
 import TourData.backend.domain.review.repository.ReviewRepository;
 import TourData.backend.domain.workationSchedule.model.entity.WorkationSchedule;
@@ -23,7 +26,14 @@ public class ReviewService {
     @Transactional
     public void writeReview(ReviewWriteRequest reqeustParam) {
         WorkationSchedule workationSchedule = workationScheduleService.findWorkationSchedule(reqeustParam.scheduleId());
+        validateReviewNotExists(workationSchedule);
         saveReview(workationSchedule, reqeustParam);
+    }
+
+    private void validateReviewNotExists(WorkationSchedule workationSchedule) {
+        if (workationSchedule.getReview() != null) {
+            throw new ReviewException(REVIEW_ALREADY_EXISTS.getMessage());
+        }
     }
 
     private void saveReview(WorkationSchedule workationSchedule, ReviewWriteRequest reqeustParam){

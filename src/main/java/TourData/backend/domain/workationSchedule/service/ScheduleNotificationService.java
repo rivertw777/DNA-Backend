@@ -21,7 +21,7 @@ public class ScheduleNotificationService {
     private final EmailService emailService;
 
     @Transactional
-    @Scheduled(cron = "*/10 * * * * *")
+    @Scheduled(cron = "0 0 2 * * *")
     public void notifyExpiredSchedules() {
         LocalDateTime now = LocalDateTime.now();
 
