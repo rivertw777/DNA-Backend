@@ -3,6 +3,7 @@ package TourData.backend.domain.facility.controller;
 import TourData.backend.domain.facility.dto.FacilityDto.BookmarkedFacilityResponse;
 import TourData.backend.domain.facility.dto.FacilityDto.FacilityBookmarkCheckResponse;
 import TourData.backend.domain.facility.dto.FacilityDto.FacilitySearchResponse;
+import TourData.backend.domain.facility.dto.FacilityDto.LocationFacilitiesCountResponse;
 import TourData.backend.domain.facility.service.FacilityBookmarkService;
 import TourData.backend.domain.facility.service.FacilityService;
 import TourData.backend.global.security.auth.CustomUserDetails;
@@ -82,6 +83,13 @@ public class FacilityController {
         Long userId = customUserDetails.getUser().getId();
         List<BookmarkedFacilityResponse> responses = facilityBookmarkService.getAllBookmarkedFacilities(userId);
         return ResponseEntity.ok(responses);
+    }
+
+    @Operation(summary = "지역 내 시설 수 조회")
+    @GetMapping("/count")
+    public ResponseEntity<LocationFacilitiesCountResponse> getFacilitiesCountByLocation(@RequestParam("locationCode") String locationCode) {
+        LocationFacilitiesCountResponse response = facilityService.getFacilitiesCountByLocation(locationCode);
+        return ResponseEntity.ok(response);
     }
 
 }

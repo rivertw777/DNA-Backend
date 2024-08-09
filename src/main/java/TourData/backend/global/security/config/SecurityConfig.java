@@ -73,6 +73,8 @@ public class SecurityConfig {
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/{\\d+}/like/count")).permitAll()
                         // 시설 검색
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/facilities/search/**")).permitAll()
+                        // 지역 내 시설 수 조회
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/facilities/count")).permitAll()
                         // 웹소켓 연결
                         .requestMatchers("/ws/**").permitAll()
                         // Swagger

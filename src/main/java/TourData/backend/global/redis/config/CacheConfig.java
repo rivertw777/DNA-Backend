@@ -1,5 +1,6 @@
 package TourData.backend.global.redis.config;
 
+import static TourData.backend.global.redis.config.CasheName.LOCATION_FACILITIES_COUNT;
 import static TourData.backend.global.redis.config.CasheName.LOCATION_WEATHER;
 import static TourData.backend.global.redis.config.CasheName.LOCATION;
 import static org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair.fromSerializer;
@@ -40,6 +41,7 @@ public class CacheConfig {
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
         cacheConfigurations.put(LOCATION.getValue(), defaultConf());
         cacheConfigurations.put(LOCATION_WEATHER.getValue(), defaultConf().entryTtl(Duration.ofHours(1)));
+        cacheConfigurations.put(LOCATION_FACILITIES_COUNT.getValue(), defaultConf());
         return cacheConfigurations;
     }
 

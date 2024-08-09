@@ -3,6 +3,7 @@ package TourData.backend.domain.facility.service;
 import static TourData.backend.domain.facility.exception.FacilityExceptionMessage.FACILITY_NOT_FOUND;
 
 import TourData.backend.domain.facility.dto.FacilityDto.FacilitySearchResponse;
+import TourData.backend.domain.facility.dto.FacilityDto.LocationFacilitiesCountResponse;
 import TourData.backend.domain.facility.exception.FacilityException;
 import TourData.backend.domain.facility.model.entity.Facility;
 import TourData.backend.domain.facility.model.enums.FacilityType;
@@ -10,6 +11,7 @@ import TourData.backend.domain.facility.repository.FacilityRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,6 +59,15 @@ public class FacilityService {
                 facility.getAddress(),
                 facility.getLatitude(),
                 facility.getLongitude());
+    }
+
+    // 지역 내 시설 수 조회
+    @Transactional(readOnly = true)
+    @Cacheable(cacheNames = "LocationFacilitiesCount", key= "#p0", cacheManager = "redisCacheManager")
+    public LocationFacilitiesCountResponse getFacilitiesCountByLocation(String locationCode) {
+        List<Facility> facilities = facilityRepository.findByLocationCode(locationCode);
+        int facilitiesCount = facilities.size();
+        return new LocationFacilitiesCountResponse(facilitiesCount);
     }
 
 }
