@@ -1,4 +1,4 @@
-package TourData.backend.domain.user.exception;
+package TourData.backend.global.email.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -48,15 +48,24 @@ public class WorkationSchedule {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @NotNull
+    @Column(name = "is_expired")
+    private boolean isExpired;
+
     public static WorkationSchedule createWorkationSchedule(User user, WorkationScheduleCreateRequest requestParam) {
         WorkationSchedule workationSchedule = WorkationSchedule.builder()
                 .user(user)
                 .locationName(requestParam.locationName())
                 .startDate(requestParam.startDate())
                 .endDate(requestParam.endDate())
+                .isExpired(false)
                 .build();
         user.addSchedule(workationSchedule);
         return workationSchedule;
+    }
+
+    public void setIsExpired(boolean isExpired){
+        this.isExpired = isExpired;
     }
 
 }

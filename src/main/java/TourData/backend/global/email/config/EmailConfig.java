@@ -1,4 +1,4 @@
-package TourData.backend.global.config;
+package TourData.backend.global.email.config;
 
 import java.util.Properties;
 import org.springframework.beans.factory.annotation.Value;
@@ -62,4 +62,5 @@ public class EmailConfig {
         properties.put("mail.smtp.writetimeout", writeTimeout);
         return properties;
     }
+
 }

@@ -75,6 +75,7 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<WorkationSchedule> workationSchedules = new ArrayList<>();
 
+    @NotNull
     @Column(name = "has_received_email")
     private boolean hasReceivedEmail;
 
@@ -85,6 +86,7 @@ public class User {
                 .password(encodedPassword)
                 .email(requestParam.email())
                 .roles(Collections.singletonList(Role.USER))
+                .hasReceivedEmail(false)
                 .build();
         return user;
     }
@@ -97,6 +99,7 @@ public class User {
                 .roles(Collections.singletonList(Role.USER))
                 .provider(oAuth2UserInfo.getProvider())
                 .providerId(oAuth2UserInfo.getProviderId())
+                .hasReceivedEmail(false)
                 .build();
         return user;
     }
@@ -119,6 +122,10 @@ public class User {
 
     public void addSchedule(WorkationSchedule workationSchedule){
         this.workationSchedules.add(workationSchedule);
+    }
+
+    public void setHasReceivedEmail(boolean hasReceivedEmail) {
+        this.hasReceivedEmail = hasReceivedEmail;
     }
 
 }

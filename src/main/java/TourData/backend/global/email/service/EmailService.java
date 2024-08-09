@@ -1,6 +1,6 @@
-package TourData.backend.domain.user.service;
+package TourData.backend.global.email.service;
 
-import static TourData.backend.domain.user.exception.EmailExceptionMessage.SEND_MAIL_FAILED;
+import static TourData.backend.global.email.exception.EmailExceptionMessage.SEND_MAIL_FAILED;
 
 import TourData.backend.domain.user.exception.UserException;
 import lombok.RequiredArgsConstructor;
@@ -12,14 +12,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class EmailService {
 
-    private static final String TITLE = "[DNA] Email Verification Code";
-    private static final String TEXT_PREFIX = "Please copy and enter the email verification code listed below.\nVerification Code: ";
-
     private final JavaMailSender emailSender;
 
-    public void sendEmail(String email, String code) {
-        String text = TEXT_PREFIX + code;
-        SimpleMailMessage emailForm = createEmailForm(email, text);
+    public void sendEmail(String email, String subject, String text) {
+        SimpleMailMessage emailForm = createEmailForm(email, subject, text);
         try {
             emailSender.send(emailForm);
         } catch (RuntimeException e) {
@@ -27,12 +23,11 @@ public class EmailService {
         }
     }
 
-    private SimpleMailMessage createEmailForm(String email, String text) {
+    private SimpleMailMessage createEmailForm(String email, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
-        message.setSubject(TITLE);
+        message.setSubject(subject);
         message.setText(text);
         return message;
     }
-
 }

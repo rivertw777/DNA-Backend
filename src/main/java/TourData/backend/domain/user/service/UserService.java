@@ -31,7 +31,7 @@ public class UserService {
     private long authCodeExpirationMillis;
 
     private final UserRepository userRepository;
-    private final EmailService emailService;
+    private final EmailVerificationService emailVerificationService;
     private final RedisService redisService;
     private final PasswordEncoder passwordEncoder;
 
@@ -76,7 +76,7 @@ public class UserService {
     // 이메일 인증 코드 전송
     public void sendCode(SendCodeRequest reqeustParam) {
         String code = createCode();
-        emailService.sendEmail(reqeustParam.email(), code);
+        emailVerificationService.sendEmail(reqeustParam.email(), code);
         redisService.setWithExpiration(EMAIL_AUTH_CODE_PREFIX + reqeustParam.email(), code, authCodeExpirationMillis);
     }
 
