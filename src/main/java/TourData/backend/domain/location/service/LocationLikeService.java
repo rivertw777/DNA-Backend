@@ -66,7 +66,7 @@ public class LocationLikeService {
         return new LocationLikeCheckResponse(isLike);
     }
 
-    // 지역 좋아요 수 조회
+    // 단일 지역 좋아요 수 조회
     public LocationLikeCountResponse getLocationLikeCount(Long locationId) {
         int likeCount = locationLikeCountService.getCount(locationId);
         return new LocationLikeCountResponse(likeCount);

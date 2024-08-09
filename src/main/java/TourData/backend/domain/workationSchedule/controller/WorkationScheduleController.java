@@ -10,7 +10,9 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,12 +34,30 @@ public class WorkationScheduleController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "사용자 워케이션 일정 조회")
+    @Operation(summary = "사용자 전체 워케이션 일정 조회")
     @GetMapping
     public ResponseEntity<List<WorkationScheduleResponse>> getAllWorkationSchedules(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         Long userId = customUserDetails.getUser().getId();
         List<WorkationScheduleResponse> responses = workationScheduleService.getAllWorkationSchedules(userId);
         return ResponseEntity.ok(responses);
+    }
+
+    @Operation(summary = "사용자 단일 워케이션 일정 조회")
+    @GetMapping("/{scheduleId}")
+    public ResponseEntity<WorkationScheduleResponse> getWorkationSchedule(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                                        @Valid @PathVariable("scheduleId") Long scheduleId) {
+        Long userId = customUserDetails.getUser().getId();
+        WorkationScheduleResponse response = workationScheduleService.getWorkationSchedule(userId, scheduleId);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "사용자 단일 워케이션 일정 삭제")
+    @DeleteMapping("/{scheduleId}")
+    public ResponseEntity<Void> deleteWorkationSchedule(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                                        @Valid @PathVariable("scheduleId") Long scheduleId) {
+        Long userId = customUserDetails.getUser().getId();
+        workationScheduleService.deleteWorkationSchedule(userId, scheduleId);
+        return ResponseEntity.ok().build();
     }
 
 }

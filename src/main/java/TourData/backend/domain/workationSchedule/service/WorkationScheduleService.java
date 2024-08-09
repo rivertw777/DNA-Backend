@@ -1,6 +1,7 @@
 package TourData.backend.domain.workationSchedule.service;
 
 import static TourData.backend.domain.workationSchedule.exception.WorkationScheduleExceptionMessage.OVERLAPPING_SCHEDULE;
+import static TourData.backend.domain.workationSchedule.exception.WorkationScheduleExceptionMessage.SCHEDULE_NOT_FOUND;
 
 import TourData.backend.domain.workationSchedule.dto.WorkationScheduleDto.WorkationScheduleCreateRequest;
 import TourData.backend.domain.workationSchedule.dto.WorkationScheduleDto.WorkationScheduleResponse;
@@ -27,7 +28,6 @@ public class WorkationScheduleService {
     @Transactional
     public void createWorkationSchedule(Long userId, WorkationScheduleCreateRequest requestParam) {
         User user = userService.findUser(userId);
-        // 일정 중복 검증
         validateScheduleOverlap(userId, requestParam.startDate(), requestParam.endDate());
         saveSchedule(user, requestParam);
     }
@@ -53,7 +53,8 @@ public class WorkationScheduleService {
         workationScheduleRepository.save(workationSchedule);
     }
 
-    // 사용자 워케이션 일정 조회
+    // 사용자 전체 워케이션 일정 조회
+    @Transactional(readOnly = true)
     public List<WorkationScheduleResponse> getAllWorkationSchedules(Long userId) {
         List<WorkationSchedule> workationSchedules = workationScheduleRepository.findByUserId(userId);
         return workationSchedules.stream()
@@ -68,6 +69,24 @@ public class WorkationScheduleService {
                 workationSchedule.getStartDate(),
                 workationSchedule.getEndDate()
         );
+    }
+
+    // 사용자 단일 워케이션 일정 조회
+    @Transactional(readOnly = true)
+    public WorkationScheduleResponse getWorkationSchedule(Long userId, Long scheduleId) {
+        WorkationSchedule workationSchedule = findWorkationSchedule(userId, scheduleId);
+        return toResponse(workationSchedule);
+    }
+
+    private WorkationSchedule findWorkationSchedule(Long userId, Long scheduleId) {
+        return workationScheduleRepository.findByUserIdAndId(userId, scheduleId)
+                .orElseThrow(()->new WorkationScheduleException((SCHEDULE_NOT_FOUND.getMessage())));
+    }
+
+    // 사용자 단일 워케이션 일정 삭제
+    @Transactional
+    public void deleteWorkationSchedule(Long userId, Long scheduleId) {
+        workationScheduleRepository.deleteByUser_IdAndId(userId, scheduleId);
     }
 
 }

@@ -65,9 +65,9 @@ public class FacilityBookmarkService {
         return new FacilityBookmarkCheckResponse(isBookmark);
     }
 
-    // 사용자 북마크 시설 전체 조회
+    // 사용자 전체 북마크 시설 조회
     @Transactional(readOnly = true)
-    public List<BookmarkedFacilityResponse> getAllBookmarks(Long userId) {
+    public List<BookmarkedFacilityResponse> getAllBookmarkedFacilities(Long userId) {
         return facilityBookmarkRepository.findByUserId(userId).stream()
                 .map(this::toResponseDto)
                 .collect(Collectors.toList());

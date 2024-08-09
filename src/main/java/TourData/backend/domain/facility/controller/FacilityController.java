@@ -75,12 +75,12 @@ public class FacilityController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "사용자 북마크 시설 전체 조회")
+    @Operation(summary = "사용자 전체 북마크 시설 조회")
     @GetMapping("/bookmarks")
-    public ResponseEntity<List<BookmarkedFacilityResponse>> getAllBookmarks(
+    public ResponseEntity<List<BookmarkedFacilityResponse>> getAllBookmarkedFacilities(
             @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         Long userId = customUserDetails.getUser().getId();
-        List<BookmarkedFacilityResponse> responses = facilityBookmarkService.getAllBookmarks(userId);
+        List<BookmarkedFacilityResponse> responses = facilityBookmarkService.getAllBookmarkedFacilities(userId);
         return ResponseEntity.ok(responses);
     }
 

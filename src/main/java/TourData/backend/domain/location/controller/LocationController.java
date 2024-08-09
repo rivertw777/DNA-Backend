@@ -28,7 +28,7 @@ public class LocationController {
     private final LocationService locationService;
     private final LocationLikeService locationLikeService;
 
-    @Operation(summary = "지역 전체 조회")
+    @Operation(summary = "전체 지역 조회")
     @GetMapping
     public ResponseEntity<List<LocationResponse>> getAllLocations() {
         List<LocationResponse> responses = locationService.getAllLocations();
@@ -69,7 +69,7 @@ public class LocationController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "지역 좋아요 수 조회")
+    @Operation(summary = "단일 지역 좋아요 수 조회")
     @GetMapping("/{locationId}/like/count")
     public ResponseEntity<LocationLikeCountResponse> getLocationLikeCount(@Valid @PathVariable("locationId") Long locationId) {
         LocationLikeCountResponse response = locationLikeService.getLocationLikeCount(locationId);

@@ -22,6 +22,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -74,14 +75,17 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<WorkationSchedule> workationSchedules = new ArrayList<>();
 
+    @Column(name = "has_received_email")
+    private boolean hasReceivedEmail;
+
     // 일반 회원 가입
     public static User createUser(UserSignUpRequest requestParam, String encodedPassword) {
         User user = User.builder()
                 .username(requestParam.username())
                 .password(encodedPassword)
                 .email(requestParam.email())
+                .roles(Collections.singletonList(Role.USER))
                 .build();
-        user.addRole(Role.USER);
         return user;
     }
 
@@ -90,10 +94,10 @@ public class User {
         User user = User.builder()
                 .username(username)
                 .email(oAuth2UserInfo.getEmail())
+                .roles(Collections.singletonList(Role.USER))
                 .provider(oAuth2UserInfo.getProvider())
                 .providerId(oAuth2UserInfo.getProviderId())
                 .build();
-        user.addRole(Role.USER);
         return user;
     }
 
@@ -103,10 +107,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void addRole(Role role){
-        this.roles.add(role);
     }
 
     public void addLocationLike(LocationLike locationLike){

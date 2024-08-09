@@ -28,7 +28,7 @@ public class LocationService {
                 .orElseThrow(() -> new LocationException(LOCATION_NOT_FOUND.getMessage()));
     }
 
-    // 지역 전체 조회
+    // 전체 지역 조회
     @Transactional(readOnly = true)
     @Cacheable(cacheNames = "Location", cacheManager = "redisCacheManager")
     public List<LocationResponse> getAllLocations() {
