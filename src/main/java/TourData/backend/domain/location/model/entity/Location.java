@@ -1,7 +1,10 @@
 package TourData.backend.domain.location.model.entity;
 
+import TourData.backend.domain.location.model.enums.LocationCode;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,8 +36,9 @@ public class Location {
     private String name;
 
     @NotNull
-    @Column(name = "code")
-    private String code;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "location_code")
+    private LocationCode code;
 
     @NotNull
     @Column(name = "latitude")
@@ -51,7 +55,7 @@ public class Location {
     @OneToMany(mappedBy = "location")
     private List<LocationLike> locationLikes = new ArrayList<>();
 
-    public static Location createLocation(String name, String code, double latitude, double longitude, String thumbnail) {
+    public static Location createLocation(String name, LocationCode code, double latitude, double longitude, String thumbnail) {
         return Location.builder()
                 .name(name)
                 .code(code)

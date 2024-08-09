@@ -23,7 +23,7 @@ public enum FacilityType {
                 return type;
             }
         }
-        throw new FacilityException(UNKNOWN_TYPE + value);
+        throw new FacilityException(UNKNOWN_TYPE.getMessage());
     }
 
 }

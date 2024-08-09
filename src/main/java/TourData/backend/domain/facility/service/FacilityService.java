@@ -8,6 +8,7 @@ import TourData.backend.domain.facility.exception.FacilityException;
 import TourData.backend.domain.facility.model.entity.Facility;
 import TourData.backend.domain.facility.model.enums.FacilityType;
 import TourData.backend.domain.facility.repository.FacilityRepository;
+import TourData.backend.domain.location.model.enums.LocationCode;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +45,8 @@ public class FacilityService {
     @Transactional(readOnly = true)
     public List<FacilitySearchResponse> searchFacilitiesByLocationCode(String locationCode, String facilityType) {
         FacilityType type = FacilityType.fromValue(facilityType);
-        List<Facility> facilities = facilityRepository.findByLocationCodeAndType(locationCode, type);
+        LocationCode code = LocationCode.fromValue(locationCode);
+        List<Facility> facilities = facilityRepository.findByLocationCodeAndType(code, type);
 
         return facilities.stream()
                 .map(this::toResponseDto)
@@ -65,7 +67,8 @@ public class FacilityService {
     @Transactional(readOnly = true)
     @Cacheable(cacheNames = "LocationFacilitiesCount", key= "#p0", cacheManager = "redisCacheManager")
     public LocationFacilitiesCountResponse getFacilitiesCountByLocation(String locationCode) {
-        List<Facility> facilities = facilityRepository.findByLocationCode(locationCode);
+        LocationCode code = LocationCode.fromValue(locationCode);
+        List<Facility> facilities = facilityRepository.findByLocationCode(code);
         int facilitiesCount = facilities.size();
         return new LocationFacilitiesCountResponse(facilitiesCount);
     }
