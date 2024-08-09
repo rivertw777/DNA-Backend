@@ -33,7 +33,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "사용자 이름 중복 체크")
+    @Operation(summary = "사용자 이름 중복 검증")
     @PostMapping("/names/validate")
     public ResponseEntity<ValidateDuplicateUsernameResponse> validateDuplicateUserName(@Valid @RequestBody ValidateDuplicateUsernameRequest requestParam) {
         ValidateDuplicateUsernameResponse response = userService.validateDuplicateUserName(requestParam);

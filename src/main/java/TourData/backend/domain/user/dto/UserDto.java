@@ -7,7 +7,7 @@ public class UserDto {
     public record ValidateDuplicateUsernameRequest(String username) {
     }
 
-    public record ValidateDuplicateUsernameResponse(boolean isDuplicated) {
+    public record ValidateDuplicateUsernameResponse(boolean isDuplicate) {
     }
 
     public record UsernameResponse(String username) {

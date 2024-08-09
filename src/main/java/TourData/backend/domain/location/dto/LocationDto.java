@@ -8,7 +8,7 @@ public class LocationDto {
     public record LocationLikeCheckResponse(boolean isLike) {
     }
 
-    public record LocationLikeCountResponse(int likeCount) {
+    public record LocationLikeCountResponse(int likesCount) {
     }
 
 }

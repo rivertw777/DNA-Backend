@@ -61,11 +61,11 @@ public class UserService {
         userRepository.save(user);
     }
 
-    // 사용자 이름 중복 체크
+    // 사용자 이름 중복 검증
     @Transactional(readOnly = true)
     public ValidateDuplicateUsernameResponse validateDuplicateUserName(ValidateDuplicateUsernameRequest requestParam){
-        boolean isDuplicated = userRepository.findByUsername(requestParam.username()).isPresent();
-        return new ValidateDuplicateUsernameResponse(isDuplicated);
+        boolean isDuplicate = userRepository.findByUsername(requestParam.username()).isPresent();
+        return new ValidateDuplicateUsernameResponse(isDuplicate);
     }
 
     // 사용자 이름 조회
