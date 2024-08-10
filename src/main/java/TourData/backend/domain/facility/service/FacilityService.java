@@ -8,7 +8,7 @@ import TourData.backend.domain.facility.exception.FacilityException;
 import TourData.backend.domain.facility.model.entity.Facility;
 import TourData.backend.domain.facility.model.enums.FacilityType;
 import TourData.backend.domain.facility.repository.FacilityRepository;
-import TourData.backend.domain.location.model.enums.LocationCode;
+import TourData.backend.domain.location.model.enums.LocationName;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -41,12 +41,12 @@ public class FacilityService {
                 .collect(Collectors.toList());
     }
 
-    // 시설 검색 by 지역 코드
+    // 시설 검색 by 지역 이름
     @Transactional(readOnly = true)
-    public List<FacilitySearchResponse> searchFacilitiesByLocationCode(String locationCode, String facilityType) {
+    public List<FacilitySearchResponse> searchFacilitiesByLocationCode(String locationName, String facilityType) {
         FacilityType type = FacilityType.fromValue(facilityType);
-        LocationCode code = LocationCode.fromValue(locationCode);
-        List<Facility> facilities = facilityRepository.findByLocationCodeAndType(code, type);
+        LocationName name = LocationName.fromValue(locationName);
+        List<Facility> facilities = facilityRepository.findByLocationNameAndType(name, type);
 
         return facilities.stream()
                 .map(this::toResponseDto)
@@ -66,9 +66,9 @@ public class FacilityService {
     // 지역 내 시설 수 조회
     @Transactional(readOnly = true)
     @Cacheable(cacheNames = "LocationFacilitiesCount", key= "#p0", cacheManager = "redisCacheManager")
-    public LocationFacilitiesCountResponse getFacilitiesCountByLocation(String locationCode) {
-        LocationCode code = LocationCode.fromValue(locationCode);
-        List<Facility> facilities = facilityRepository.findByLocationCode(code);
+    public LocationFacilitiesCountResponse getFacilitiesCountByLocation(String locationName) {
+        LocationName name = LocationName.fromValue(locationName);
+        List<Facility> facilities = facilityRepository.findByLocationName(name);
         int facilitiesCount = facilities.size();
         return new LocationFacilitiesCountResponse(facilitiesCount);
     }

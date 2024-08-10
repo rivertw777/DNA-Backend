@@ -39,12 +39,12 @@ public class FacilityController {
         return ResponseEntity.ok(responses);
     }
 
-    @Operation(summary = "시설 검색 by 지역 코드")
+    @Operation(summary = "시설 검색 by 지역 이름")
     @GetMapping("/search/code")
     public ResponseEntity<List<FacilitySearchResponse>> searchFacilitiesByLocationCode(
-            @Valid @RequestParam(name = "locationCode") String locationCode,
+            @Valid @RequestParam(name = "locationName") String locationName,
             @Valid @RequestParam(name = "facilityType") String facilityType) {
-        List<FacilitySearchResponse> responses = facilityService.searchFacilitiesByLocationCode(locationCode, facilityType);
+        List<FacilitySearchResponse> responses = facilityService.searchFacilitiesByLocationCode(locationName, facilityType);
         return ResponseEntity.ok(responses);
     }
 
@@ -87,8 +87,8 @@ public class FacilityController {
 
     @Operation(summary = "지역 내 시설 수 조회")
     @GetMapping("/count")
-    public ResponseEntity<LocationFacilitiesCountResponse> getFacilitiesCountByLocation(@RequestParam("locationCode") String locationCode) {
-        LocationFacilitiesCountResponse response = facilityService.getFacilitiesCountByLocation(locationCode);
+    public ResponseEntity<LocationFacilitiesCountResponse> getFacilitiesCountByLocation(@RequestParam("locationName") String locationName) {
+        LocationFacilitiesCountResponse response = facilityService.getFacilitiesCountByLocation(locationName);
         return ResponseEntity.ok(response);
     }
 

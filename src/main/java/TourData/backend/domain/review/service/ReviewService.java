@@ -7,6 +7,8 @@ import TourData.backend.domain.review.dto.ReviewDto.ReviewWriteRequest;
 import TourData.backend.domain.review.exception.ReviewException;
 import TourData.backend.domain.review.model.entity.Review;
 import TourData.backend.domain.review.repository.ReviewRepository;
+import TourData.backend.domain.user.model.entity.User;
+import TourData.backend.domain.user.service.UserService;
 import TourData.backend.domain.workationSchedule.model.entity.WorkationSchedule;
 import TourData.backend.domain.workationSchedule.service.WorkationScheduleService;
 import java.util.List;
@@ -21,13 +23,15 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final WorkationScheduleService workationScheduleService;
+    private final UserService userService;
 
     // 워케이션 일정 리뷰 작성
     @Transactional
-    public void writeReview(ReviewWriteRequest reqeustParam) {
+    public void writeReview(Long userId, ReviewWriteRequest reqeustParam) {
+        User user = userService.findUser(userId);
         WorkationSchedule workationSchedule = workationScheduleService.findWorkationSchedule(reqeustParam.scheduleId());
         validateReviewNotExists(workationSchedule);
-        saveReview(workationSchedule, reqeustParam);
+        saveReview(user, workationSchedule, reqeustParam);
     }
 
     private void validateReviewNotExists(WorkationSchedule workationSchedule) {
@@ -36,15 +40,15 @@ public class ReviewService {
         }
     }
 
-    private void saveReview(WorkationSchedule workationSchedule, ReviewWriteRequest reqeustParam){
-        Review review = Review.createReview(workationSchedule, reqeustParam);
+    private void saveReview(User user, WorkationSchedule workationSchedule, ReviewWriteRequest reqeustParam){
+        Review review = Review.createReview(user, workationSchedule, reqeustParam);
         reviewRepository.save(review);
     }
 
     // 사용자 전체 리뷰 조회
     @Transactional(readOnly = true)
     public List<ReviewResponse> getAllReviews(Long userId) {
-        List<Review> reviews = reviewRepository.findByWorkationScheduleUserId(userId);
+        List<Review> reviews = reviewRepository.findByUserId(userId);
 
         return reviews.stream()
                 .map(this::toResponseDto)

@@ -48,7 +48,7 @@ public class LocationService {
     private LocationResponse toResponseDto(Location location) {
         return new LocationResponse(
                 location.getId(),
-                location.getName(),
+                location.getName().getValue(),
                 location.getThumbnail()
         );
     }

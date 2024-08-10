@@ -1,7 +1,7 @@
 package TourData.backend.domain.facility.model.entity;
 
 import TourData.backend.domain.facility.model.enums.FacilityType;
-import TourData.backend.domain.location.model.enums.LocationCode;
+import TourData.backend.domain.location.model.enums.LocationName;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -43,8 +43,8 @@ public class Facility {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "location_code")
-    private LocationCode locationCode;
+    @Column(name = "location_name")
+    private LocationName locationName;
 
     @NotNull
     @Column(name = "address")
@@ -61,12 +61,12 @@ public class Facility {
     @OneToMany(mappedBy = "facility")
     private List<FacilityBookmark> facilityBookmarks = new ArrayList<>();
 
-    public static Facility createFacility(String name, FacilityType type, LocationCode locationcode, String address,
+    public static Facility createFacility(String name, FacilityType type, LocationName locationName, String address,
                                           double latitude, double longitude) {
         return Facility.builder()
                 .name(name)
                 .type(type)
-                .locationCode(locationcode)
+                .locationName(locationName)
                 .address(address)
                 .latitude(latitude)
                 .longitude(longitude)

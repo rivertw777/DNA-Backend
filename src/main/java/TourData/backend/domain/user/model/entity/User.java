@@ -2,6 +2,7 @@ package TourData.backend.domain.user.model.entity;
 
 import TourData.backend.domain.facility.model.entity.FacilityBookmark;
 import TourData.backend.domain.location.model.entity.LocationLike;
+import TourData.backend.domain.review.model.entity.Review;
 import TourData.backend.domain.workationSchedule.model.entity.WorkationSchedule;
 import TourData.backend.domain.user.dto.UserDto.UserSignUpRequest;
 import TourData.backend.domain.user.model.enums.Role;
@@ -79,6 +80,9 @@ public class User {
     @Column(name = "has_received_email")
     private boolean hasReceivedEmail;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Review> reviews;
+
     // 일반 회원 가입
     public static User createUser(UserSignUpRequest requestParam, String encodedPassword) {
         User user = User.builder()
@@ -126,6 +130,10 @@ public class User {
 
     public void setHasReceivedEmail(boolean hasReceivedEmail) {
         this.hasReceivedEmail = hasReceivedEmail;
+    }
+
+    public void addReview(Review review) {
+        this.reviews.add(review);
     }
 
 }

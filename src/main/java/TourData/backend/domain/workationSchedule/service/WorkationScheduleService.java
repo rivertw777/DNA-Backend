@@ -93,7 +93,7 @@ public class WorkationScheduleService {
     // 사용자 단일 워케이션 일정 삭제
     @Transactional
     public void deleteWorkationSchedule(Long userId, Long scheduleId) {
-        workationScheduleRepository.deleteByUser_IdAndId(userId, scheduleId);
+        workationScheduleRepository.deleteByUserIdAndId(userId, scheduleId);
     }
 
     // 사용자 리뷰가 없는 만료된 전체 워케이션 일정 조회

@@ -34,7 +34,7 @@ public class WeatherService {
         WeatherApiResponse response = restTemplate.getForObject(url, WeatherApiResponse.class);
 
         return new WeatherResponse(
-                location.getName(),
+                location.getName().getValue(),
                 response.main().temp(),
                 response.main().humidity(),
                 response.clouds().all());
