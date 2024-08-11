@@ -1,4 +1,4 @@
-package TourData.backend.global.model.entity;
+package TourData.backend.global.model;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

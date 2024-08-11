@@ -1,7 +1,7 @@
 package TourData.backend.domain.workationSchedule.service;
 
-import TourData.backend.domain.user.model.entity.User;
-import TourData.backend.domain.workationSchedule.model.entity.WorkationSchedule;
+import TourData.backend.domain.user.model.User;
+import TourData.backend.domain.workationSchedule.model.WorkationSchedule;
 import TourData.backend.domain.workationSchedule.repository.WorkationScheduleRepository;
 import TourData.backend.global.email.service.EmailService;
 import java.time.LocalDateTime;
@@ -35,8 +35,9 @@ public class ScheduleNotificationService {
     private void sendEmail(WorkationSchedule schedule){
         User user = schedule.getUser();
         String email =  user.getEmail();
-        String subject = getSubject(schedule.getLocationName());
-        String text = getText(user.getUsername(), schedule.getLocationName());
+        String locationName = schedule.getLocation().getName().getValue();
+        String subject = getSubject(locationName);
+        String text = getText(user.getUsername(), locationName);
         emailService.sendEmail(email, subject, text);
         upDateStatus(user, schedule);
     }

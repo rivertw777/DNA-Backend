@@ -1,6 +1,6 @@
 package TourData.backend.domain.user.repository;
 
-import TourData.backend.domain.user.model.entity.User;
+import TourData.backend.domain.user.model.User;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 
 public class WorkationScheduleDto {
 
-    public record WorkationScheduleCreateRequest(String locationName, LocalDateTime startDate, LocalDateTime endDate) {
-        public WorkationScheduleCreateRequest {
+    public record CreateWorkationScheduleRequest(LocalDateTime startDate, LocalDateTime endDate) {
+        public CreateWorkationScheduleRequest {
             validateScheduleDates(startDate, endDate);
         }
         private static void validateScheduleDates(LocalDateTime startDate, LocalDateTime endDate) {
@@ -21,7 +21,7 @@ public class WorkationScheduleDto {
         }
     }
 
-    public record WorkationScheduleResponse(Long id, String LocationName, LocalDateTime startDate, LocalDateTime endDate){
+    public record WorkationScheduleResponse(Long scheduleId, String LocationName, LocalDateTime startDate, LocalDateTime endDate){
     }
 
 }

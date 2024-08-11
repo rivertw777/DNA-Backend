@@ -1,4 +1,4 @@
-package TourData.backend.domain.facility.model.enums;
+package TourData.backend.domain.facility.model;
 
 import static TourData.backend.domain.facility.exception.FacilityExceptionMessage.UNKNOWN_TYPE;
 

@@ -3,7 +3,7 @@ package TourData.backend.global.security.auth;
 import static TourData.backend.domain.user.exception.UserExceptionMessage.USER_NAME_NOT_FOUND;
 
 import TourData.backend.domain.user.exception.UserException;
-import TourData.backend.domain.user.model.entity.User;
+import TourData.backend.domain.user.model.User;
 import TourData.backend.domain.user.repository.UserRepository;
 import TourData.backend.global.security.utils.TokenProvider;
 import io.jsonwebtoken.Claims;
@@ -12,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     // 이름으로 회원 조회
     @Override
+    @Transactional(readOnly = true)
     public CustomUserDetails loadUserByUsername(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserException(USER_NAME_NOT_FOUND.getMessage()));
@@ -35,7 +37,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         // 회원 이름 추출
         String username = claims.getSubject();
         // userDetails 조회
-
         CustomUserDetails userDetails = loadUserByUsername(username);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }

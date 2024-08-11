@@ -3,12 +3,14 @@ package TourData.backend.domain.workationSchedule.service;
 import static TourData.backend.domain.workationSchedule.exception.WorkationScheduleExceptionMessage.OVERLAPPING_SCHEDULE;
 import static TourData.backend.domain.workationSchedule.exception.WorkationScheduleExceptionMessage.SCHEDULE_NOT_FOUND;
 
-import TourData.backend.domain.workationSchedule.dto.WorkationScheduleDto.WorkationScheduleCreateRequest;
+import TourData.backend.domain.location.model.Location;
+import TourData.backend.domain.location.service.LocationService;
+import TourData.backend.domain.workationSchedule.dto.WorkationScheduleDto.CreateWorkationScheduleRequest;
 import TourData.backend.domain.workationSchedule.dto.WorkationScheduleDto.WorkationScheduleResponse;
 import TourData.backend.domain.workationSchedule.exception.WorkationScheduleException;
-import TourData.backend.domain.workationSchedule.model.entity.WorkationSchedule;
+import TourData.backend.domain.workationSchedule.model.WorkationSchedule;
 import TourData.backend.domain.workationSchedule.repository.WorkationScheduleRepository;
-import TourData.backend.domain.user.model.entity.User;
+import TourData.backend.domain.user.model.User;
 import TourData.backend.domain.user.service.UserService;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,6 +25,7 @@ public class WorkationScheduleService {
 
     private final WorkationScheduleRepository workationScheduleRepository;
     private final UserService userService;
+    private final LocationService locationService;
 
     // id로 조회
     @Transactional(readOnly = true)
@@ -33,10 +36,11 @@ public class WorkationScheduleService {
 
     // 사용자 워케이션 일정 등록
     @Transactional
-    public void createWorkationSchedule(Long userId, WorkationScheduleCreateRequest requestParam) {
+    public void createWorkationSchedule(Long userId, Long locationId, CreateWorkationScheduleRequest requestParam) {
         User user = userService.findUser(userId);
+        Location location = locationService.findLocation(locationId);
         validateScheduleOverlap(userId, requestParam.startDate(), requestParam.endDate());
-        saveSchedule(user, requestParam);
+        saveSchedule(user, location, requestParam);
     }
 
     private void validateScheduleOverlap(Long userId, LocalDateTime startDate, LocalDateTime endDate) {
@@ -55,8 +59,8 @@ public class WorkationScheduleService {
                 (existingStart.isEqual(newEnd) || existingEnd.isEqual(newStart));
     }
 
-    private void saveSchedule(User user, WorkationScheduleCreateRequest requestParam) {
-        WorkationSchedule workationSchedule = WorkationSchedule.createWorkationSchedule(user, requestParam);
+    private void saveSchedule(User user, Location location, CreateWorkationScheduleRequest requestParam) {
+        WorkationSchedule workationSchedule = WorkationSchedule.createWorkationSchedule(requestParam, user, location);
         workationScheduleRepository.save(workationSchedule);
     }
 
@@ -65,24 +69,15 @@ public class WorkationScheduleService {
     public List<WorkationScheduleResponse> getAllWorkationSchedules(Long userId) {
         List<WorkationSchedule> workationSchedules = workationScheduleRepository.findByUserId(userId);
         return workationSchedules.stream()
-                .map(this::toResponse)
+                .map(this::toResponseDto)
                 .collect(Collectors.toList());
-    }
-
-    private WorkationScheduleResponse toResponse(WorkationSchedule workationSchedule) {
-        return new WorkationScheduleResponse(
-                workationSchedule.getId(),
-                workationSchedule.getLocationName(),
-                workationSchedule.getStartDate(),
-                workationSchedule.getEndDate()
-        );
     }
 
     // 사용자 단일 워케이션 일정 조회
     @Transactional(readOnly = true)
     public WorkationScheduleResponse getWorkationSchedule(Long userId, Long scheduleId) {
         WorkationSchedule workationSchedule = findWorkationSchedule(userId, scheduleId);
-        return toResponse(workationSchedule);
+        return toResponseDto(workationSchedule);
     }
 
     private WorkationSchedule findWorkationSchedule(Long userId, Long scheduleId) {
@@ -90,19 +85,28 @@ public class WorkationScheduleService {
                 .orElseThrow(()->new WorkationScheduleException((SCHEDULE_NOT_FOUND.getMessage())));
     }
 
-    // 사용자 단일 워케이션 일정 삭제
+    // 사용자 워케이션 일정 삭제
     @Transactional
     public void deleteWorkationSchedule(Long userId, Long scheduleId) {
         workationScheduleRepository.deleteByUserIdAndId(userId, scheduleId);
     }
 
-    // 사용자 리뷰가 없는 만료된 전체 워케이션 일정 조회
+    // 사용자 전체 리뷰 없고 만료된 워케이션 일정 조회
     @Transactional(readOnly = true)
-    public List<WorkationScheduleResponse> getExpiredSchedulesWithoutReview(Long userId) {
+    public List<WorkationScheduleResponse> getAllUnreviewedExpiredSchedules(Long userId) {
         List<WorkationSchedule> workationSchedules = workationScheduleRepository.findByUserIdAndIsExpiredTrueAndReviewIsNull(userId);
         return workationSchedules.stream()
-                .map(this::toResponse)
+                .map(this::toResponseDto)
                 .collect(Collectors.toList());
+    }
+
+    private WorkationScheduleResponse toResponseDto(WorkationSchedule workationSchedule) {
+        return new WorkationScheduleResponse(
+                workationSchedule.getId(),
+                workationSchedule.getLocation().getName().getValue(),
+                workationSchedule.getStartDate(),
+                workationSchedule.getEndDate()
+        );
     }
 
 }

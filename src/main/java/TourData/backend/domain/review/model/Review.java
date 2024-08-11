@@ -1,9 +1,9 @@
-package TourData.backend.domain.review.model.entity;
+package TourData.backend.domain.review.model;
 
-import TourData.backend.domain.review.dto.ReviewDto.ReviewWriteRequest;
-import TourData.backend.domain.user.model.entity.User;
-import TourData.backend.domain.workationSchedule.model.entity.WorkationSchedule;
-import TourData.backend.global.model.entity.BaseTimeEntity;
+import TourData.backend.domain.review.dto.ReviewDto.WriteReviewRequest;
+import TourData.backend.domain.user.model.User;
+import TourData.backend.domain.workationSchedule.model.WorkationSchedule;
+import TourData.backend.global.model.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -34,24 +34,24 @@ public class Review extends BaseTimeEntity {
     private Long id;
 
     @NotNull
+    @Column(name = "content")
+    private String content;
+
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     @NotNull
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "schedule_id")
+    @JoinColumn(name = "workation_schedule_id")
     private WorkationSchedule workationSchedule;
 
-    @NotNull
-    @Column(name = "content")
-    private String content;
-
-    public static Review createReview(User user, WorkationSchedule workationSchedule, ReviewWriteRequest requestParam) {
+    public static Review createReview(WriteReviewRequest requestParam, User user, WorkationSchedule workationSchedule) {
         Review review = Review.builder()
+                .content(requestParam.content())
                 .user(user)
                 .workationSchedule(workationSchedule)
-                .content(requestParam.content())
                 .build();
         user.addReview(review);
         workationSchedule.setReview(review);

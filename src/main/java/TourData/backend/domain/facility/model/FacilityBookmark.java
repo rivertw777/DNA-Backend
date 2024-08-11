@@ -1,6 +1,6 @@
-package TourData.backend.domain.location.model.entity;
+package TourData.backend.domain.facility.model;
 
-import TourData.backend.domain.user.model.entity.User;
+import TourData.backend.domain.user.model.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -21,8 +21,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder(access = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "location_likes")
-public class LocationLike {
+@Table(name = "facility_bookmarks")
+public class FacilityBookmark {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,17 +35,17 @@ public class LocationLike {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "location_id")
-    private Location location;
+    @JoinColumn(name = "facility_id")
+    private Facility facility;
 
-    public static LocationLike createLocationLike(User user, Location location) {
-        LocationLike locationLike = LocationLike.builder()
+    public static FacilityBookmark createFacilityBookmark(User user, Facility facility) {
+        FacilityBookmark facilityBookmark = FacilityBookmark.builder()
                 .user(user)
-                .location(location)
+                .facility(facility)
                 .build();
-        user.addLocationLike(locationLike);
-        location.addLocationLike(locationLike);
-        return locationLike;
+        user.addFacilityBookmark(facilityBookmark);
+        facility.addFacilityBookmarks(facilityBookmark);
+        return facilityBookmark;
     }
 
 }

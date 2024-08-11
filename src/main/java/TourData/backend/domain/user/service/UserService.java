@@ -3,15 +3,15 @@ package TourData.backend.domain.user.service;
 import static TourData.backend.domain.user.exception.UserExceptionMessage.USER_NAME_NOT_FOUND;
 import static TourData.backend.domain.user.exception.UserExceptionMessage.USER_NOT_FOUND;
 
-import TourData.backend.domain.user.dto.EmailDto.EmailVerificationResponse;
-import TourData.backend.domain.user.dto.EmailDto.SendCodeRequest;
-import TourData.backend.domain.user.dto.EmailDto.VerifyCodeRequest;
+import TourData.backend.domain.user.dto.EmailDto.SendEmailCodeRequest;
+import TourData.backend.domain.user.dto.EmailDto.VerifyEmailCodeRequest;
+import TourData.backend.domain.user.dto.EmailDto.VerifyEmailCodeResponse;
+import TourData.backend.domain.user.dto.UserDto.CheckDuplicateUsernameRequest;
+import TourData.backend.domain.user.dto.UserDto.CheckDuplicateUsernameResponse;
+import TourData.backend.domain.user.dto.UserDto.SignUpRequest;
 import TourData.backend.domain.user.dto.UserDto.UsernameResponse;
-import TourData.backend.domain.user.dto.UserDto.UserSignUpRequest;
-import TourData.backend.domain.user.dto.UserDto.ValidateDuplicateUsernameRequest;
-import TourData.backend.domain.user.dto.UserDto.ValidateDuplicateUsernameResponse;
 import TourData.backend.domain.user.exception.UserException;
-import TourData.backend.domain.user.model.entity.User;
+import TourData.backend.domain.user.model.User;
 import TourData.backend.domain.user.repository.UserRepository;
 import TourData.backend.global.redis.service.RedisService;
 import java.util.Random;
@@ -51,30 +51,30 @@ public class UserService {
 
     // 회원 가입
     @Transactional
-    public void signUp(UserSignUpRequest requestParam) {
+    public void signUp(SignUpRequest requestParam) {
         String encodedPassword = passwordEncoder.encode(requestParam.password());
         saveUser(requestParam, encodedPassword);
     }
 
-    private void saveUser(UserSignUpRequest requestParam, String encodedPassword){
+    private void saveUser(SignUpRequest requestParam, String encodedPassword){
         User user = User.createUser(requestParam, encodedPassword);
         userRepository.save(user);
     }
 
-    // 사용자 이름 중복 검증
+    // 이름 중복 여부 확인
     @Transactional(readOnly = true)
-    public ValidateDuplicateUsernameResponse validateDuplicateUserName(ValidateDuplicateUsernameRequest requestParam){
+    public CheckDuplicateUsernameResponse CheckDuplicateUsername(CheckDuplicateUsernameRequest requestParam){
         boolean isDuplicate = userRepository.findByUsername(requestParam.username()).isPresent();
-        return new ValidateDuplicateUsernameResponse(isDuplicate);
+        return new CheckDuplicateUsernameResponse(isDuplicate);
     }
 
     // 사용자 이름 조회
-    public UsernameResponse getUserName(String username) {
+    public UsernameResponse getUsername(String username) {
         return new UsernameResponse(username);
     }
 
     // 이메일 인증 코드 전송
-    public void sendCode(SendCodeRequest reqeustParam) {
+    public void sendEmailCode(SendEmailCodeRequest reqeustParam) {
         String code = createCode();
         emailVerificationService.sendEmail(reqeustParam.email(), code);
         redisService.setWithExpiration(EMAIL_AUTH_CODE_PREFIX + reqeustParam.email(), code, authCodeExpirationMillis);
@@ -86,10 +86,10 @@ public class UserService {
     }
 
     // 이메일 인증 코드 검증
-    public EmailVerificationResponse verifyCode(VerifyCodeRequest requestParam) {
+    public VerifyEmailCodeResponse verifyEmailCode(VerifyEmailCodeRequest requestParam) {
         String findCode = redisService.get(EMAIL_AUTH_CODE_PREFIX + requestParam.email());
         boolean isVerified = requestParam.code().equals(findCode);
-        return new EmailVerificationResponse(isVerified);
+        return new VerifyEmailCodeResponse(isVerified);
     }
 
 }

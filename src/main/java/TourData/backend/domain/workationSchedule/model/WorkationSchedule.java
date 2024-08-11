@@ -1,8 +1,9 @@
-package TourData.backend.domain.workationSchedule.model.entity;
+package TourData.backend.domain.workationSchedule.model;
 
-import TourData.backend.domain.review.model.entity.Review;
-import TourData.backend.domain.workationSchedule.dto.WorkationScheduleDto.WorkationScheduleCreateRequest;
-import TourData.backend.domain.user.model.entity.User;
+import TourData.backend.domain.location.model.Location;
+import TourData.backend.domain.review.model.Review;
+import TourData.backend.domain.workationSchedule.dto.WorkationScheduleDto.CreateWorkationScheduleRequest;
+import TourData.backend.domain.user.model.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,10 +36,6 @@ public class WorkationSchedule {
     private Long id;
 
     @NotNull
-    @Column(name = "location_name")
-    private String locationName;
-
-    @NotNull
     @Column(name = "start_date")
     private LocalDateTime startDate;
 
@@ -52,21 +49,27 @@ public class WorkationSchedule {
     private User user;
 
     @NotNull
-    @Column(name = "is_expired")
-    private boolean isExpired;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "location_id")
+    private Location location;
 
     @OneToOne(mappedBy = "workationSchedule", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Review review;
 
-    public static WorkationSchedule createWorkationSchedule(User user, WorkationScheduleCreateRequest requestParam) {
+    @NotNull
+    @Column(name = "is_expired")
+    private boolean isExpired;
+
+    public static WorkationSchedule createWorkationSchedule(CreateWorkationScheduleRequest requestParam, User user, Location location) {
         WorkationSchedule workationSchedule = WorkationSchedule.builder()
-                .user(user)
-                .locationName(requestParam.locationName())
                 .startDate(requestParam.startDate())
                 .endDate(requestParam.endDate())
+                .user(user)
+                .location(location)
                 .isExpired(false)
                 .build();
         user.addSchedule(workationSchedule);
+        location.addWorkationSchedule(workationSchedule);
         return workationSchedule;
     }
 

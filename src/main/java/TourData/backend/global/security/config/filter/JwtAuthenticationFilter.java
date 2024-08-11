@@ -1,7 +1,7 @@
 package TourData.backend.global.security.config.filter;
 
 import TourData.backend.global.security.auth.CustomUserDetails;
-import TourData.backend.global.security.dto.SecurityDto.UserLoginRequest;
+import TourData.backend.global.security.dto.SecurityDto.LoginRequest;
 import TourData.backend.global.security.utils.TokenProvider;
 import TourData.backend.global.security.utils.CookieManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             // 요청에서 로그인 정보 가져오기
             ObjectMapper om = new ObjectMapper();
-            UserLoginRequest loginParam = om.readValue(request.getInputStream(), UserLoginRequest.class);
+            LoginRequest loginParam = om.readValue(request.getInputStream(), LoginRequest.class);
             // 인증 토큰 생성
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(loginParam.username(), loginParam.password());

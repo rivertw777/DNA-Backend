@@ -1,8 +1,8 @@
 package TourData.backend.global.redis.config;
 
-import static TourData.backend.global.redis.config.CasheName.LOCATION_FACILITIES_COUNT;
-import static TourData.backend.global.redis.config.CasheName.LOCATION_WEATHER;
-import static TourData.backend.global.redis.config.CasheName.LOCATION;
+import static TourData.backend.global.redis.config.CasheName.ALL_LOCATIONS;
+import static TourData.backend.global.redis.config.CasheName.TOTAL_FACILITY_COUNTS_FOR_ALL_LOCATIONS;
+import static TourData.backend.global.redis.config.CasheName.WEATHERS_FOR_ALL_LOCATIONS;
 import static org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair.fromSerializer;
 
 import java.time.Duration;
@@ -39,9 +39,9 @@ public class CacheConfig {
 
     private Map<String, RedisCacheConfiguration> confMap() {
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
-        cacheConfigurations.put(LOCATION.getValue(), defaultConf());
-        cacheConfigurations.put(LOCATION_WEATHER.getValue(), defaultConf().entryTtl(Duration.ofHours(1)));
-        cacheConfigurations.put(LOCATION_FACILITIES_COUNT.getValue(), defaultConf());
+        cacheConfigurations.put(ALL_LOCATIONS.getValue(), defaultConf());
+        cacheConfigurations.put(WEATHERS_FOR_ALL_LOCATIONS.getValue(), defaultConf().entryTtl(Duration.ofHours(1)));
+        cacheConfigurations.put(TOTAL_FACILITY_COUNTS_FOR_ALL_LOCATIONS.getValue(), defaultConf());
         return cacheConfigurations;
     }
 

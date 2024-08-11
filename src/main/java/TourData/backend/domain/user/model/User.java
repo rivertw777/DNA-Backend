@@ -1,11 +1,10 @@
-package TourData.backend.domain.user.model.entity;
+package TourData.backend.domain.user.model;
 
-import TourData.backend.domain.facility.model.entity.FacilityBookmark;
-import TourData.backend.domain.location.model.entity.LocationLike;
-import TourData.backend.domain.review.model.entity.Review;
-import TourData.backend.domain.workationSchedule.model.entity.WorkationSchedule;
-import TourData.backend.domain.user.dto.UserDto.UserSignUpRequest;
-import TourData.backend.domain.user.model.enums.Role;
+import TourData.backend.domain.facility.model.FacilityBookmark;
+import TourData.backend.domain.location.model.LocationLike;
+import TourData.backend.domain.review.model.Review;
+import TourData.backend.domain.user.dto.UserDto.SignUpRequest;
+import TourData.backend.domain.workationSchedule.model.WorkationSchedule;
 import TourData.backend.global.security.oauth.provider.OAuth2UserInfo;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
@@ -76,15 +75,15 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<WorkationSchedule> workationSchedules = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Review> reviews;
+
     @NotNull
     @Column(name = "has_received_email")
     private boolean hasReceivedEmail;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Review> reviews;
-
     // 일반 회원 가입
-    public static User createUser(UserSignUpRequest requestParam, String encodedPassword) {
+    public static User createUser(SignUpRequest requestParam, String encodedPassword) {
         User user = User.builder()
                 .username(requestParam.username())
                 .password(encodedPassword)

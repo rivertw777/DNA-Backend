@@ -1,6 +1,6 @@
 package TourData.backend.domain.workationSchedule.repository;
 
-import TourData.backend.domain.workationSchedule.model.entity.WorkationSchedule;
+import TourData.backend.domain.workationSchedule.model.WorkationSchedule;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;

@@ -61,20 +61,26 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         // 회원 가입
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/users")).permitAll()
-                        // 이름 중복 체크
-                        .requestMatchers(antMatcher(HttpMethod.POST, "/api/users/names/validate")).permitAll()
+                        // 이름 중복 여부 확인
+                        .requestMatchers(antMatcher(HttpMethod.POST, "/api/users/name/check")).permitAll()
                         // 이메일 인증 코드 전송, 검증
-                        .requestMatchers(HttpMethod.POST, "api/users/emails/**").permitAll()
-                        // 지역 전체 조회
+                        .requestMatchers(HttpMethod.POST, "api/users/email/**").permitAll()
+                        // 전체 지역 조회
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations")).permitAll()
                         // 전체 지역 날씨 조회
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/weather")).permitAll()
-                        // 지역 좋아요 수 조회
+                        // 단일 지역 좋아요 수 조회
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/{\\d+}/like/count")).permitAll()
-                        // 시설 검색
-                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/facilities/search/**")).permitAll()
-                        // 지역 내 시설 수 조회
-                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/facilities/count")).permitAll()
+                        // 시설 검색 by 지역 id & 타입
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/{\\d+}/facilities/search")).permitAll()
+                        // 전체 지역 총 시설 수 조회
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/facilities/count")).permitAll()
+                        // 단일 지역 워케이션 리뷰 조회
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/{\\d+}/reviews")).permitAll()
+                        // 시설 검색 by 위도, 경도 & 타입
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/facilities/search")).permitAll()
+                        // 전체 워케이션 리뷰 조회
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/reviews")).permitAll()
                         // 웹소켓 연결
                         .requestMatchers("/ws/**").permitAll()
                         // Swagger

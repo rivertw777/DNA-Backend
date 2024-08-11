@@ -1,19 +1,21 @@
 package TourData.backend.domain.review.service;
 
-import static TourData.backend.domain.review.exception.ReviewExceptionMessage.REVIEW_ALREADY_EXISTS;
+import static TourData.backend.domain.review.exception.ReviewExceptionMessage.ALREADY_EXISTS;
 
 import TourData.backend.domain.review.dto.ReviewDto.ReviewResponse;
-import TourData.backend.domain.review.dto.ReviewDto.ReviewWriteRequest;
+import TourData.backend.domain.review.dto.ReviewDto.WriteReviewRequest;
 import TourData.backend.domain.review.exception.ReviewException;
-import TourData.backend.domain.review.model.entity.Review;
+import TourData.backend.domain.review.model.Review;
 import TourData.backend.domain.review.repository.ReviewRepository;
-import TourData.backend.domain.user.model.entity.User;
+import TourData.backend.domain.user.model.User;
 import TourData.backend.domain.user.service.UserService;
-import TourData.backend.domain.workationSchedule.model.entity.WorkationSchedule;
+import TourData.backend.domain.workationSchedule.model.WorkationSchedule;
 import TourData.backend.domain.workationSchedule.service.WorkationScheduleService;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,41 +27,55 @@ public class ReviewService {
     private final WorkationScheduleService workationScheduleService;
     private final UserService userService;
 
-    // 워케이션 일정 리뷰 작성
+    // 사용자 워케이션 리뷰 작성
     @Transactional
-    public void writeReview(Long userId, ReviewWriteRequest reqeustParam) {
+    public void writeReview(Long userId, Long scheduleId, WriteReviewRequest reqeustParam) {
         User user = userService.findUser(userId);
-        WorkationSchedule workationSchedule = workationScheduleService.findWorkationSchedule(reqeustParam.scheduleId());
+        WorkationSchedule workationSchedule = workationScheduleService.findWorkationSchedule(scheduleId);
         validateReviewNotExists(workationSchedule);
         saveReview(user, workationSchedule, reqeustParam);
     }
 
     private void validateReviewNotExists(WorkationSchedule workationSchedule) {
         if (workationSchedule.getReview() != null) {
-            throw new ReviewException(REVIEW_ALREADY_EXISTS.getMessage());
+            throw new ReviewException(ALREADY_EXISTS.getMessage());
         }
     }
 
-    private void saveReview(User user, WorkationSchedule workationSchedule, ReviewWriteRequest reqeustParam){
-        Review review = Review.createReview(user, workationSchedule, reqeustParam);
+    private void saveReview(User user, WorkationSchedule workationSchedule, WriteReviewRequest reqeustParam){
+        Review review = Review.createReview(reqeustParam, user, workationSchedule);
         reviewRepository.save(review);
     }
 
-    // 사용자 전체 리뷰 조회
+    // 사용자 전체 워케이션 리뷰 조회
     @Transactional(readOnly = true)
-    public List<ReviewResponse> getAllReviews(Long userId) {
+    public List<ReviewResponse> getAllReviewsByUserId(Long userId) {
         List<Review> reviews = reviewRepository.findByUserId(userId);
-
         return reviews.stream()
                 .map(this::toResponseDto)
                 .collect(Collectors.toList());
     }
 
+    // 전체 워케이션 리뷰 조회
+    @Transactional(readOnly = true)
+    public Page<ReviewResponse> getAllReviews(Pageable pageable) {
+        Page<Review> reviewsPage = reviewRepository.findAll(pageable);
+        return reviewsPage.map(this::toResponseDto);
+    }
+
+    // 단일 지역 워케이션 리뷰 조회
+    @Transactional(readOnly = true)
+    public Page<ReviewResponse> getReviewsForLocation(Long locationId, Pageable pageable) {
+        Page<Review> reviewsPage = reviewRepository.findByWorkationScheduleLocationId(locationId, pageable);
+        return reviewsPage.map(this::toResponseDto);
+    }
+
     private ReviewResponse toResponseDto(Review review) {
         WorkationSchedule workationSchedule = review.getWorkationSchedule();
         return new ReviewResponse(
+                review.getId(),
                 workationSchedule.getUser().getUsername(),
-                workationSchedule.getLocationName(),
+                workationSchedule.getLocation().getName().getValue(),
                 workationSchedule.getStartDate(),
                 workationSchedule.getEndDate(),
                 review.getContent(),

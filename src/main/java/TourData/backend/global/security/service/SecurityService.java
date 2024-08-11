@@ -1,6 +1,6 @@
 package TourData.backend.global.security.service;
 
-import TourData.backend.domain.user.model.entity.User;
+import TourData.backend.domain.user.model.User;
 import TourData.backend.domain.user.service.UserService;
 import TourData.backend.global.security.auth.CustomUserDetails;
 import TourData.backend.global.security.auth.CustomUserDetailsService;
@@ -18,7 +18,7 @@ public class SecurityService {
     private final UserService userService;
     private final TokenProvider tokenProvider;
 
-    // 소셜 계정 최초 로그인 확인
+    // 사용자 소셜 계정 최초 로그인 확인
     public CheckFirstLoginResponse checkFirstLogin(String username) {
         boolean isFirstLogin = username.startsWith("default");
         return new CheckFirstLoginResponse(isFirstLogin);

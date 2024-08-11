@@ -1,12 +1,12 @@
 package TourData.backend.domain.user.controller;
 
-import TourData.backend.domain.user.dto.EmailDto.EmailVerificationResponse;
-import TourData.backend.domain.user.dto.EmailDto.VerifyCodeRequest;
-import TourData.backend.domain.user.dto.EmailDto.SendCodeRequest;
-import TourData.backend.domain.user.dto.UserDto.UserSignUpRequest;
+import TourData.backend.domain.user.dto.EmailDto.SendEmailCodeRequest;
+import TourData.backend.domain.user.dto.EmailDto.VerifyEmailCodeRequest;
+import TourData.backend.domain.user.dto.EmailDto.VerifyEmailCodeResponse;
+import TourData.backend.domain.user.dto.UserDto.CheckDuplicateUsernameRequest;
+import TourData.backend.domain.user.dto.UserDto.CheckDuplicateUsernameResponse;
+import TourData.backend.domain.user.dto.UserDto.SignUpRequest;
 import TourData.backend.domain.user.dto.UserDto.UsernameResponse;
-import TourData.backend.domain.user.dto.UserDto.ValidateDuplicateUsernameRequest;
-import TourData.backend.domain.user.dto.UserDto.ValidateDuplicateUsernameResponse;
 import TourData.backend.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -28,36 +28,36 @@ public class UserController {
 
     @Operation(summary = "회원 가입")
     @PostMapping
-    public ResponseEntity<Void> signUp(@Valid @RequestBody UserSignUpRequest reqeustParam) {
+    public ResponseEntity<Void> signUp(@Valid @RequestBody SignUpRequest reqeustParam) {
         userService.signUp(reqeustParam);
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "사용자 이름 중복 검증")
-    @PostMapping("/names/validate")
-    public ResponseEntity<ValidateDuplicateUsernameResponse> validateDuplicateUserName(@Valid @RequestBody ValidateDuplicateUsernameRequest requestParam) {
-        ValidateDuplicateUsernameResponse response = userService.validateDuplicateUserName(requestParam);
+    @Operation(summary = "이름 중복 여부 확인")
+    @PostMapping("/name/check")
+    public ResponseEntity<CheckDuplicateUsernameResponse> CheckDuplicateUsername(@Valid @RequestBody CheckDuplicateUsernameRequest requestParam) {
+        CheckDuplicateUsernameResponse response = userService.CheckDuplicateUsername(requestParam);
         return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "사용자 이름 조회")
-    @GetMapping("/names")
-    public ResponseEntity<UsernameResponse> getUserName(@AuthenticationPrincipal(expression = "username") String username) {
-        UsernameResponse response = userService.getUserName(username);
+    @GetMapping("/name")
+    public ResponseEntity<UsernameResponse> getUsername(@AuthenticationPrincipal(expression = "username") String username) {
+        UsernameResponse response = userService.getUsername(username);
         return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "이메일 인증 코드 전송")
-    @PostMapping("/emails/code")
-    public ResponseEntity<Void> sendCode(@Valid @RequestBody SendCodeRequest reqeustParam) {
-        userService.sendCode(reqeustParam);
+    @PostMapping("/email/code/send")
+    public ResponseEntity<Void> sendEmailCode(@Valid @RequestBody SendEmailCodeRequest reqeustParam) {
+        userService.sendEmailCode(reqeustParam);
         return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "이메일 인증 코드 검증")
-    @PostMapping("/emails/verify")
-    public ResponseEntity<EmailVerificationResponse> verifyCode(@Valid @RequestBody VerifyCodeRequest reqeustParam) {
-        EmailVerificationResponse response = userService.verifyCode(reqeustParam);
+    @PostMapping("/email/code/verify")
+    public ResponseEntity<VerifyEmailCodeResponse> verifyEmailCode(@Valid @RequestBody VerifyEmailCodeRequest reqeustParam) {
+        VerifyEmailCodeResponse response = userService.verifyEmailCode(reqeustParam);
         return ResponseEntity.ok(response);
     }
 

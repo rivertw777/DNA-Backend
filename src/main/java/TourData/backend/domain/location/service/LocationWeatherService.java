@@ -1,8 +1,8 @@
 package TourData.backend.domain.location.service;
 
-import TourData.backend.domain.location.dto.WeatherDto.WeatherApiResponse;
-import TourData.backend.domain.location.dto.WeatherDto.WeatherResponse;
-import TourData.backend.domain.location.model.entity.Location;
+import TourData.backend.domain.location.dto.LocationWeatherDto.LocationWeatherApiResponse;
+import TourData.backend.domain.location.dto.LocationWeatherDto.LocationWeatherResponse;
+import TourData.backend.domain.location.model.Location;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 @RequiredArgsConstructor
-public class WeatherService {
+public class LocationWeatherService {
 
     @Value("${weather.api.url}")
     private String weatherApiUrl;
@@ -22,18 +22,19 @@ public class WeatherService {
 
     private final RestTemplate restTemplate;
 
-    public List<WeatherResponse> getWeatherResponses(List<Location> locations) {
+    public List<LocationWeatherResponse> getWeatherResponsesForAllLocations(List<Location> locations) {
         return locations.stream()
-                .map(this::getWeatherResponse)
+                .map(this::toResponseDto)
                 .collect(Collectors.toList());
     }
 
-    private WeatherResponse getWeatherResponse(Location location) {
+    private LocationWeatherResponse toResponseDto(Location location) {
         String url = String.format("%s?lat=%f&lon=%f&appid=%s&units=metric",
                 weatherApiUrl, location.getLatitude(), location.getLongitude(), weatherApiKey);
-        WeatherApiResponse response = restTemplate.getForObject(url, WeatherApiResponse.class);
+        LocationWeatherApiResponse response = restTemplate.getForObject(url, LocationWeatherApiResponse.class);
 
-        return new WeatherResponse(
+        return new LocationWeatherResponse(
+                location.getId(),
                 location.getName().getValue(),
                 response.main().temp(),
                 response.main().humidity(),

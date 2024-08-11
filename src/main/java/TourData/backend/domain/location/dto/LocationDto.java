@@ -2,13 +2,13 @@ package TourData.backend.domain.location.dto;
 
 public class LocationDto {
 
-    public record LocationResponse(Long id, String locationName, String thumbNail) {
+    public record LocationResponse(Long locationId, String locationName, String thumbNail) {
     }
 
-    public record LocationLikeCheckResponse(boolean isLike) {
+    public record CheckLocationLikeResponse(boolean isLiked) {
     }
 
-    public record LocationLikeCountResponse(int likesCount) {
+    public record LocationLikeCountResponse(long likeCount) {
     }
 
 }

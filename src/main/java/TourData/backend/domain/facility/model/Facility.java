@@ -1,14 +1,16 @@
-package TourData.backend.domain.facility.model.entity;
+package TourData.backend.domain.facility.model;
 
-import TourData.backend.domain.facility.model.enums.FacilityType;
-import TourData.backend.domain.location.model.enums.LocationName;
+import TourData.backend.domain.location.model.Location;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -42,11 +44,6 @@ public class Facility {
     private FacilityType type;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "location_name")
-    private LocationName locationName;
-
-    @NotNull
     @Column(name = "address")
     private String address;
 
@@ -58,19 +55,26 @@ public class Facility {
     @Column(name = "longitude")
     private double longitude;
 
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "location_id")
+    private Location location;
+
     @OneToMany(mappedBy = "facility")
     private List<FacilityBookmark> facilityBookmarks = new ArrayList<>();
 
-    public static Facility createFacility(String name, FacilityType type, LocationName locationName, String address,
-                                          double latitude, double longitude) {
-        return Facility.builder()
+    public static Facility createFacility(String name, FacilityType type, String address, double latitude,
+                                          double longitude, Location location) {
+        Facility facility = Facility.builder()
                 .name(name)
                 .type(type)
-                .locationName(locationName)
                 .address(address)
                 .latitude(latitude)
                 .longitude(longitude)
+                .location(location)
                 .build();
+        location.addFacility(facility);
+        return facility;
     }
 
     public void addFacilityBookmarks(FacilityBookmark facilityBookmark) {

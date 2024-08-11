@@ -1,6 +1,6 @@
 package TourData.backend.domain.workationSchedule.controller;
 
-import TourData.backend.domain.workationSchedule.dto.WorkationScheduleDto.WorkationScheduleCreateRequest;
+import TourData.backend.domain.workationSchedule.dto.WorkationScheduleDto.CreateWorkationScheduleRequest;
 import TourData.backend.domain.workationSchedule.dto.WorkationScheduleDto.WorkationScheduleResponse;
 import TourData.backend.domain.workationSchedule.service.WorkationScheduleService;
 import TourData.backend.global.security.auth.CustomUserDetails;
@@ -20,22 +20,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/schedules/workation")
+@RequestMapping("/api")
 public class WorkationScheduleController {
 
     private final WorkationScheduleService workationScheduleService;
 
     @Operation(summary = "사용자 워케이션 일정 등록")
-    @PostMapping
+    @PostMapping("/locations/{locationId}/workation-schedules")
     public ResponseEntity<Void> createWorkationSchedule(@AuthenticationPrincipal CustomUserDetails customUserDetails,
-                                               @Valid @RequestBody WorkationScheduleCreateRequest requestParam) {
+                                                        @Valid @PathVariable("locationId") Long locationId,
+                                                        @Valid @RequestBody CreateWorkationScheduleRequest requestParam) {
         Long userId = customUserDetails.getUser().getId();
-        workationScheduleService.createWorkationSchedule(userId, requestParam);
+        workationScheduleService.createWorkationSchedule(userId, locationId, requestParam);
         return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "사용자 전체 워케이션 일정 조회")
-    @GetMapping
+    @GetMapping("/workation-schedules")
     public ResponseEntity<List<WorkationScheduleResponse>> getAllWorkationSchedules(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         Long userId = customUserDetails.getUser().getId();
         List<WorkationScheduleResponse> responses = workationScheduleService.getAllWorkationSchedules(userId);
@@ -43,7 +44,7 @@ public class WorkationScheduleController {
     }
 
     @Operation(summary = "사용자 단일 워케이션 일정 조회")
-    @GetMapping("/{scheduleId}")
+    @GetMapping("/workation-schedules/{scheduleId}")
     public ResponseEntity<WorkationScheduleResponse> getWorkationSchedule(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                                         @Valid @PathVariable("scheduleId") Long scheduleId) {
         Long userId = customUserDetails.getUser().getId();
@@ -51,8 +52,8 @@ public class WorkationScheduleController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "사용자 단일 워케이션 일정 삭제")
-    @DeleteMapping("/{scheduleId}")
+    @Operation(summary = "사용자 워케이션 일정 삭제")
+    @DeleteMapping("/workation-schedules/{scheduleId}")
     public ResponseEntity<Void> deleteWorkationSchedule(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                                         @Valid @PathVariable("scheduleId") Long scheduleId) {
         Long userId = customUserDetails.getUser().getId();
@@ -60,11 +61,11 @@ public class WorkationScheduleController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "사용자 리뷰가 없는 만료된 전체 워케이션 일정 조회")
-    @GetMapping("/unreviewed-expired")
-    public ResponseEntity<List<WorkationScheduleResponse>> getUnreviewedExpiredSchedules(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    @Operation(summary = "사용자 전체 리뷰 없고 만료된 워케이션 일정 조회")
+    @GetMapping("/workation-schedules/unreviewed-expired")
+    public ResponseEntity<List<WorkationScheduleResponse>> getAllUnreviewedExpiredSchedules(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         Long userId = customUserDetails.getUser().getId();
-        List<WorkationScheduleResponse> responses = workationScheduleService.getExpiredSchedulesWithoutReview(userId);
+        List<WorkationScheduleResponse> responses = workationScheduleService.getAllUnreviewedExpiredSchedules(userId);
         return ResponseEntity.ok(responses);
     }
 

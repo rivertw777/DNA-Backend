@@ -1,6 +1,7 @@
-package TourData.backend.domain.location.model.entity;
+package TourData.backend.domain.location.model;
 
-import TourData.backend.domain.location.model.enums.LocationName;
+import TourData.backend.domain.facility.model.Facility;
+import TourData.backend.domain.workationSchedule.model.WorkationSchedule;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -51,6 +52,12 @@ public class Location {
     @OneToMany(mappedBy = "location")
     private List<LocationLike> locationLikes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "location")
+    private List<Facility> facilities = new ArrayList<>();
+
+    @OneToMany(mappedBy = "location")
+    private List<WorkationSchedule> workationSchedules = new ArrayList<>();
+
     public static Location createLocation(LocationName name, double latitude, double longitude, String thumbnail) {
         return Location.builder()
                 .name(name)
@@ -62,6 +69,13 @@ public class Location {
 
     public void addLocationLike(LocationLike locationLike){
         this.locationLikes.add(locationLike);
+    }
+
+    public void addFacility(Facility facility) {
+        this.facilities.add(facility);
+    }
+
+    public void addWorkationSchedule(WorkationSchedule workationSchedule) { this.workationSchedules.add(workationSchedule);
     }
 
 }

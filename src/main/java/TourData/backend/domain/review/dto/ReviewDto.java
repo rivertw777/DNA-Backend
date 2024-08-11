@@ -4,10 +4,10 @@ import java.time.LocalDateTime;
 
 public class ReviewDto {
 
-    public record ReviewWriteRequest(Long scheduleId, String content){
+    public record WriteReviewRequest(String content){
     }
 
-    public record ReviewResponse(String username, String locationName, LocalDateTime startDate, LocalDateTime endDate,
+    public record ReviewResponse(Long reviewId, String username, String locationName, LocalDateTime startDate, LocalDateTime endDate,
                                  String content, LocalDateTime createdAt) {
     }
 

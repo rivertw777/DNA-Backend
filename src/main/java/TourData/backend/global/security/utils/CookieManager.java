@@ -1,6 +1,6 @@
 package TourData.backend.global.security.utils;
 
-import static TourData.backend.global.security.utils.enums.CookieProperties.COOKIE_NAME;
+import static TourData.backend.global.security.utils.CookieProperties.COOKIE_NAME;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

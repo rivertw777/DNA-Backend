@@ -1,29 +1,33 @@
 package TourData.backend.domain.temp;
 
 import TourData.backend.domain.chat.service.ParticipantCountService;
-import TourData.backend.domain.facility.model.entity.Facility;
-import TourData.backend.domain.facility.model.enums.FacilityType;
+import TourData.backend.domain.facility.model.Facility;
+import TourData.backend.domain.facility.model.FacilityType;
 import TourData.backend.domain.facility.repository.FacilityRepository;
-import TourData.backend.domain.location.model.entity.Location;
-import TourData.backend.domain.location.model.enums.LocationName;
+import TourData.backend.domain.location.model.Location;
+import TourData.backend.domain.location.model.LocationName;
 import TourData.backend.domain.location.repository.LocationRepository;
 import TourData.backend.domain.location.service.LocationLikeCountService;
-import jakarta.annotation.PreDestroy;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Component
+@RestController
 @RequiredArgsConstructor
-public class DataInitializer implements CommandLineRunner {
+@RequestMapping("/api/temp")
+public class TempController {
 
     private final LocationRepository locationRepository;
     private final LocationLikeCountService locationLikeCountService;
     private final ParticipantCountService participantCountService;
     private final FacilityRepository facilityRepository;
 
-    @Override
-    public void run(String... args) {
+    @Operation(summary = "지역 생성")
+    @GetMapping("/1")
+    public ResponseEntity<Void> temp1() {
 
         Location location1 = Location.createLocation(LocationName.SOCKCHO, 38.2060, 128.5912,
                 "https://images.unsplash.com/photo-1698767676786-03457d067360?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
@@ -61,18 +65,26 @@ public class DataInitializer implements CommandLineRunner {
         locationLikeCountService.initCount(location6.getId());
         participantCountService.initCount(location6.getId());
 
-
-        Facility facility1 = Facility.createFacility("맥도날드", FacilityType.RESTAURANT, LocationName.SOCKCHO,"강원도 속초시",37.3972, 126.9296);
-        facilityRepository.save(facility1);
-
-        Facility facility2 = Facility.createFacility("이디야", FacilityType.CAFE, LocationName.CHUNCHEON, "강원도 속초시",37.3944, 126.9306);
-        facilityRepository.save(facility2);
+        return ResponseEntity.ok().build();
     }
 
-    @PreDestroy
-    public void cleanup() {
-        facilityRepository.deleteAll();
-        locationRepository.deleteAll();
+    @Operation(summary = "시설 생성")
+    @GetMapping("/2")
+    public ResponseEntity<Void> temp2() {
+        Location location1 = locationRepository.findById(1L).get();
+        Location location2 = locationRepository.findById(2L).get();
+        Location location3 = locationRepository.findById(3L).get();
+
+        Facility facility1 = Facility.createFacility("맥도날드", FacilityType.RESTAURANT, "강원도 속초시",37.3972, 126.9296, location1);
+        facilityRepository.save(facility1);
+
+        Facility facility2 = Facility.createFacility("이디야", FacilityType.CAFE,  "강원도 속초시",37.3944, 126.9306, location2);
+        facilityRepository.save(facility2);
+
+        Facility facility3 = Facility.createFacility("워커힐", FacilityType.ACCOMMODATION,  "강원도 속초시",37.3944, 126.9306, location3);
+        facilityRepository.save(facility3);
+
+        return ResponseEntity.ok().build();
     }
 
 }

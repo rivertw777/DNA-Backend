@@ -3,13 +3,13 @@ package TourData.backend.domain.location.service;
 import static TourData.backend.domain.location.exception.LocationExceptionMessage.ALREADY_LIKE;
 import static TourData.backend.domain.location.exception.LocationExceptionMessage.ALREADY_UNLIKE;
 
-import TourData.backend.domain.location.dto.LocationDto.LocationLikeCheckResponse;
+import TourData.backend.domain.location.dto.LocationDto.CheckLocationLikeResponse;
 import TourData.backend.domain.location.dto.LocationDto.LocationLikeCountResponse;
 import TourData.backend.domain.location.exception.LocationException;
-import TourData.backend.domain.location.model.entity.Location;
-import TourData.backend.domain.location.model.entity.LocationLike;
+import TourData.backend.domain.location.model.Location;
+import TourData.backend.domain.location.model.LocationLike;
 import TourData.backend.domain.location.repository.LocationLikeRepository;
-import TourData.backend.domain.user.model.entity.User;
+import TourData.backend.domain.user.model.User;
 import TourData.backend.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class LocationLikeService {
     private final LocationLikeCountService locationLikeCountService;
     private final UserService userService;
 
-    // 지역 좋아요
+    // 사용자 지역 좋아요
     @Transactional
     public void likeLocation(Long userId, Long locationId) {
         User user = userService.findUser(userId);
@@ -45,7 +45,7 @@ public class LocationLikeService {
         locationLikeRepository.save(locationLike);
     }
 
-    // 지역 좋아요 취소
+    // 사용자 지역 좋아요 취소
     @Transactional
     public void unlikeLocation(Long userId, Long locationId) {
         validateLikeExists(userId, locationId);
@@ -59,17 +59,18 @@ public class LocationLikeService {
         }
     }
 
-    // 지역 좋아요 여부 확인
+    // 사용자 지역 좋아요 여부 확인
     @Transactional(readOnly = true)
-    public LocationLikeCheckResponse checkLocationLike(Long userId, Long locationId) {
-        boolean isLike = locationLikeRepository.findByUserIdAndLocationId(userId, locationId).isPresent();
-        return new LocationLikeCheckResponse(isLike);
+    public CheckLocationLikeResponse checkLocationLike(Long userId, Long locationId) {
+        boolean isLiked = locationLikeRepository.findByUserIdAndLocationId(userId, locationId).isPresent();
+        return new CheckLocationLikeResponse(isLiked);
     }
 
     // 단일 지역 좋아요 수 조회
-    public LocationLikeCountResponse getLocationLikesCount(Long locationId) {
-        int likesCount = locationLikeCountService.getCount(locationId);
-        return new LocationLikeCountResponse(likesCount);
+    @Transactional(readOnly = true)
+    public LocationLikeCountResponse getLocationLikeCount(Long locationId) {
+        long likeCount = locationLikeCountService.getCount(locationId);
+        return new LocationLikeCountResponse(likeCount);
     }
 
 }

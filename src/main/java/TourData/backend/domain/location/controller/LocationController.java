@@ -1,9 +1,9 @@
 package TourData.backend.domain.location.controller;
 
-import TourData.backend.domain.location.dto.LocationDto.LocationLikeCheckResponse;
+import TourData.backend.domain.location.dto.LocationDto.CheckLocationLikeResponse;
 import TourData.backend.domain.location.dto.LocationDto.LocationLikeCountResponse;
 import TourData.backend.domain.location.dto.LocationDto.LocationResponse;
-import TourData.backend.domain.location.dto.WeatherDto.WeatherResponse;
+import TourData.backend.domain.location.dto.LocationWeatherDto.LocationWeatherResponse;
 import TourData.backend.domain.location.service.LocationLikeService;
 import TourData.backend.domain.location.service.LocationService;
 import TourData.backend.global.security.auth.CustomUserDetails;
@@ -37,8 +37,8 @@ public class LocationController {
 
     @Operation(summary = "전체 지역 날씨 조회")
     @GetMapping("/weather")
-    public ResponseEntity<List<WeatherResponse>> getLocationWeatherInfo() {
-        List<WeatherResponse> responses = locationService.getLocationWeatherInfo();
+    public ResponseEntity<List<LocationWeatherResponse>> getWeathersForAllLocations() {
+        List<LocationWeatherResponse> responses = locationService.getWeathersForAllLocations();
         return ResponseEntity.ok(responses);
     }
 
@@ -62,17 +62,17 @@ public class LocationController {
 
     @Operation(summary = "사용자 지역 좋아요 여부 확인")
     @GetMapping("/{locationId}/like")
-    public ResponseEntity<LocationLikeCheckResponse> checkLocationLike(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+    public ResponseEntity<CheckLocationLikeResponse> checkLocationLike(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                                                        @Valid @PathVariable("locationId") Long locationId) {
         Long userId = customUserDetails.getUser().getId();
-        LocationLikeCheckResponse response = locationLikeService.checkLocationLike(userId, locationId);
+        CheckLocationLikeResponse response = locationLikeService.checkLocationLike(userId, locationId);
         return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "단일 지역 좋아요 수 조회")
     @GetMapping("/{locationId}/like/count")
-    public ResponseEntity<LocationLikeCountResponse> getLocationLikesCount(@Valid @PathVariable("locationId") Long locationId) {
-        LocationLikeCountResponse response = locationLikeService.getLocationLikesCount(locationId);
+    public ResponseEntity<LocationLikeCountResponse> getLocationLikeCount(@Valid @PathVariable("locationId") Long locationId) {
+        LocationLikeCountResponse response = locationLikeService.getLocationLikeCount(locationId);
         return ResponseEntity.ok(response);
     }
 

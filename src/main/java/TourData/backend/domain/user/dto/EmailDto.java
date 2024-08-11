@@ -2,13 +2,13 @@ package TourData.backend.domain.user.dto;
 
 public class EmailDto {
 
-    public record SendCodeRequest(String email) {
+    public record SendEmailCodeRequest(String email) {
     }
 
-    public record VerifyCodeRequest(String email, String code) {
+    public record VerifyEmailCodeRequest(String email, String code) {
     }
 
-    public record EmailVerificationResponse(boolean isVerified) {
+    public record VerifyEmailCodeResponse(boolean isVerified) {
     }
 
 }

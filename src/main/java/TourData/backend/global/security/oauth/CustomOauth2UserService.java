@@ -1,6 +1,6 @@
 package TourData.backend.global.security.oauth;
 
-import TourData.backend.domain.user.model.entity.User;
+import TourData.backend.domain.user.model.User;
 import TourData.backend.domain.user.repository.UserRepository;
 import TourData.backend.global.security.auth.CustomUserDetails;
 import TourData.backend.global.security.oauth.provider.GoogleUserInfo;

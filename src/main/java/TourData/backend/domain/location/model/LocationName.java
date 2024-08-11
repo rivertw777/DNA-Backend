@@ -1,4 +1,4 @@
-package TourData.backend.domain.location.model.enums;
+package TourData.backend.domain.location.model;
 
 import static TourData.backend.domain.location.exception.LocationExceptionMessage.UNVAILD_LOCATION_NAME;
 

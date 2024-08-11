@@ -7,9 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum CasheName {
 
-    LOCATION("Location"),
-    LOCATION_WEATHER("LocationWeather"),
-    LOCATION_FACILITIES_COUNT("LocationFacilitiesCount");
+    ALL_LOCATIONS("AllLocations"),
+    WEATHERS_FOR_ALL_LOCATIONS("WeathersForAllLocations"),
+    TOTAL_FACILITY_COUNTS_FOR_ALL_LOCATIONS("TotalFacilityCountsForAllLocations");
 
     private final String value;
 

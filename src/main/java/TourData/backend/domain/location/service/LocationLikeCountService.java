@@ -15,7 +15,7 @@ public class LocationLikeCountService {
     public void initCount(Long locationId) {
         String key = LOCATION_LIKE_COUNT_KEY + locationId;
         if (!redisService.exists(key)) {
-            redisService.set(key, String.valueOf(0));
+            redisService.set(key, String.valueOf(0L));
         }
     }
 
@@ -27,9 +27,9 @@ public class LocationLikeCountService {
         redisService.decrease(LOCATION_LIKE_COUNT_KEY + locationId);
     }
 
-    public int getCount(Long locationId) {
+    public long getCount(Long locationId) {
         String count = redisService.get(LOCATION_LIKE_COUNT_KEY + locationId);
-        return count != null ? Integer.valueOf(count) : 0;
+        return count != null ? Long.valueOf(count) : 0L;
     }
 
 }
