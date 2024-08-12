@@ -9,6 +9,7 @@ import TourData.backend.domain.location.model.LocationName;
 import TourData.backend.domain.location.repository.LocationRepository;
 import TourData.backend.domain.location.service.LocationLikeCountService;
 import io.swagger.v3.oas.annotations.Operation;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -84,6 +85,17 @@ public class TempController {
         Facility facility3 = Facility.createFacility("워커힐", FacilityType.ACCOMMODATION,  "강원도 속초시",37.3944, 126.9306, location3);
         facilityRepository.save(facility3);
 
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "초기화")
+    @GetMapping("/3")
+    public ResponseEntity<Void> temp3() {
+        List<Location> locations = locationRepository.findAll();
+        locations.forEach(location -> {
+            locationLikeCountService.initCount(location.getId());
+            participantCountService.initCount(location.getId());
+        });
         return ResponseEntity.ok().build();
     }
 
