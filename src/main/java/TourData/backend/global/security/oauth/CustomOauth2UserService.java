@@ -46,7 +46,7 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
         } else {
             // 회원 가입
             String username = "default_" + oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId();
-            user = User.createUser(username, oAuth2UserInfo);
+            user = User.createUser(username, oAuth2UserInfo.getEmail(), oAuth2UserInfo.getProvider(), oAuth2UserInfo.getProviderId());
             userRepository.save(user);
         }
         return new CustomUserDetails(user, oAuth2User.getAttributes());

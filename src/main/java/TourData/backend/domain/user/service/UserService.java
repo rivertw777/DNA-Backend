@@ -57,7 +57,7 @@ public class UserService {
     }
 
     private void saveUser(SignUpRequest requestParam, String encodedPassword){
-        User user = User.createUser(requestParam, encodedPassword);
+        User user = User.createUser(requestParam.username(), requestParam.password(), encodedPassword);
         userRepository.save(user);
     }
 

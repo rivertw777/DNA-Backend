@@ -4,7 +4,7 @@ import TourData.backend.domain.user.model.User;
 import TourData.backend.domain.workationSchedule.model.WorkationSchedule;
 import TourData.backend.domain.workationSchedule.repository.WorkationScheduleRepository;
 import TourData.backend.global.email.service.EmailService;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -23,7 +23,7 @@ public class ScheduleNotificationService {
     @Transactional
     @Scheduled(cron = "0 0 2 * * *")
     public void notifyExpiredSchedules() {
-        LocalDateTime now = LocalDateTime.now();
+        LocalDate now = LocalDate.now();
 
         List<WorkationSchedule> expiredSchedules = workationScheduleRepository.findByEndDateBeforeAndIsExpiredFalse(now);
 

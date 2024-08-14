@@ -3,9 +3,7 @@ package TourData.backend.domain.user.model;
 import TourData.backend.domain.facility.model.FacilityBookmark;
 import TourData.backend.domain.location.model.LocationLike;
 import TourData.backend.domain.review.model.Review;
-import TourData.backend.domain.user.dto.UserDto.SignUpRequest;
 import TourData.backend.domain.workationSchedule.model.WorkationSchedule;
-import TourData.backend.global.security.oauth.provider.OAuth2UserInfo;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -83,11 +81,11 @@ public class User {
     private boolean hasReceivedEmail;
 
     // 일반 회원 가입
-    public static User createUser(SignUpRequest requestParam, String encodedPassword) {
+    public static User createUser(String username, String encodedPassword, String email) {
         User user = User.builder()
-                .username(requestParam.username())
+                .username(username)
                 .password(encodedPassword)
-                .email(requestParam.email())
+                .email(email)
                 .roles(Collections.singletonList(Role.USER))
                 .hasReceivedEmail(false)
                 .build();
@@ -95,13 +93,13 @@ public class User {
     }
 
     // 소셜 계정 회원 가입
-    public static User createUser(String username, OAuth2UserInfo oAuth2UserInfo) {
+    public static User createUser(String username, String email, String provider, String providerId) {
         User user = User.builder()
                 .username(username)
-                .email(oAuth2UserInfo.getEmail())
+                .email(email)
                 .roles(Collections.singletonList(Role.USER))
-                .provider(oAuth2UserInfo.getProvider())
-                .providerId(oAuth2UserInfo.getProviderId())
+                .provider(provider)
+                .providerId(providerId)
                 .hasReceivedEmail(false)
                 .build();
         return user;

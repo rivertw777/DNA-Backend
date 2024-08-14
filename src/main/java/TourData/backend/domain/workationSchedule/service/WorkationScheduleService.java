@@ -12,7 +12,7 @@ import TourData.backend.domain.workationSchedule.model.WorkationSchedule;
 import TourData.backend.domain.workationSchedule.repository.WorkationScheduleRepository;
 import TourData.backend.domain.user.model.User;
 import TourData.backend.domain.user.service.UserService;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +43,7 @@ public class WorkationScheduleService {
         saveSchedule(user, location, requestParam);
     }
 
-    private void validateScheduleOverlap(Long userId, LocalDateTime startDate, LocalDateTime endDate) {
+    private void validateScheduleOverlap(Long userId, LocalDate startDate, LocalDate endDate) {
         List<WorkationSchedule> schedules = workationScheduleRepository.findByUserId(userId);
 
         schedules.stream()
@@ -54,13 +54,13 @@ public class WorkationScheduleService {
                 });
     }
 
-    private boolean isOverlapping(LocalDateTime existingStart, LocalDateTime existingEnd, LocalDateTime newStart, LocalDateTime newEnd) {
+    private boolean isOverlapping(LocalDate existingStart, LocalDate existingEnd, LocalDate newStart, LocalDate newEnd) {
         return (existingStart.isBefore(newEnd) && existingEnd.isAfter(newStart)) ||
                 (existingStart.isEqual(newEnd) || existingEnd.isEqual(newStart));
     }
 
     private void saveSchedule(User user, Location location, CreateWorkationScheduleRequest requestParam) {
-        WorkationSchedule workationSchedule = WorkationSchedule.createWorkationSchedule(requestParam, user, location);
+        WorkationSchedule workationSchedule = WorkationSchedule.createWorkationSchedule(user, location, requestParam.startDate(), requestParam.endDate());
         workationScheduleRepository.save(workationSchedule);
     }
 

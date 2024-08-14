@@ -2,8 +2,8 @@ package TourData.backend.domain.workationSchedule.model;
 
 import TourData.backend.domain.location.model.Location;
 import TourData.backend.domain.review.model.Review;
-import TourData.backend.domain.workationSchedule.dto.WorkationScheduleDto.CreateWorkationScheduleRequest;
 import TourData.backend.domain.user.model.User;
+import TourData.backend.global.model.BaseTimeEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,7 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,7 +29,7 @@ import lombok.NoArgsConstructor;
 @Builder(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "workation_schedules")
-public class WorkationSchedule {
+public class WorkationSchedule extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,11 +37,11 @@ public class WorkationSchedule {
 
     @NotNull
     @Column(name = "start_date")
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     @NotNull
     @Column(name = "end_date")
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
@@ -53,6 +53,7 @@ public class WorkationSchedule {
     @JoinColumn(name = "location_id")
     private Location location;
 
+    // 수정 예정
     @OneToOne(mappedBy = "workationSchedule", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Review review;
 
@@ -60,10 +61,10 @@ public class WorkationSchedule {
     @Column(name = "is_expired")
     private boolean isExpired;
 
-    public static WorkationSchedule createWorkationSchedule(CreateWorkationScheduleRequest requestParam, User user, Location location) {
+    public static WorkationSchedule createWorkationSchedule(User user, Location location, LocalDate startDate, LocalDate endDate) {
         WorkationSchedule workationSchedule = WorkationSchedule.builder()
-                .startDate(requestParam.startDate())
-                .endDate(requestParam.endDate())
+                .startDate(startDate)
+                .endDate(endDate)
                 .user(user)
                 .location(location)
                 .isExpired(false)

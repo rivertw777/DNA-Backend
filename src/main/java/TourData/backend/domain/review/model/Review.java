@@ -1,6 +1,5 @@
 package TourData.backend.domain.review.model;
 
-import TourData.backend.domain.review.dto.ReviewDto.WriteReviewRequest;
 import TourData.backend.domain.user.model.User;
 import TourData.backend.domain.workationSchedule.model.WorkationSchedule;
 import TourData.backend.global.model.BaseTimeEntity;
@@ -47,9 +46,9 @@ public class Review extends BaseTimeEntity {
     @JoinColumn(name = "workation_schedule_id")
     private WorkationSchedule workationSchedule;
 
-    public static Review createReview(WriteReviewRequest requestParam, User user, WorkationSchedule workationSchedule) {
+    public static Review createReview(User user, WorkationSchedule workationSchedule, String content) {
         Review review = Review.builder()
-                .content(requestParam.content())
+                .content(content)
                 .user(user)
                 .workationSchedule(workationSchedule)
                 .build();

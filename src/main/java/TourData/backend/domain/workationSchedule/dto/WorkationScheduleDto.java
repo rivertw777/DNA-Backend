@@ -4,15 +4,15 @@ import static TourData.backend.domain.workationSchedule.exception.WorkationSched
 import static TourData.backend.domain.workationSchedule.exception.WorkationScheduleExceptionMessage.START_DATE_AFTER_END_DATE;
 
 import TourData.backend.domain.workationSchedule.exception.WorkationScheduleException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class WorkationScheduleDto {
 
-    public record CreateWorkationScheduleRequest(LocalDateTime startDate, LocalDateTime endDate) {
+    public record CreateWorkationScheduleRequest(LocalDate startDate, LocalDate endDate) {
         public CreateWorkationScheduleRequest {
             validateScheduleDates(startDate, endDate);
         }
-        private static void validateScheduleDates(LocalDateTime startDate, LocalDateTime endDate) {
+        private static void validateScheduleDates(LocalDate startDate, LocalDate endDate) {
             if (startDate.isAfter(endDate)) {
                 throw new WorkationScheduleException(START_DATE_AFTER_END_DATE.getMessage());
             } else if (startDate.isEqual(endDate)) {
@@ -21,7 +21,7 @@ public class WorkationScheduleDto {
         }
     }
 
-    public record WorkationScheduleResponse(Long scheduleId, String LocationName, LocalDateTime startDate, LocalDateTime endDate){
+    public record WorkationScheduleResponse(Long scheduleId, String LocationName, LocalDate startDate, LocalDate endDate){
     }
 
 }
