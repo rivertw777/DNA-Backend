@@ -1,8 +1,6 @@
 package TourData.backend.domain.temp;
 
 import TourData.backend.domain.chat.service.ParticipantCountService;
-import TourData.backend.domain.facility.model.Facility;
-import TourData.backend.domain.facility.model.FacilityType;
 import TourData.backend.domain.facility.repository.FacilityRepository;
 import TourData.backend.domain.location.model.Location;
 import TourData.backend.domain.location.model.LocationName;
@@ -65,25 +63,6 @@ public class TempController {
         locationRepository.save(location6);
         locationLikeCountService.initCount(location6.getId());
         participantCountService.initCount(location6.getId());
-
-        return ResponseEntity.ok().build();
-    }
-
-    @Operation(summary = "시설 생성")
-    @GetMapping("/2")
-    public ResponseEntity<Void> temp2() {
-        Location location1 = locationRepository.findById(1L).get();
-        Location location2 = locationRepository.findById(2L).get();
-        Location location3 = locationRepository.findById(3L).get();
-
-        Facility facility1 = Facility.createFacility("맥도날드", FacilityType.RESTAURANT, "강원도 속초시",37.3972, 126.9296, location1);
-        facilityRepository.save(facility1);
-
-        Facility facility2 = Facility.createFacility("이디야", FacilityType.CAFE,  "강원도 속초시",37.3944, 126.9306, location2);
-        facilityRepository.save(facility2);
-
-        Facility facility3 = Facility.createFacility("워커힐", FacilityType.ACCOMMODATION,  "강원도 속초시",37.3944, 126.9306, location3);
-        facilityRepository.save(facility3);
 
         return ResponseEntity.ok().build();
     }

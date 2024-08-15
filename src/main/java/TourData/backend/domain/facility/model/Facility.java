@@ -16,16 +16,9 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "facilities")
 public class Facility {
@@ -35,47 +28,33 @@ public class Facility {
     private Long id;
 
     @NotNull
-    @Column(name = "name")
+    @Column(name = "name", insertable = false, updatable = false)
     private String name;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "type")
+    @Column(name = "type", insertable = false, updatable = false)
     private FacilityType type;
 
     @NotNull
-    @Column(name = "address")
+    @Column(name = "address", insertable = false, updatable = false)
     private String address;
 
     @NotNull
-    @Column(name = "latitude")
+    @Column(name = "latitude", insertable = false, updatable = false)
     private double latitude;
 
     @NotNull
-    @Column(name = "longitude")
+    @Column(name = "longitude", insertable = false, updatable = false)
     private double longitude;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "location_id")
+    @JoinColumn(name = "location_id", insertable = false, updatable = false)
     private Location location;
 
     @OneToMany(mappedBy = "facility")
     private List<FacilityBookmark> facilityBookmarks = new ArrayList<>();
-
-    public static Facility createFacility(String name, FacilityType type, String address, double latitude,
-                                          double longitude, Location location) {
-        Facility facility = Facility.builder()
-                .name(name)
-                .type(type)
-                .address(address)
-                .latitude(latitude)
-                .longitude(longitude)
-                .location(location)
-                .build();
-        location.addFacility(facility);
-        return facility;
-    }
 
     public void addFacilityBookmarks(FacilityBookmark facilityBookmark) {
         this.facilityBookmarks.add(facilityBookmark);

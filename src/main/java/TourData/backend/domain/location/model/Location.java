@@ -71,10 +71,6 @@ public class Location {
         this.locationLikes.add(locationLike);
     }
 
-    public void addFacility(Facility facility) {
-        this.facilities.add(facility);
-    }
-
     public void addWorkationSchedule(WorkationSchedule workationSchedule) { this.workationSchedules.add(workationSchedule);
     }
 
