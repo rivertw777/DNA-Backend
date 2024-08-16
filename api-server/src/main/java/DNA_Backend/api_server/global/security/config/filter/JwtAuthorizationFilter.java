@@ -3,9 +3,9 @@ package DNA_Backend.api_server.global.security.config.filter;
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import DNA_Backend.api_server.global.security.auth.CustomUserDetailsService;
-import DNA_Backend.api_server.global.security.utils.CookieManager;
+import DNA_Backend.api_server.global.security.cookie.CookieManager;
 import DNA_Backend.api_server.global.security.utils.ResponseWriter;
-import DNA_Backend.api_server.global.security.utils.TokenManager;
+import DNA_Backend.api_server.global.security.jwt.TokenManager;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,13 +36,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             chain.doFilter(request, response);
             return;
         }
-
         // 토큰 검증 및 인가
         try {
             tokenManager.validateToken(token);
-            // 인증 정보 추출
             Authentication authentication = customUserDetailsService.extractAuthentication(token);
-            // 사용자 인증 정보 저장
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         // 예외 처리

@@ -5,7 +5,7 @@ import DNA_Backend.api_server.domain.user.service.UserService;
 import DNA_Backend.api_server.global.security.auth.CustomUserDetails;
 import DNA_Backend.api_server.global.security.auth.CustomUserDetailsService;
 import DNA_Backend.api_server.global.security.dto.SecurityDto.CheckFirstLoginResponse;
-import DNA_Backend.api_server.global.security.utils.TokenManager;
+import DNA_Backend.api_server.global.security.jwt.TokenManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

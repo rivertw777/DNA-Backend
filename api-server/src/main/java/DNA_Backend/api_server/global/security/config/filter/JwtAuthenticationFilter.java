@@ -2,8 +2,8 @@ package DNA_Backend.api_server.global.security.config.filter;
 
 import DNA_Backend.api_server.global.security.auth.CustomUserDetails;
 import DNA_Backend.api_server.global.security.dto.SecurityDto.LoginRequest;
-import DNA_Backend.api_server.global.security.utils.CookieManager;
-import DNA_Backend.api_server.global.security.utils.TokenManager;
+import DNA_Backend.api_server.global.security.cookie.CookieManager;
+import DNA_Backend.api_server.global.security.jwt.TokenManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;

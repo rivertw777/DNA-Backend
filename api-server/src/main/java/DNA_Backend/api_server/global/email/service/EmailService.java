@@ -2,7 +2,7 @@ package DNA_Backend.api_server.global.email.service;
 
 import static DNA_Backend.api_server.global.email.exception.EmailExceptionMessage.SEND_MAIL_FAILED;
 
-import DNA_Backend.api_server.domain.user.exception.UserException;
+import DNA_Backend.api_server.global.email.exception.EmailException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -19,7 +19,7 @@ public class EmailService {
         try {
             emailSender.send(emailForm);
         } catch (RuntimeException e) {
-            throw new UserException(SEND_MAIL_FAILED.getMessage());
+            throw new EmailException(SEND_MAIL_FAILED.getMessage());
         }
     }
 

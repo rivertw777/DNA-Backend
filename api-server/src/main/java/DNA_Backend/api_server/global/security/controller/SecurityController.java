@@ -3,7 +3,7 @@ package DNA_Backend.api_server.global.security.controller;
 import DNA_Backend.api_server.global.security.dto.SecurityDto.SetNewUsernameRequest;
 import DNA_Backend.api_server.global.security.dto.SecurityDto.CheckFirstLoginResponse;
 import DNA_Backend.api_server.global.security.service.SecurityService;
-import DNA_Backend.api_server.global.security.utils.CookieManager;
+import DNA_Backend.api_server.global.security.cookie.CookieManager;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

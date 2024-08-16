@@ -23,8 +23,7 @@ public class LoggingAspect {
             + "execution(* DNA_Backend.api_server.domain.workationSchedule.service.WorkationScheduleService..*(..)) || "
             + "execution(* DNA_Backend.api_server.domain.workationSchedule.service.ScheduleNotificationService..*(..)) || "
             + "execution(* DNA_Backend.api_server.domain.review.service.ReviewService..*(..)) || "
-            + "execution(* DNA_Backend.api_server.global.security.auth.CustomUserDetailsService..*(..))) && "
-            + "!execution(* DNA_Backend.api_server.domain.chat.service.ChatService..*(..))", throwing = "ex")
+            + "execution(* DNA_Backend.api_server.global.security.auth.CustomUserDetailsService..*(..)))", throwing = "ex")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable ex) {
         String methodName = joinPoint.getSignature().getName();
         String className = joinPoint.getSignature().getDeclaringTypeName();
@@ -42,8 +41,7 @@ public class LoggingAspect {
             + "execution(* DNA_Backend.api_server.domain.workationSchedule.service.WorkationScheduleService..*(..)) || "
             + "execution(* DNA_Backend.api_server.domain.workationSchedule.service.ScheduleNotificationService..*(..)) || "
             + "execution(* DNA_Backend.api_server.domain.review.service.ReviewService..*(..)) || "
-            + "execution(* DNA_Backend.api_server.global.security.auth.CustomUserDetailsService..*(..))) && "
-            + "!execution(* DNA_Backend.api_server.domain.chat.service.ChatService..*(..))")
+            + "execution(* DNA_Backend.api_server.global.security.auth.CustomUserDetailsService..*(..)))")
     public void logBefore(JoinPoint joinPoint) {
         String methodName = joinPoint.getSignature().getName();
         String className = joinPoint.getSignature().getDeclaringTypeName();
@@ -61,8 +59,7 @@ public class LoggingAspect {
             + "execution(* DNA_Backend.api_server.domain.workationSchedule.service.WorkationScheduleService..*(..)) || "
             + "execution(* DNA_Backend.api_server.domain.workationSchedule.service.ScheduleNotificationService..*(..)) || "
             + "execution(* DNA_Backend.api_server.domain.review.service.ReviewService..*(..)) || "
-            + "execution(* DNA_Backend.api_server.global.security.auth.CustomUserDetailsService..*(..))) && "
-            + "!execution(* DNA_Backend.api_server.domain.chat.service.ChatService..*(..))")
+            + "execution(* DNA_Backend.api_server.global.security.auth.CustomUserDetailsService..*(..)))")
     public Object logAfter(ProceedingJoinPoint joinPoint) throws Throwable {
         String methodName = joinPoint.getSignature().getName();
         String className = joinPoint.getSignature().getDeclaringTypeName();

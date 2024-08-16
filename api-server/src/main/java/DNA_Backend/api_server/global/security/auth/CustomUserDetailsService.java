@@ -5,7 +5,7 @@ import static DNA_Backend.api_server.domain.user.exception.UserExceptionMessage.
 import DNA_Backend.api_server.domain.user.exception.UserException;
 import DNA_Backend.api_server.domain.user.model.User;
 import DNA_Backend.api_server.domain.user.repository.UserRepository;
-import DNA_Backend.api_server.global.security.utils.TokenManager;
+import DNA_Backend.api_server.global.security.jwt.TokenManager;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,11 +32,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     // 인증 정보 반환
     public Authentication extractAuthentication(String token) {
-        // 토큰 복호화
         Claims claims = tokenManager.parseClaims(token);
-        // 회원 이름 추출
         String username = claims.getSubject();
-        // userDetails 조회
         CustomUserDetails userDetails = loadUserByUsername(username);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }

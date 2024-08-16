@@ -1,8 +1,8 @@
 package DNA_Backend.api_server.global.security.config.handler;
 
 import DNA_Backend.api_server.global.security.auth.CustomUserDetails;
-import DNA_Backend.api_server.global.security.utils.CookieManager;
-import DNA_Backend.api_server.global.security.utils.TokenManager;
+import DNA_Backend.api_server.global.security.cookie.CookieManager;
+import DNA_Backend.api_server.global.security.jwt.TokenManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

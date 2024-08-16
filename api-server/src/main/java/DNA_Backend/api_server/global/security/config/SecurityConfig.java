@@ -9,8 +9,8 @@ import DNA_Backend.api_server.global.security.config.handler.JwtAuthenticationEn
 import DNA_Backend.api_server.global.security.config.handler.JwtAuthenticationFailureHandler;
 import DNA_Backend.api_server.global.security.config.handler.OAuth2LoginSuccessHandler;
 import DNA_Backend.api_server.global.security.oauth.CustomOauth2UserService;
-import DNA_Backend.api_server.global.security.utils.CookieManager;
-import DNA_Backend.api_server.global.security.utils.TokenManager;
+import DNA_Backend.api_server.global.security.cookie.CookieManager;
+import DNA_Backend.api_server.global.security.jwt.TokenManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
