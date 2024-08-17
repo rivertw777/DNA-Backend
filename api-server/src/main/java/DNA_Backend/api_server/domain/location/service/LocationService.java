@@ -37,11 +37,19 @@ public class LocationService {
                 .collect(Collectors.toList());
     }
 
+    // 단일 지역 조회
+    public LocationResponse getLocation(Long locationId) {
+        Location location = findLocation(locationId);
+        return toResponseDto(location);
+    }
+
     private LocationResponse toResponseDto(Location location) {
         return new LocationResponse(
                 location.getId(),
                 location.getName().getValue(),
-                location.getThumbnail()
+                location.getThumbnail(),
+                location.getLatitude(),
+                location.getLongitude()
         );
     }
 

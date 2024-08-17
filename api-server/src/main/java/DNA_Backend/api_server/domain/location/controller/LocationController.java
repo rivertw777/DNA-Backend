@@ -35,6 +35,13 @@ public class LocationController {
         return ResponseEntity.ok(responses);
     }
 
+    @Operation(summary = "단일 지역 조회")
+    @GetMapping("/{locationId}")
+    public ResponseEntity<LocationResponse> getLocation(@PathVariable("locationId") Long locationId) {
+        LocationResponse response = locationService.getLocation(locationId);
+        return ResponseEntity.ok(response);
+    }
+
     @Operation(summary = "전체 지역 날씨 조회")
     @GetMapping("/weather")
     public ResponseEntity<List<LocationWeatherResponse>> getWeathersForAllLocations() {

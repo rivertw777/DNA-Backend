@@ -2,7 +2,8 @@ package DNA_Backend.api_server.domain.location.dto;
 
 public class LocationDto {
 
-    public record LocationResponse(Long locationId, String locationName, String thumbNail) {
+    public record LocationResponse(Long locationId, String locationName, String thumbNail,
+                                   double latitude, double longitude) {
     }
 
     public record CheckLocationLikeResponse(boolean isLiked) {
