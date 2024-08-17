@@ -23,14 +23,6 @@ public class RedisService {
         return redisTemplate.opsForValue().get(key);
     }
 
-    public void delete(String key) {
-        redisTemplate.delete(key);
-    }
-
-    public boolean exists(String key) {
-        return redisTemplate.hasKey(key);
-    }
-
     public void increase(String key) {
         redisTemplate.opsForValue().increment(key);
     }

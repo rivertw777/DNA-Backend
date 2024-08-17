@@ -17,7 +17,7 @@ public class ChatMessage {
     private String roomId;
     private String sender;
     private String message;
-    private int participantCount;
+    private long participantCount;
 
     public void setSender(String sender){
         this.sender = sender;
@@ -27,7 +27,7 @@ public class ChatMessage {
         this.message = message;
     }
 
-    public void setParticipantCount(int participantCount) {
+    public void setParticipantCount(long participantCount) {
         this.participantCount = participantCount;
     }
 

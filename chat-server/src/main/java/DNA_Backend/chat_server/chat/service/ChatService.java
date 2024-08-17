@@ -28,19 +28,19 @@ public class ChatService {
     }
 
     private void handleChat(ChatMessage chatMessage) {
-        int participantCount = participantCountService.getParticipantCount(chatMessage.getRoomId());
+        long participantCount = participantCountService.getParticipantCount(chatMessage.getRoomId());
         chatMessage.setParticipantCount(participantCount);
     }
 
     private void handleJoin(ChatMessage chatMessage) {
         chatMessage.setMessage(chatMessage.getSender() + "님이 입장하셨습니다.");
-        int participantCount = participantCountService.increaseParticipantCount(chatMessage.getRoomId());
+        long participantCount = participantCountService.increaseParticipantCount(chatMessage.getRoomId());
         chatMessage.setParticipantCount(participantCount);
     }
 
     private void handleLeave(ChatMessage chatMessage) {
         chatMessage.setMessage(chatMessage.getSender() + "님이 퇴장하셨습니다.");
-        int participantCount = participantCountService.decreaseParticipantCount(chatMessage.getRoomId());
+        long participantCount = participantCountService.decreaseParticipantCount(chatMessage.getRoomId());
         chatMessage.setParticipantCount(participantCount);
     }
 
