@@ -11,7 +11,7 @@ public class FacilityDto {
     public record BookmarkedFacilityResponse(Long facilityId, String facilityName, String type, String address){
     }
 
-    public record LocationTotalFacilityCountResponse(Long locationId, String LocationName, long facilityCount) {
+    public record LocationTotalFacilityCountResponse(Long locationId, long facilityCount) {
     }
 
 }

@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 public enum CasheName {
 
     ALL_LOCATIONS("AllLocations"),
-    WEATHERS_FOR_ALL_LOCATIONS("WeathersForAllLocations"),
-    TOTAL_FACILITY_COUNTS_FOR_ALL_LOCATIONS("TotalFacilityCountsForAllLocations");
+    ALL_LOCATION_WEATHER("AllLocationWeathers"),
+    ALL_LOCATION_TOTAL_FACILITY_COUNTS("AllLocationTotalFacilityCounts");
 
     private final String value;
 

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LocationWeatherDto {
 
-    public record LocationWeatherResponse(Long locationId, String locationName, double temperature, double humidity, double cloudiness) {
+    public record LocationWeatherResponse(Long locationId, double temperature, double humidity, double cloudiness) {
     }
 
     public record LocationWeatherApiResponse(Main main, Clouds clouds) {

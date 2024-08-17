@@ -1,8 +1,8 @@
 package DNA_Backend.api_server.global.redis.config;
 
 import static DNA_Backend.api_server.global.redis.config.CasheName.ALL_LOCATIONS;
-import static DNA_Backend.api_server.global.redis.config.CasheName.TOTAL_FACILITY_COUNTS_FOR_ALL_LOCATIONS;
-import static DNA_Backend.api_server.global.redis.config.CasheName.WEATHERS_FOR_ALL_LOCATIONS;
+import static DNA_Backend.api_server.global.redis.config.CasheName.ALL_LOCATION_TOTAL_FACILITY_COUNTS;
+import static DNA_Backend.api_server.global.redis.config.CasheName.ALL_LOCATION_WEATHER;
 import static org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair.fromSerializer;
 
 import java.time.Duration;
@@ -42,8 +42,8 @@ public class CacheConfig {
     private Map<String, RedisCacheConfiguration> confMap() {
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
         cacheConfigurations.put(ALL_LOCATIONS.getValue(), defaultConf());
-        cacheConfigurations.put(WEATHERS_FOR_ALL_LOCATIONS.getValue(), defaultConf().entryTtl(Duration.ofHours(1)));
-        cacheConfigurations.put(TOTAL_FACILITY_COUNTS_FOR_ALL_LOCATIONS.getValue(), defaultConf());
+        cacheConfigurations.put(ALL_LOCATION_WEATHER.getValue(), defaultConf().entryTtl(Duration.ofHours(1)));
+        cacheConfigurations.put(ALL_LOCATION_TOTAL_FACILITY_COUNTS.getValue(), defaultConf());
         return cacheConfigurations;
     }
 

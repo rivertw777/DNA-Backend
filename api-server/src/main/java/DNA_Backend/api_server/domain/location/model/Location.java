@@ -37,6 +37,15 @@ public class Location {
     @Column(name = "thumbnail", insertable = false, updatable = false)
     private String thumbnail;
 
+    @Column(name = "internet_speed", insertable = false, updatable = false)
+    private float internetSpeed;
+
+    @Column(name = "price_index", insertable = false, updatable = false)
+    private float priceIndex;
+
+    @Column(name = "population_density", insertable = false, updatable = false)
+    private float populationDensity;
+
     @OneToMany(mappedBy = "location")
     private List<LocationLike> locationLikes = new ArrayList<>();
 

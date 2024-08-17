@@ -6,6 +6,11 @@ public class LocationDto {
                                    double latitude, double longitude) {
     }
 
+    public record LocationDetailResponse(Long locationId, String locationName, String thumbNail,
+                                         double latitude, double longitude, float internetSpeed,
+                                         float priceIndex, float populationDensity) {
+    }
+
     public record CheckLocationLikeResponse(boolean isLiked) {
     }
 

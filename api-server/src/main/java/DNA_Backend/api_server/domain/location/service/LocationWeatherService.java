@@ -22,20 +22,18 @@ public class LocationWeatherService {
 
     private final RestTemplate restTemplate;
 
-    public List<LocationWeatherResponse> getWeatherResponsesForAllLocations(List<Location> locations) {
+    public List<LocationWeatherResponse> toWeatherResponseDtos(List<Location> locations) {
         return locations.stream()
-                .map(this::toResponseDto)
+                .map(this::toWeatherResponseDto)
                 .collect(Collectors.toList());
     }
 
-    private LocationWeatherResponse toResponseDto(Location location) {
+    public LocationWeatherResponse toWeatherResponseDto(Location location) {
         String url = String.format("%s?lat=%f&lon=%f&appid=%s&units=metric",
                 weatherApiUrl, location.getLatitude(), location.getLongitude(), weatherApiKey);
         LocationWeatherApiResponse response = restTemplate.getForObject(url, LocationWeatherApiResponse.class);
-
         return new LocationWeatherResponse(
                 location.getId(),
-                location.getName().getValue(),
                 response.main().temp(),
                 response.main().humidity(),
                 response.clouds().all());

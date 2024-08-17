@@ -87,9 +87,17 @@ public class FacilityController {
 
     @Operation(summary = "전체 지역 총 시설 수 조회")
     @GetMapping("/locations/facilities/count")
-    public ResponseEntity<List<LocationTotalFacilityCountResponse>> getTotalFacilityCountsForAllLocations() {
-        List<LocationTotalFacilityCountResponse> responses = facilityService.getTotalFacilityCountsForAllLocations();
+    public ResponseEntity<List<LocationTotalFacilityCountResponse>> getAllLocationTotalFacilityCounts() {
+        List<LocationTotalFacilityCountResponse> responses = facilityService.getAllLocationTotalFacilityCounts();
         return ResponseEntity.ok(responses);
+    }
+
+    @Operation(summary = "단일 지역 총 시설 수 조회")
+    @GetMapping("/locations/{locationId}/facilities/count")
+    public ResponseEntity<LocationTotalFacilityCountResponse> getLocationTotalFacilityCount(
+            @Valid @PathVariable("locationId") Long locationId) {
+        LocationTotalFacilityCountResponse response = facilityService.getLocationTotalFacilityCount(locationId);
+        return ResponseEntity.ok(response);
     }
 
 }

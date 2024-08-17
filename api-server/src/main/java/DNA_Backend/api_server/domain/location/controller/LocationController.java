@@ -1,6 +1,7 @@
 package DNA_Backend.api_server.domain.location.controller;
 
 import DNA_Backend.api_server.domain.location.dto.LocationDto.CheckLocationLikeResponse;
+import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationDetailResponse;
 import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationLikeCountResponse;
 import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationResponse;
 import DNA_Backend.api_server.domain.location.dto.LocationWeatherDto.LocationWeatherResponse;
@@ -37,16 +38,23 @@ public class LocationController {
 
     @Operation(summary = "단일 지역 조회")
     @GetMapping("/{locationId}")
-    public ResponseEntity<LocationResponse> getLocation(@PathVariable("locationId") Long locationId) {
-        LocationResponse response = locationService.getLocation(locationId);
+    public ResponseEntity<LocationDetailResponse> getLocationDetail(@Valid @PathVariable("locationId") Long locationId) {
+        LocationDetailResponse response = locationService.getLocationDetail(locationId);
         return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "전체 지역 날씨 조회")
     @GetMapping("/weather")
-    public ResponseEntity<List<LocationWeatherResponse>> getWeathersForAllLocations() {
-        List<LocationWeatherResponse> responses = locationService.getWeathersForAllLocations();
+    public ResponseEntity<List<LocationWeatherResponse>> getAllLocationWeathers() {
+        List<LocationWeatherResponse> responses = locationService.getAllLocationWeathers();
         return ResponseEntity.ok(responses);
+    }
+
+    @Operation(summary = "단일 지역 날씨 조회")
+    @GetMapping("/{locationId}/weather")
+    public ResponseEntity<LocationWeatherResponse> getLocationWeather(@Valid @PathVariable("locationId") Long locationId) {
+        LocationWeatherResponse response = locationService.getLocationWeather(locationId);
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "사용자 지역 좋아요")

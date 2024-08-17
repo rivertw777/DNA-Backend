@@ -45,7 +45,6 @@ public class WorkationScheduleService {
 
     private void validateScheduleOverlap(Long userId, LocalDate startDate, LocalDate endDate) {
         List<WorkationSchedule> schedules = workationScheduleRepository.findByUserId(userId);
-
         schedules.stream()
                 .filter(schedule -> isOverlapping(schedule.getStartDate(), schedule.getEndDate(), startDate, endDate))
                 .findAny()

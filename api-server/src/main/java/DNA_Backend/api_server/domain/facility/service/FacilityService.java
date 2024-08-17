@@ -37,7 +37,6 @@ public class FacilityService {
         FacilityType type = FacilityType.fromValue(facilityType);
         List<Facility> facilities = facilityRepository.findByLatitudeBetweenAndLongitudeBetweenAndType(
                 latMin, latMax, lngMin, lngMax, type);
-
         return facilities.stream()
                 .map(this::toResponseDto)
                 .collect(Collectors.toList());
@@ -48,7 +47,6 @@ public class FacilityService {
     public List<FacilityResponse> searchFacilitiesByLocationIdAndType(Long locationId, String facilityType) {
         FacilityType type = FacilityType.fromValue(facilityType);
         List<Facility> facilities = facilityRepository.findByLocationIdAndType(locationId, type);
-
         return facilities.stream()
                 .map(this::toResponseDto)
                 .collect(Collectors.toList());
@@ -66,22 +64,26 @@ public class FacilityService {
 
     // 전체 지역 총 시설 수 조회
     @Transactional(readOnly = true)
-    @Cacheable(cacheNames = "TotalFacilityCountsForAllLocations", cacheManager = "redisCacheManager")
-    public List<LocationTotalFacilityCountResponse> getTotalFacilityCountsForAllLocations() {
+    @Cacheable(cacheNames = "AllLocationTotalFacilityCounts", cacheManager = "redisCacheManager")
+    public List<LocationTotalFacilityCountResponse> getAllLocationTotalFacilityCounts() {
         List<Location> locations = locationRepository.findAll();
-
         return locations.stream()
                 .map(this::toTotalFacilityCountResponseDto)
                 .collect(Collectors.toList());
+    }
+
+    // 단일 지역 총 시설 수 조회
+    @Transactional(readOnly = true)
+    public LocationTotalFacilityCountResponse getLocationTotalFacilityCount(Long locationId) {
+        Location location = locationRepository.findById(locationId).get();
+        return toTotalFacilityCountResponseDto(location);
     }
 
     private LocationTotalFacilityCountResponse toTotalFacilityCountResponseDto(Location location) {
         long facilityCount = facilityRepository.countByLocation(location);
         return new LocationTotalFacilityCountResponse(
                 location.getId(),
-                location.getName().getValue(),
                 facilityCount
         );
     }
-
 }

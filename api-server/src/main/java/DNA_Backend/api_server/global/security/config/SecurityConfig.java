@@ -67,14 +67,20 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "api/users/email/**").permitAll()
                         // 전체 지역 조회
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations")).permitAll()
+                        // 단일 지역 조회
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/{\\d+}")).permitAll()
                         // 전체 지역 날씨 조회
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/weather")).permitAll()
+                        // 단일 지역 날씨 조회
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/{\\d+}/weather")).permitAll()
                         // 단일 지역 좋아요 수 조회
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/{\\d+}/like/count")).permitAll()
                         // 시설 검색 by 지역 id & 타입
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/{\\d+}/facilities/search")).permitAll()
                         // 전체 지역 총 시설 수 조회
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/facilities/count")).permitAll()
+                        // 단일 지역 총 시설 수 조회
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/{\\d+}/facilities/count")).permitAll()
                         // 단일 지역 워케이션 리뷰 조회
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/{\\d+}/reviews")).permitAll()
                         // 시설 검색 by 위도, 경도 & 타입

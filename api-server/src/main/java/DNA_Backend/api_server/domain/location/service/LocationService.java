@@ -2,6 +2,7 @@ package DNA_Backend.api_server.domain.location.service;
 
 import static DNA_Backend.api_server.domain.location.exception.LocationExceptionMessage.LOCATION_NOT_FOUND;
 
+import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationDetailResponse;
 import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationResponse;
 import DNA_Backend.api_server.domain.location.dto.LocationWeatherDto.LocationWeatherResponse;
 import DNA_Backend.api_server.domain.location.exception.LocationException;
@@ -37,12 +38,6 @@ public class LocationService {
                 .collect(Collectors.toList());
     }
 
-    // 단일 지역 조회
-    public LocationResponse getLocation(Long locationId) {
-        Location location = findLocation(locationId);
-        return toResponseDto(location);
-    }
-
     private LocationResponse toResponseDto(Location location) {
         return new LocationResponse(
                 location.getId(),
@@ -53,12 +48,37 @@ public class LocationService {
         );
     }
 
+    // 단일 지역 조회
+    public LocationDetailResponse getLocationDetail(Long locationId) {
+        Location location = findLocation(locationId);
+        return toDetailResponseDto(location);
+    }
+
+    private LocationDetailResponse toDetailResponseDto(Location location) {
+        return new LocationDetailResponse(
+                location.getId(),
+                location.getName().getValue(),
+                location.getThumbnail(),
+                location.getLatitude(),
+                location.getLongitude(),
+                location.getInternetSpeed(),
+                location.getPriceIndex(),
+                location.getPopulationDensity()
+        );
+    }
+
     // 전체 지역 날씨 조회
     @Transactional(readOnly = true)
-    @Cacheable(cacheNames = "WeathersForAllLocations", cacheManager = "redisCacheManager")
-    public List<LocationWeatherResponse> getWeathersForAllLocations() {
+    @Cacheable(cacheNames = "AllLocationWeathers", cacheManager = "redisCacheManager")
+    public List<LocationWeatherResponse> getAllLocationWeathers() {
         List<Location> locations = locationRepository.findAll();
-        return locationWeatherService.getWeatherResponsesForAllLocations(locations);
+        return locationWeatherService.toWeatherResponseDtos(locations);
+    }
+
+    // 단일 지역 날씨 조회
+    public LocationWeatherResponse getLocationWeather(Long locationId) {
+        Location location = findLocation(locationId);
+        return locationWeatherService.toWeatherResponseDto(location);
     }
 
 }
