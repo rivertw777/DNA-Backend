@@ -4,6 +4,7 @@ import static DNA_Backend.api_server.domain.user.exception.UserExceptionMessage.
 import static DNA_Backend.api_server.domain.user.exception.UserExceptionMessage.USER_NOT_FOUND;
 
 import DNA_Backend.api_server.domain.user.dto.EmailDto.SendEmailCodeRequest;
+import DNA_Backend.api_server.domain.user.dto.EmailDto.UserPopupStatusResponse;
 import DNA_Backend.api_server.domain.user.dto.EmailDto.VerifyEmailCodeRequest;
 import DNA_Backend.api_server.domain.user.dto.EmailDto.VerifyEmailCodeResponse;
 import DNA_Backend.api_server.domain.user.dto.UserDto.CheckDuplicateUsernameRequest;
@@ -11,6 +12,7 @@ import DNA_Backend.api_server.domain.user.dto.UserDto.CheckDuplicateUsernameResp
 import DNA_Backend.api_server.domain.user.dto.UserDto.SignUpRequest;
 import DNA_Backend.api_server.domain.user.dto.UserDto.UsernameResponse;
 import DNA_Backend.api_server.domain.user.exception.UserException;
+import DNA_Backend.api_server.domain.user.model.PopupStatus;
 import DNA_Backend.api_server.domain.user.model.User;
 import DNA_Backend.api_server.domain.user.repository.UserRepository;
 import DNA_Backend.api_server.global.redis.service.RedisService;
@@ -92,6 +94,22 @@ public class UserService {
         boolean isVerified = requestParam.code().equals(findCode);
 
         return new VerifyEmailCodeResponse(isVerified);
+    }
+
+    // 사용자 팝업 상태 조회
+    @Transactional(readOnly = true)
+    public UserPopupStatusResponse getUserPopupStatus(Long userId) {
+        User user = findUser(userId);
+
+        return new UserPopupStatusResponse(user.getPopupStatus().getValue());
+    }
+
+    // 사용자 팝업 상태 변경
+    @Transactional
+    public void UpdateUserPopupStatus(Long userId) {
+        User user = findUser(userId);
+
+        user.setPopupStatus(PopupStatus.NONE);
     }
 
 }
