@@ -7,6 +7,7 @@ import DNA_Backend.api_server.domain.location.model.Location;
 import DNA_Backend.api_server.domain.location.service.LocationService;
 import DNA_Backend.api_server.domain.user.model.User;
 import DNA_Backend.api_server.domain.user.service.UserService;
+import DNA_Backend.api_server.domain.workationSchedule.dto.WorkationScheduleDto.AllScheduledDatesResponse;
 import DNA_Backend.api_server.domain.workationSchedule.dto.WorkationScheduleDto.CreateWorkationScheduleRequest;
 import DNA_Backend.api_server.domain.workationSchedule.dto.WorkationScheduleDto.WorkationScheduleResponse;
 import DNA_Backend.api_server.domain.workationSchedule.exception.WorkationScheduleException;
@@ -15,6 +16,7 @@ import DNA_Backend.api_server.domain.workationSchedule.repository.WorkationSched
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,12 +41,14 @@ public class WorkationScheduleService {
     public void createWorkationSchedule(Long userId, Long locationId, CreateWorkationScheduleRequest requestParam) {
         User user = userService.findUser(userId);
         Location location = locationService.findLocation(locationId);
+
         validateScheduleOverlap(userId, requestParam.startDate(), requestParam.endDate());
         saveSchedule(user, location, requestParam);
     }
 
     private void validateScheduleOverlap(Long userId, LocalDate startDate, LocalDate endDate) {
         List<WorkationSchedule> schedules = workationScheduleRepository.findByUserId(userId);
+
         schedules.stream()
                 .filter(schedule -> isOverlapping(schedule.getStartDate(), schedule.getEndDate(), startDate, endDate))
                 .findAny()
@@ -67,6 +71,7 @@ public class WorkationScheduleService {
     @Transactional(readOnly = true)
     public List<WorkationScheduleResponse> getAllWorkationSchedules(Long userId) {
         List<WorkationSchedule> workationSchedules = workationScheduleRepository.findByUserId(userId);
+
         return workationSchedules.stream()
                 .map(this::toResponseDto)
                 .collect(Collectors.toList());
@@ -76,6 +81,7 @@ public class WorkationScheduleService {
     @Transactional(readOnly = true)
     public WorkationScheduleResponse getWorkationSchedule(Long userId, Long scheduleId) {
         WorkationSchedule workationSchedule = findWorkationSchedule(userId, scheduleId);
+
         return toResponseDto(workationSchedule);
     }
 
@@ -98,6 +104,20 @@ public class WorkationScheduleService {
     @Transactional
     public void deleteWorkationSchedule(Long userId, Long scheduleId) {
         workationScheduleRepository.deleteByUserIdAndId(userId, scheduleId);
+    }
+
+    // 사용자 전체 일정 날짜 조회
+    @Transactional(readOnly = true)
+    public AllScheduledDatesResponse getAllScheduledDates(Long userId) {
+        List<WorkationSchedule> schedules = workationScheduleRepository.findByUserId(userId);
+
+        List<LocalDate> scheduledDates = schedules.stream()
+                .flatMap(schedule ->
+                        Stream.iterate(schedule.getStartDate(), date -> !date.isAfter(schedule.getEndDate()), date -> date.plusDays(1))
+                )
+                .collect(Collectors.toList());
+
+        return new AllScheduledDatesResponse(scheduledDates);
     }
 
 }

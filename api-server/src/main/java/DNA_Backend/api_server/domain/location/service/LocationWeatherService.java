@@ -31,7 +31,9 @@ public class LocationWeatherService {
     public LocationWeatherResponse toWeatherResponseDto(Location location) {
         String url = String.format("%s?lat=%f&lon=%f&appid=%s&units=metric",
                 weatherApiUrl, location.getLatitude(), location.getLongitude(), weatherApiKey);
+
         LocationWeatherApiResponse response = restTemplate.getForObject(url, LocationWeatherApiResponse.class);
+
         return new LocationWeatherResponse(
                 location.getId(),
                 response.main().temp(),

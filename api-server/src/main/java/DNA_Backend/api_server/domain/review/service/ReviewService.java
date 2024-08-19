@@ -32,6 +32,7 @@ public class ReviewService {
     public void writeReview(Long userId, Long scheduleId, WriteReviewRequest reqeustParam) {
         User user = userService.findUser(userId);
         WorkationSchedule workationSchedule = workationScheduleService.findWorkationSchedule(scheduleId);
+
         validateReviewNotExists(workationSchedule);
         saveReview(user, workationSchedule, reqeustParam);
     }
@@ -51,6 +52,7 @@ public class ReviewService {
     @Transactional(readOnly = true)
     public List<ReviewResponse> getAllReviewsByUserId(Long userId) {
         List<Review> reviews = reviewRepository.findByUserId(userId);
+
         return reviews.stream()
                 .map(this::toResponseDto)
                 .collect(Collectors.toList());
@@ -60,6 +62,7 @@ public class ReviewService {
     @Transactional(readOnly = true)
     public Page<ReviewResponse> getAllReviews(Pageable pageable) {
         Page<Review> reviewsPage = reviewRepository.findAll(pageable);
+
         return reviewsPage.map(this::toResponseDto);
     }
 
@@ -67,11 +70,13 @@ public class ReviewService {
     @Transactional(readOnly = true)
     public Page<ReviewResponse> getLocationReviews(Long locationId, Pageable pageable) {
         Page<Review> reviewsPage = reviewRepository.findByWorkationScheduleLocationId(locationId, pageable);
+
         return reviewsPage.map(this::toResponseDto);
     }
 
     private ReviewResponse toResponseDto(Review review) {
         WorkationSchedule workationSchedule = review.getWorkationSchedule();
+
         return new ReviewResponse(
                 review.getId(),
                 workationSchedule.getUser().getUsername(),

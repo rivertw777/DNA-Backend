@@ -65,6 +65,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public CheckDuplicateUsernameResponse CheckDuplicateUsername(CheckDuplicateUsernameRequest requestParam){
         boolean isDuplicate = userRepository.findByUsername(requestParam.username()).isPresent();
+
         return new CheckDuplicateUsernameResponse(isDuplicate);
     }
 
@@ -89,6 +90,7 @@ public class UserService {
     public VerifyEmailCodeResponse verifyEmailCode(VerifyEmailCodeRequest requestParam) {
         String findCode = redisService.get(EMAIL_AUTH_CODE_PREFIX + requestParam.email());
         boolean isVerified = requestParam.code().equals(findCode);
+
         return new VerifyEmailCodeResponse(isVerified);
     }
 

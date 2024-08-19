@@ -34,6 +34,7 @@ public class FacilityService {
         FacilityType type = FacilityType.fromValue(facilityType);
         List<Facility> facilities = facilityRepository.findByLatitudeBetweenAndLongitudeBetweenAndType(
                 latMin, latMax, lngMin, lngMax, type);
+
         return facilities.stream()
                 .map(this::toResponseDto)
                 .collect(Collectors.toList());
@@ -44,6 +45,7 @@ public class FacilityService {
     public List<FacilityResponse> searchFacilitiesByLocationIdAndType(Long locationId, String facilityType) {
         FacilityType type = FacilityType.fromValue(facilityType);
         List<Facility> facilities = facilityRepository.findByLocationIdAndType(locationId, type);
+
         return facilities.stream()
                 .map(this::toResponseDto)
                 .collect(Collectors.toList());
@@ -74,6 +76,7 @@ public class FacilityService {
 
     private LocationTotalFacilityCountResponse toTotalFacilityCountResponseDto(Long locationId) {
         long facilityCount = facilityRepository.countByLocationId(locationId);
+
         return new LocationTotalFacilityCountResponse(
                 locationId,
                 facilityCount

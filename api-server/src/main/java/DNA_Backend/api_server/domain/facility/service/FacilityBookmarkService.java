@@ -30,7 +30,9 @@ public class FacilityBookmarkService {
     public void bookmarkFacility(Long userId, Long facilityId) {
         User user = userService.findUser(userId);
         Facility facility = facilityService.findFacility(facilityId);
+
         validateBookmarkNotExists(user.getId(), facilityId);
+
         saveFacilityBookmark(user, facility);
     }
 
@@ -49,6 +51,7 @@ public class FacilityBookmarkService {
     @Transactional
     public void unbookmarkFacility(Long userId, Long facilityId) {
         validateBookmarkExists(userId, facilityId);
+
         facilityBookmarkRepository.deleteByUserIdAndFacilityId(userId, facilityId);
     }
 
@@ -62,6 +65,7 @@ public class FacilityBookmarkService {
     @Transactional(readOnly = true)
     public CheckFacilityBookmarkResponse checkFacilityBookmark(Long userId, Long facilityId) {
         boolean isBookmarked = facilityBookmarkRepository.findByUserIdAndFacilityId(userId, facilityId).isPresent();
+
         return new CheckFacilityBookmarkResponse(isBookmarked);
     }
 
@@ -75,6 +79,7 @@ public class FacilityBookmarkService {
 
     private BookmarkedFacilityResponse toResponseDto(FacilityBookmark facilityBookmark) {
         Facility facility = facilityBookmark.getFacility();
+
         return new BookmarkedFacilityResponse(
                 facility.getId(),
                 facility.getName(),

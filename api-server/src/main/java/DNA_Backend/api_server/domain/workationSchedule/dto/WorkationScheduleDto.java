@@ -5,6 +5,7 @@ import static DNA_Backend.api_server.domain.workationSchedule.exception.Workatio
 
 import DNA_Backend.api_server.domain.workationSchedule.exception.WorkationScheduleException;
 import java.time.LocalDate;
+import java.util.List;
 
 public class WorkationScheduleDto {
 
@@ -23,6 +24,9 @@ public class WorkationScheduleDto {
 
     public record WorkationScheduleResponse(Long scheduleId, String LocationName, LocalDate startDate, LocalDate endDate,
                                             boolean hasReview){
+    }
+
+    public record AllScheduledDatesResponse(List<LocalDate> scheduledDates){
     }
 
 }

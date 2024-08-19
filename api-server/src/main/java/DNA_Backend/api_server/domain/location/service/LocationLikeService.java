@@ -29,7 +29,9 @@ public class LocationLikeService {
     public void likeLocation(Long userId, Long locationId) {
         User user = userService.findUser(userId);
         Location location = locationService.findLocation(locationId);
+
         validateLikeNotExists(user.getId(), locationId);
+
         saveLocationLike(user, location);
         locationLikeCountService.increaseCount(locationId);
     }
@@ -49,6 +51,7 @@ public class LocationLikeService {
     @Transactional
     public void unlikeLocation(Long userId, Long locationId) {
         validateLikeExists(userId, locationId);
+
         locationLikeRepository.deleteByUserIdAndLocationId(userId, locationId);
         locationLikeCountService.decreaseCount(locationId);
     }
@@ -63,6 +66,7 @@ public class LocationLikeService {
     @Transactional(readOnly = true)
     public CheckLocationLikeResponse checkLocationLike(Long userId, Long locationId) {
         boolean isLiked = locationLikeRepository.findByUserIdAndLocationId(userId, locationId).isPresent();
+
         return new CheckLocationLikeResponse(isLiked);
     }
 
@@ -70,6 +74,7 @@ public class LocationLikeService {
     @Transactional(readOnly = true)
     public LocationLikeCountResponse getLocationLikeCount(Long locationId) {
         long likeCount = locationLikeCountService.getCount(locationId);
+
         return new LocationLikeCountResponse(likeCount);
     }
 

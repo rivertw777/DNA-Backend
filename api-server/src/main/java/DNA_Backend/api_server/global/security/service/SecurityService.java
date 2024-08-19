@@ -21,6 +21,7 @@ public class SecurityService {
     // 사용자 소셜 계정 최초 로그인 확인
     public CheckFirstLoginResponse checkFirstLogin(String username) {
         boolean isFirstLogin = username.startsWith("default");
+
         return new CheckFirstLoginResponse(isFirstLogin);
     }
 

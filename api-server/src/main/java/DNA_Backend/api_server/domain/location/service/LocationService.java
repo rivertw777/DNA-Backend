@@ -53,6 +53,7 @@ public class LocationService {
     // 단일 지역 상세 조회
     public LocationDetailResponse getLocationDetail(Long locationId) {
         Location location = findLocation(locationId);
+
         return toDetailResponseDto(location);
     }
 
@@ -74,6 +75,7 @@ public class LocationService {
     @Cacheable(cacheNames = "AllLocationWeathers", cacheManager = "redisCacheManager")
     public List<LocationWeatherResponse> getAllLocationWeathers() {
         List<Location> locations = locationRepository.findAll();
+
         return locationWeatherService.toWeatherResponseDtos(locations);
     }
 
@@ -81,6 +83,7 @@ public class LocationService {
     @Transactional(readOnly = true)
     public LocationWeatherResponse getLocationWeather(Long locationId) {
         Location location = findLocation(locationId);
+
         return locationWeatherService.toWeatherResponseDto(location);
     }
 

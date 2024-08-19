@@ -1,5 +1,7 @@
 package DNA_Backend.api_server.domain.workationSchedule.service;
 
+import static ch.qos.logback.core.util.StringUtil.capitalizeFirstLetter;
+
 import DNA_Backend.api_server.domain.user.model.User;
 import DNA_Backend.api_server.domain.workationSchedule.model.WorkationSchedule;
 import DNA_Backend.api_server.domain.workationSchedule.repository.WorkationScheduleRepository;
@@ -27,17 +29,17 @@ public class ScheduleNotificationService {
 
         List<WorkationSchedule> expiredSchedules = workationScheduleRepository.findByEndDateBeforeAndIsExpiredFalse(now);
 
-        for (WorkationSchedule schedule : expiredSchedules) {
-            sendEmail(schedule);
-        }
+        expiredSchedules.forEach(this::sendEmail);
     }
 
     private void sendEmail(WorkationSchedule schedule){
         User user = schedule.getUser();
+
         String email =  user.getEmail();
-        String locationName = schedule.getLocation().getName().getValue();
+        String locationName = capitalizeFirstLetter(schedule.getLocation().getName().getValue());
         String subject = getSubject(locationName);
         String text = getText(user.getUsername(), locationName);
+
         emailService.sendEmail(email, subject, text);
         upDateStatus(user, schedule);
     }

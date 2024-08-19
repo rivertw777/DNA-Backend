@@ -2,6 +2,7 @@ package DNA_Backend.api_server.domain.workationSchedule.controller;
 
 import DNA_Backend.api_server.domain.review.dto.ReviewDto;
 import DNA_Backend.api_server.domain.review.service.ReviewService;
+import DNA_Backend.api_server.domain.workationSchedule.dto.WorkationScheduleDto.AllScheduledDatesResponse;
 import DNA_Backend.api_server.domain.workationSchedule.dto.WorkationScheduleDto.WorkationScheduleResponse;
 import DNA_Backend.api_server.domain.workationSchedule.service.WorkationScheduleService;
 import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
@@ -51,6 +52,14 @@ public class WorkationScheduleController {
         Long userId = userDetailsCustom.getUser().getId();
         workationScheduleService.deleteWorkationSchedule(userId, scheduleId);
         return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "사용자 전체 일정 날짜 조회")
+    @GetMapping("/dates")
+    public ResponseEntity<AllScheduledDatesResponse> getAllScheduledDates(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom) {
+        Long userId = userDetailsCustom.getUser().getId();
+        AllScheduledDatesResponse response = workationScheduleService.getAllScheduledDates(userId);
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "사용자 워케이션 리뷰 작성")
