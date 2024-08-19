@@ -2,6 +2,7 @@ package DNA_Backend.api_server.domain.workationSchedule.service;
 
 import static ch.qos.logback.core.util.StringUtil.capitalizeFirstLetter;
 
+import DNA_Backend.api_server.domain.user.model.PopupStatus;
 import DNA_Backend.api_server.domain.user.model.User;
 import DNA_Backend.api_server.domain.workationSchedule.model.WorkationSchedule;
 import DNA_Backend.api_server.domain.workationSchedule.repository.WorkationScheduleRepository;
@@ -23,7 +24,7 @@ public class ScheduleNotificationService {
     private final EmailService emailService;
 
     @Transactional
-    @Scheduled(cron = "0 0 2 * * *")
+    @Scheduled(cron = "*/10 * * * * *")
     public void notifyExpiredSchedules() {
         LocalDate now = LocalDate.now();
 
@@ -58,7 +59,7 @@ public class ScheduleNotificationService {
     }
 
     private void upDateStatus(User user, WorkationSchedule schedule) {
-        user.setHasReceivedEmail(true);
+        user.setPopupStatus(PopupStatus.REVIEW_WRITING);
         schedule.setIsExpired(true);
     }
 

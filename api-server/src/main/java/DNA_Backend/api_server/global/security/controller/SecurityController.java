@@ -1,7 +1,7 @@
 package DNA_Backend.api_server.global.security.controller;
 
-import DNA_Backend.api_server.global.security.dto.SecurityDto.SetNewUsernameRequest;
-import DNA_Backend.api_server.global.security.dto.SecurityDto.CheckFirstLoginResponse;
+import DNA_Backend.api_server.global.security.dto.SecurityDto.CheckFirstSocialLoginResponse;
+import DNA_Backend.api_server.global.security.dto.SecurityDto.UpdateUsernameRequest;
 import DNA_Backend.api_server.global.security.service.SecurityService;
 import DNA_Backend.api_server.global.security.cookie.CookieManager;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,19 +27,19 @@ public class SecurityController {
     private final CookieManager cookieManager;
 
     @Operation(summary = "사용자 소셜 계정 최초 로그인 확인")
-    @GetMapping("/login/check")
-    public ResponseEntity<CheckFirstLoginResponse> checkFirstLogin(@AuthenticationPrincipal(expression = "username") String username) {
-        CheckFirstLoginResponse response = securityService.checkFirstLogin(username);
+    @GetMapping("/first-social-login")
+    public ResponseEntity<CheckFirstSocialLoginResponse> checkFirstSocialLogin(@AuthenticationPrincipal(expression = "username") String username) {
+        CheckFirstSocialLoginResponse response = securityService.checkFirstSocialLogin(username);
         return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "사용자 새 이름 입력")
     @PatchMapping("/name")
-    public ResponseEntity<Void> setUsername(HttpServletRequest request, HttpServletResponse response,
+    public ResponseEntity<Void> updateUsername(HttpServletRequest request, HttpServletResponse response,
                                             @AuthenticationPrincipal(expression = "username") String username,
-                                            @Valid @RequestBody SetNewUsernameRequest requestParam) {
+                                            @Valid @RequestBody UpdateUsernameRequest requestParam) {
         cookieManager.deleteCookie(request, response);
-        securityService.setUsername(username, requestParam.newUsername());
+        securityService.updateUsername(username, requestParam.newUsername());
         String token = securityService.getToken(requestParam.newUsername());
         cookieManager.setCookie(response, token);
         return ResponseEntity.ok().build();

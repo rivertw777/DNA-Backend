@@ -5,10 +5,10 @@ public class SecurityDto {
     public record LoginRequest(String username, String email, String password) {
     }
 
-    public record CheckFirstLoginResponse(boolean isFirstLogin) {
+    public record CheckFirstSocialLoginResponse(boolean isFirstLogin) {
     }
 
-    public record SetNewUsernameRequest(String newUsername) {
+    public record UpdateUsernameRequest(String newUsername) {
     }
 
 }

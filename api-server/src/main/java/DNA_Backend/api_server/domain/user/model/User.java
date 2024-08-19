@@ -77,8 +77,9 @@ public class User {
     private List<Review> reviews;
 
     @NotNull
-    @Column(name = "has_received_email")
-    private boolean hasReceivedEmail;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "popup_status")
+    private PopupStatus popupStatus;
 
     // 일반 회원 가입
     public static User createUser(String username, String email, String encodedPassword) {
@@ -87,7 +88,7 @@ public class User {
                 .email(email)
                 .password(encodedPassword)
                 .roles(Collections.singletonList(Role.USER))
-                .hasReceivedEmail(false)
+                .popupStatus(PopupStatus.NONE)
                 .build();
         return user;
     }
@@ -100,7 +101,7 @@ public class User {
                 .roles(Collections.singletonList(Role.USER))
                 .provider(provider)
                 .providerId(providerId)
-                .hasReceivedEmail(false)
+                .popupStatus(PopupStatus.NONE)
                 .build();
         return user;
     }
@@ -125,8 +126,8 @@ public class User {
         this.workationSchedules.add(workationSchedule);
     }
 
-    public void setHasReceivedEmail(boolean hasReceivedEmail) {
-        this.hasReceivedEmail = hasReceivedEmail;
+    public void setPopupStatus(PopupStatus popupStatus) {
+        this.popupStatus = popupStatus;
     }
 
     public void addReview(Review review) {

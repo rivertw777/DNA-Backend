@@ -11,4 +11,7 @@ public class EmailDto {
     public record VerifyEmailCodeResponse(boolean isVerified) {
     }
 
+    public record UserPopupStatusResponse(String popupStatus) {
+    }
+
 }

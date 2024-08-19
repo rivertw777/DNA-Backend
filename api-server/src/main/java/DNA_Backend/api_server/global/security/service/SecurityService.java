@@ -4,7 +4,7 @@ import DNA_Backend.api_server.domain.user.model.User;
 import DNA_Backend.api_server.domain.user.service.UserService;
 import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
 import DNA_Backend.api_server.global.security.auth.UserDetailsServiceCustom;
-import DNA_Backend.api_server.global.security.dto.SecurityDto.CheckFirstLoginResponse;
+import DNA_Backend.api_server.global.security.dto.SecurityDto.CheckFirstSocialLoginResponse;
 import DNA_Backend.api_server.global.security.jwt.TokenManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,15 +19,15 @@ public class SecurityService {
     private final TokenManager tokenManager;
 
     // 사용자 소셜 계정 최초 로그인 확인
-    public CheckFirstLoginResponse checkFirstLogin(String username) {
+    public CheckFirstSocialLoginResponse checkFirstSocialLogin(String username) {
         boolean isFirstLogin = username.startsWith("default");
 
-        return new CheckFirstLoginResponse(isFirstLogin);
+        return new CheckFirstSocialLoginResponse(isFirstLogin);
     }
 
     // 사용자 새 이름 입력
     @Transactional
-    public void setUsername(String username, String newUsername) {
+    public void updateUsername(String username, String newUsername) {
         User user = userService.findUser(username);
         user.setUserName(newUsername);
     }
