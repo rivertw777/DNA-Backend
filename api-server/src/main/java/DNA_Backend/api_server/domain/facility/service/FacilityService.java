@@ -8,8 +8,6 @@ import DNA_Backend.api_server.domain.facility.exception.FacilityException;
 import DNA_Backend.api_server.domain.facility.model.Facility;
 import DNA_Backend.api_server.domain.facility.model.FacilityType;
 import DNA_Backend.api_server.domain.facility.repository.FacilityRepository;
-import DNA_Backend.api_server.domain.location.model.Location;
-import DNA_Backend.api_server.domain.location.repository.LocationRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class FacilityService {
 
     private final FacilityRepository facilityRepository;
-    private final LocationRepository locationRepository;
 
     // id로 조회
     @Transactional(readOnly = true)
@@ -66,24 +63,21 @@ public class FacilityService {
     @Transactional(readOnly = true)
     @Cacheable(cacheNames = "AllLocationTotalFacilityCounts", cacheManager = "redisCacheManager")
     public List<LocationTotalFacilityCountResponse> getAllLocationTotalFacilityCounts() {
-        List<Location> locations = locationRepository.findAll();
-        return locations.stream()
-                .map(this::toTotalFacilityCountResponseDto)
-                .collect(Collectors.toList());
+        return facilityRepository.countTotalFacilitiesGroupedByLocation();
     }
 
     // 단일 지역 총 시설 수 조회
     @Transactional(readOnly = true)
     public LocationTotalFacilityCountResponse getLocationTotalFacilityCount(Long locationId) {
-        Location location = locationRepository.findById(locationId).get();
-        return toTotalFacilityCountResponseDto(location);
+        return toTotalFacilityCountResponseDto(locationId);
     }
 
-    private LocationTotalFacilityCountResponse toTotalFacilityCountResponseDto(Location location) {
-        long facilityCount = facilityRepository.countByLocation(location);
+    private LocationTotalFacilityCountResponse toTotalFacilityCountResponseDto(Long locationId) {
+        long facilityCount = facilityRepository.countByLocationId(locationId);
         return new LocationTotalFacilityCountResponse(
-                location.getId(),
+                locationId,
                 facilityCount
         );
     }
+
 }
