@@ -2,7 +2,7 @@ package DNA_Backend.api_server.global.security.oauth;
 
 import DNA_Backend.api_server.domain.user.model.User;
 import DNA_Backend.api_server.domain.user.repository.UserRepository;
-import DNA_Backend.api_server.global.security.auth.CustomUserDetails;
+import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
 import DNA_Backend.api_server.global.security.oauth.provider.GoogleUserInfo;
 import DNA_Backend.api_server.global.security.oauth.provider.KakaoUserInfo;
 import DNA_Backend.api_server.global.security.oauth.provider.OAuth2UserInfo;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CustomOauth2UserService extends DefaultOAuth2UserService {
+public class Oauth2UserServiceCustom extends DefaultOAuth2UserService {
 
     private final UserRepository userRepository;
 
@@ -49,7 +49,7 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
             user = User.createUser(username, oAuth2UserInfo.getEmail(), oAuth2UserInfo.getProvider(), oAuth2UserInfo.getProviderId());
             userRepository.save(user);
         }
-        return new CustomUserDetails(user, oAuth2User.getAttributes());
+        return new UserDetailsCustom(user, oAuth2User.getAttributes());
     }
 
 }

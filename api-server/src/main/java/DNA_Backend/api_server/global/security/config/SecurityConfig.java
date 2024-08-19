@@ -8,7 +8,7 @@ import DNA_Backend.api_server.global.security.config.handler.JwtAccessDeniedHand
 import DNA_Backend.api_server.global.security.config.handler.JwtAuthenticationEntryPoint;
 import DNA_Backend.api_server.global.security.config.handler.JwtAuthenticationFailureHandler;
 import DNA_Backend.api_server.global.security.config.handler.OAuth2LoginSuccessHandler;
-import DNA_Backend.api_server.global.security.oauth.CustomOauth2UserService;
+import DNA_Backend.api_server.global.security.oauth.Oauth2UserServiceCustom;
 import DNA_Backend.api_server.global.security.cookie.CookieManager;
 import DNA_Backend.api_server.global.security.jwt.TokenManager;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +35,7 @@ public class SecurityConfig {
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-    private final CustomOauth2UserService customOauth2UserService;
+    private final Oauth2UserServiceCustom oauth2UserServiceCustom;
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
     private final TokenManager tokenManager;
@@ -95,7 +95,7 @@ public class SecurityConfig {
                 .oauth2Login(oauth2 -> oauth2
                         .successHandler(oAuth2LoginSuccessHandler)
                         .userInfoEndpoint(userInfo -> userInfo
-                                .userService(customOauth2UserService)
+                                .userService(oauth2UserServiceCustom)
                         )
                 );
         return http.build();

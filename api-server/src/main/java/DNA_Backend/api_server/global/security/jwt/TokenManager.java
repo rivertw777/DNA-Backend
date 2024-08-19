@@ -1,9 +1,9 @@
 package DNA_Backend.api_server.global.security.jwt;
 
-import static DNA_Backend.api_server.global.security.jwt.JwtExceptionMessage.EXPIRED_TOKEN;
-import static DNA_Backend.api_server.global.security.jwt.JwtExceptionMessage.INVALID_TOKEN;
+import static DNA_Backend.api_server.global.security.exception.JwtExceptionMessage.EXPIRED_TOKEN;
+import static DNA_Backend.api_server.global.security.exception.JwtExceptionMessage.INVALID_TOKEN;
 
-import DNA_Backend.api_server.global.security.auth.CustomUserDetails;
+import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -32,7 +32,7 @@ public class TokenManager {
     }
 
     // 토큰 생성
-    public String generateToken(CustomUserDetails userDetails) {
+    public String generateToken(UserDetailsCustom userDetails) {
         long now = (new Date()).getTime();
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())

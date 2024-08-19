@@ -1,6 +1,6 @@
 package DNA_Backend.api_server.global.security.config.handler;
 
-import DNA_Backend.api_server.global.security.auth.CustomUserDetails;
+import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
 import DNA_Backend.api_server.global.security.cookie.CookieManager;
 import DNA_Backend.api_server.global.security.jwt.TokenManager;
 import jakarta.servlet.ServletException;
@@ -25,7 +25,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         // userDetails 추출
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        UserDetailsCustom userDetails = (UserDetailsCustom) authentication.getPrincipal();
         // JWT 토큰 발급
         String token = tokenManager.generateToken(userDetails);
         // 쿠키 저장

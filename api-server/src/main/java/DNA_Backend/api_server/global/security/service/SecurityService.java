@@ -2,8 +2,8 @@ package DNA_Backend.api_server.global.security.service;
 
 import DNA_Backend.api_server.domain.user.model.User;
 import DNA_Backend.api_server.domain.user.service.UserService;
-import DNA_Backend.api_server.global.security.auth.CustomUserDetails;
-import DNA_Backend.api_server.global.security.auth.CustomUserDetailsService;
+import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
+import DNA_Backend.api_server.global.security.auth.UserDetailsServiceCustom;
 import DNA_Backend.api_server.global.security.dto.SecurityDto.CheckFirstLoginResponse;
 import DNA_Backend.api_server.global.security.jwt.TokenManager;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class SecurityService {
 
-    private final CustomUserDetailsService customUserDetailsService;
+    private final UserDetailsServiceCustom userDetailsServiceCustom;
     private final UserService userService;
     private final TokenManager tokenManager;
 
@@ -34,7 +34,7 @@ public class SecurityService {
     // 토큰 얻기
     @Transactional(readOnly = true)
     public String getToken(String newUsername) {
-        CustomUserDetails userDetails = customUserDetailsService.loadUserByUsername(newUsername);
+        UserDetailsCustom userDetails = userDetailsServiceCustom.loadUserByUsername(newUsername);
         String token = tokenManager.generateToken(userDetails);
         return token;
     }

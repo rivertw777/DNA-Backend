@@ -1,6 +1,6 @@
 package DNA_Backend.api_server.global.security.config.filter;
 
-import DNA_Backend.api_server.global.security.auth.CustomUserDetails;
+import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
 import DNA_Backend.api_server.global.security.dto.SecurityDto.LoginRequest;
 import DNA_Backend.api_server.global.security.cookie.CookieManager;
 import DNA_Backend.api_server.global.security.jwt.TokenManager;
@@ -45,7 +45,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException {
         // userDetails 추출
-        CustomUserDetails userDetails = (CustomUserDetails) authResult.getPrincipal();
+        UserDetailsCustom userDetails = (UserDetailsCustom) authResult.getPrincipal();
         // JWT 토큰 발급
         String token = tokenManager.generateToken(userDetails);
         // 쿠키 저장

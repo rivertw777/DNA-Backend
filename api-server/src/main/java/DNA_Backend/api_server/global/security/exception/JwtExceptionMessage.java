@@ -1,4 +1,4 @@
-package DNA_Backend.api_server.global.security.jwt;
+package DNA_Backend.api_server.global.security.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

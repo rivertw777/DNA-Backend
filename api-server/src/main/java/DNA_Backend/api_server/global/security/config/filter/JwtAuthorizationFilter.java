@@ -2,7 +2,7 @@ package DNA_Backend.api_server.global.security.config.filter;
 
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
-import DNA_Backend.api_server.global.security.auth.CustomUserDetailsService;
+import DNA_Backend.api_server.global.security.auth.UserDetailsServiceCustom;
 import DNA_Backend.api_server.global.security.cookie.CookieManager;
 import DNA_Backend.api_server.global.security.utils.ResponseWriter;
 import DNA_Backend.api_server.global.security.jwt.TokenManager;
@@ -22,7 +22,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
-    private final CustomUserDetailsService customUserDetailsService;
+    private final UserDetailsServiceCustom userDetailsServiceCustom;
     private final TokenManager tokenManager;
     private final ResponseWriter responseWriter;
     private final CookieManager cookieManager;
@@ -39,7 +39,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         // 토큰 검증 및 인가
         try {
             tokenManager.validateToken(token);
-            Authentication authentication = customUserDetailsService.extractAuthentication(token);
+            Authentication authentication = userDetailsServiceCustom.extractAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         // 예외 처리

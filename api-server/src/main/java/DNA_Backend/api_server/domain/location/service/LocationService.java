@@ -2,6 +2,7 @@ package DNA_Backend.api_server.domain.location.service;
 
 import static DNA_Backend.api_server.domain.location.exception.LocationExceptionMessage.LOCATION_NOT_FOUND;
 
+import DNA_Backend.api_server.domain.facility.service.FacilityService;
 import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationDetailResponse;
 import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationResponse;
 import DNA_Backend.api_server.domain.location.dto.LocationWeatherDto.LocationWeatherResponse;
@@ -21,6 +22,7 @@ public class LocationService {
 
     private final LocationRepository locationRepository;
     private final LocationWeatherService locationWeatherService;
+    private final FacilityService facilityService;
 
     // id로 조회
     @Transactional(readOnly = true)
@@ -48,7 +50,7 @@ public class LocationService {
         );
     }
 
-    // 단일 지역 조회
+    // 단일 지역 상세 조회
     public LocationDetailResponse getLocationDetail(Long locationId) {
         Location location = findLocation(locationId);
         return toDetailResponseDto(location);
@@ -76,6 +78,7 @@ public class LocationService {
     }
 
     // 단일 지역 날씨 조회
+    @Transactional(readOnly = true)
     public LocationWeatherResponse getLocationWeather(Long locationId) {
         Location location = findLocation(locationId);
         return locationWeatherService.toWeatherResponseDto(location);

@@ -84,28 +84,20 @@ public class WorkationScheduleService {
                 .orElseThrow(()->new WorkationScheduleException((SCHEDULE_NOT_FOUND.getMessage())));
     }
 
-    // 사용자 워케이션 일정 삭제
-    @Transactional
-    public void deleteWorkationSchedule(Long userId, Long scheduleId) {
-        workationScheduleRepository.deleteByUserIdAndId(userId, scheduleId);
-    }
-
-    // 사용자 전체 리뷰 없고 만료된 워케이션 일정 조회
-    @Transactional(readOnly = true)
-    public List<WorkationScheduleResponse> getAllUnreviewedExpiredSchedules(Long userId) {
-        List<WorkationSchedule> workationSchedules = workationScheduleRepository.findByUserIdAndIsExpiredTrueAndReviewIsNull(userId);
-        return workationSchedules.stream()
-                .map(this::toResponseDto)
-                .collect(Collectors.toList());
-    }
-
     private WorkationScheduleResponse toResponseDto(WorkationSchedule workationSchedule) {
         return new WorkationScheduleResponse(
                 workationSchedule.getId(),
                 workationSchedule.getLocation().getName().getValue(),
                 workationSchedule.getStartDate(),
-                workationSchedule.getEndDate()
+                workationSchedule.getEndDate(),
+                workationSchedule.getReview() != null
         );
+    }
+
+    // 사용자 워케이션 일정 삭제
+    @Transactional
+    public void deleteWorkationSchedule(Long userId, Long scheduleId) {
+        workationScheduleRepository.deleteByUserIdAndId(userId, scheduleId);
     }
 
 }

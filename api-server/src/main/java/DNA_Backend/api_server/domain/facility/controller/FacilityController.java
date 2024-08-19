@@ -3,10 +3,9 @@ package DNA_Backend.api_server.domain.facility.controller;
 import DNA_Backend.api_server.domain.facility.dto.FacilityDto.BookmarkedFacilityResponse;
 import DNA_Backend.api_server.domain.facility.dto.FacilityDto.CheckFacilityBookmarkResponse;
 import DNA_Backend.api_server.domain.facility.dto.FacilityDto.FacilityResponse;
-import DNA_Backend.api_server.domain.facility.dto.FacilityDto.LocationTotalFacilityCountResponse;
 import DNA_Backend.api_server.domain.facility.service.FacilityBookmarkService;
 import DNA_Backend.api_server.domain.facility.service.FacilityService;
-import DNA_Backend.api_server.global.security.auth.CustomUserDetails;
+import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -23,14 +22,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/facilities")
 public class FacilityController {
 
     private final FacilityService facilityService;
     private final FacilityBookmarkService facilityBookmarkService;
 
     @Operation(summary = "시설 검색 by 위도, 경도 & 타입")
-    @GetMapping("/facilities/search")
+    @GetMapping("/search")
     public ResponseEntity<List<FacilityResponse>> searchFacilities(
             @Valid @RequestParam(name = "latMin") Double latMin, @Valid @RequestParam(name = "latMax") Double latMax,
             @Valid @RequestParam(name = "lngMin") Double lngMin, @Valid @RequestParam(name = "lngMax") Double lngMax,
@@ -39,65 +38,41 @@ public class FacilityController {
         return ResponseEntity.ok(responses);
     }
 
-    @Operation(summary = "시설 검색 by 지역 id & 타입")
-    @GetMapping("/locations/{locationId}/facilities/search")
-    public ResponseEntity<List<FacilityResponse>> searchFacilitiesByLocationIdAndType(
-            @Valid @PathVariable(name = "locationId") Long locationId,
-            @Valid @RequestParam(name = "facilityType") String facilityType) {
-        List<FacilityResponse> responses = facilityService.searchFacilitiesByLocationIdAndType(locationId, facilityType);
-        return ResponseEntity.ok(responses);
-    }
-
     @Operation(summary = "사용자 시설 북마크")
-    @PostMapping("/facilities/{facilityId}/bookmark")
-    public ResponseEntity<Void> bookmarkFacility(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+    @PostMapping("/{facilityId}/bookmark")
+    public ResponseEntity<Void> bookmarkFacility(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
                                                  @Valid @PathVariable("facilityId") Long facilityId) {
-        Long userId = customUserDetails.getUser().getId();
+        Long userId = userDetailsCustom.getUser().getId();
         facilityBookmarkService.bookmarkFacility(userId, facilityId);
         return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "사용자 시설 북마크 취소")
-    @DeleteMapping("/facilities/{facilityId}/bookmark")
-    public ResponseEntity<Void> unbookmarkFacility(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+    @DeleteMapping("/{facilityId}/bookmark")
+    public ResponseEntity<Void> unbookmarkFacility(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
                                                    @Valid @PathVariable("facilityId") Long facilityId) {
-        Long userId = customUserDetails.getUser().getId();
+        Long userId = userDetailsCustom.getUser().getId();
         facilityBookmarkService.unbookmarkFacility(userId, facilityId);
         return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "사용자 시설 북마크 여부 확인")
-    @GetMapping("/facilities/{facilityId}/bookmark")
+    @GetMapping("/{facilityId}/bookmark")
     public ResponseEntity<CheckFacilityBookmarkResponse> checkFacilityBookmark(
-            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
             @Valid @PathVariable("facilityId") Long facilityId) {
-        Long userId = customUserDetails.getUser().getId();
+        Long userId = userDetailsCustom.getUser().getId();
         CheckFacilityBookmarkResponse response = facilityBookmarkService.checkFacilityBookmark(userId, facilityId);
         return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "사용자 전체 북마크 시설 조회")
-    @GetMapping("/facilities/bookmark")
+    @GetMapping("/bookmark")
     public ResponseEntity<List<BookmarkedFacilityResponse>> getAllBookmarkedFacilities(
-            @AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        Long userId = customUserDetails.getUser().getId();
+            @AuthenticationPrincipal UserDetailsCustom userDetailsCustom) {
+        Long userId = userDetailsCustom.getUser().getId();
         List<BookmarkedFacilityResponse> responses = facilityBookmarkService.getAllBookmarkedFacilities(userId);
         return ResponseEntity.ok(responses);
-    }
-
-    @Operation(summary = "전체 지역 총 시설 수 조회")
-    @GetMapping("/locations/facilities/count")
-    public ResponseEntity<List<LocationTotalFacilityCountResponse>> getAllLocationTotalFacilityCounts() {
-        List<LocationTotalFacilityCountResponse> responses = facilityService.getAllLocationTotalFacilityCounts();
-        return ResponseEntity.ok(responses);
-    }
-
-    @Operation(summary = "단일 지역 총 시설 수 조회")
-    @GetMapping("/locations/{locationId}/facilities/count")
-    public ResponseEntity<LocationTotalFacilityCountResponse> getLocationTotalFacilityCount(
-            @Valid @PathVariable("locationId") Long locationId) {
-        LocationTotalFacilityCountResponse response = facilityService.getLocationTotalFacilityCount(locationId);
-        return ResponseEntity.ok(response);
     }
 
 }

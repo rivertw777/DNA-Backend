@@ -21,7 +21,8 @@ public class WorkationScheduleDto {
         }
     }
 
-    public record WorkationScheduleResponse(Long scheduleId, String LocationName, LocalDate startDate, LocalDate endDate){
+    public record WorkationScheduleResponse(Long scheduleId, String LocationName, LocalDate startDate, LocalDate endDate,
+                                            boolean hasReview){
     }
 
 }

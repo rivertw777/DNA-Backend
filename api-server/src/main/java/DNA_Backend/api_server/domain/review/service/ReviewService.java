@@ -65,7 +65,7 @@ public class ReviewService {
 
     // 단일 지역 워케이션 리뷰 조회
     @Transactional(readOnly = true)
-    public Page<ReviewResponse> getReviewsForLocation(Long locationId, Pageable pageable) {
+    public Page<ReviewResponse> getLocationReviews(Long locationId, Pageable pageable) {
         Page<Review> reviewsPage = reviewRepository.findByWorkationScheduleLocationId(locationId, pageable);
         return reviewsPage.map(this::toResponseDto);
     }

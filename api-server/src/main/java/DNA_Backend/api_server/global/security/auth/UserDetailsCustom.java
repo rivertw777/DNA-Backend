@@ -11,16 +11,16 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-public class CustomUserDetails implements UserDetails, OAuth2User {
+public class UserDetailsCustom implements UserDetails, OAuth2User {
 
     private final User user;
     private Map<String, Object> attributes;
 
-    public CustomUserDetails(User user) {
+    public UserDetailsCustom(User user) {
         this.user = user;
     }
 
-    public CustomUserDetails(User user, Map<String, Object> attributes) {
+    public UserDetailsCustom(User user, Map<String, Object> attributes) {
         this.user = user;
         this.attributes = attributes;
     }
