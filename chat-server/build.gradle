@@ -30,6 +30,7 @@ dependencies {
 
 	// DB
 	runtimeOnly 'org.postgresql:postgresql'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
 	// Security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -42,6 +43,9 @@ dependencies {
 	// Redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation ('it.ozimov:embedded-redis:0.7.3') { exclude group: "org.slf4j", module: "slf4j-simple" }
+
+	// Jackson
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
 	// Websocket
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'

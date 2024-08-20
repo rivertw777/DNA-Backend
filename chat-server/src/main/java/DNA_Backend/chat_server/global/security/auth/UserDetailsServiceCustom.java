@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class CustomUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceCustom implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final TokenManager tokenManager;
@@ -25,17 +25,17 @@ public class CustomUserDetailsService implements UserDetailsService {
     // 이름으로 회원 조회
     @Override
     @Transactional(readOnly = true)
-    public CustomUserDetails loadUserByUsername(String username) {
+    public UserDetailsCustom loadUserByUsername(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserException(USER_NAME_NOT_FOUND.getMessage()));
-        return new CustomUserDetails(user);
+        return new UserDetailsCustom(user);
     }
 
     // 인증 정보 반환
     public Authentication extractAuthentication(String token) {
         Claims claims = tokenManager.parseClaims(token);
         String username = claims.getSubject();
-        CustomUserDetails userDetails = loadUserByUsername(username);
+        UserDetailsCustom userDetails = loadUserByUsername(username);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 

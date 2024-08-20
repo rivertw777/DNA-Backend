@@ -2,7 +2,7 @@ package DNA_Backend.chat_server.global.webSocket.interceptor;
 
 import static DNA_Backend.chat_server.global.security.cookie.CookieProperties.COOKIE_NAME;
 
-import DNA_Backend.chat_server.global.security.auth.CustomUserDetailsService;
+import DNA_Backend.chat_server.global.security.auth.UserDetailsServiceCustom;
 import DNA_Backend.chat_server.global.security.jwt.TokenManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.Message;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class WebSocketInterceptor implements ChannelInterceptor {
 
-    private final CustomUserDetailsService customUserDetailsService;
+    private final UserDetailsServiceCustom userDetailsServiceCustom;
     private final TokenManager tokenManager;
 
     @Override
@@ -29,7 +29,7 @@ public class WebSocketInterceptor implements ChannelInterceptor {
         if (accessor.getCommand() == StompCommand.CONNECT) {
             String token = (String) accessor.getSessionAttributes().get(COOKIE_NAME.getValue());
             tokenManager.validateToken(token);
-            Authentication authentication = customUserDetailsService.extractAuthentication(token);
+            Authentication authentication = userDetailsServiceCustom.extractAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         return message;
