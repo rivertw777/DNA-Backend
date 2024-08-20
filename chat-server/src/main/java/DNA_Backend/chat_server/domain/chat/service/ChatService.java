@@ -2,9 +2,12 @@ package DNA_Backend.chat_server.domain.chat.service;
 
 import DNA_Backend.chat_server.domain.chat.dto.ChatMessage;
 
+import DNA_Backend.chat_server.domain.chat.dto.ChatRoomMessageResponse;
 import DNA_Backend.chat_server.domain.chat.dto.MessageType;
 import DNA_Backend.chat_server.domain.chat.repository.ChatMessageRepository;
 import DNA_Backend.chat_server.global.redis.messaging.RedisPublisher;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +49,24 @@ public class ChatService {
         chatMessage.setMessage(chatMessage.getSender() + " has left the chat.");
         long participantCount = participantCountService.decreaseParticipantCount(chatMessage.getRoomId());
         chatMessage.setParticipantCount(participantCount);
+    }
+
+    // 채팅방 메시지 조회
+    public List<ChatRoomMessageResponse> getChatMessagesByRoomId(String roomId) {
+        List<ChatMessage> chatMessages = chatMessageRepository.findByRoomId(roomId);
+
+        return chatMessages.stream()
+                .filter(chatMessage -> chatMessage.getType() == MessageType.CHAT)
+                .map(this::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    private ChatRoomMessageResponse toResponseDto(ChatMessage chatMessage) {
+        return new ChatRoomMessageResponse(
+                chatMessage.getSender(),
+                chatMessage.getMessage(),
+                chatMessage.getCreatedAt()
+        );
     }
 
 }
