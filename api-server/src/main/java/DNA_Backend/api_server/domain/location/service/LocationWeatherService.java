@@ -22,13 +22,13 @@ public class LocationWeatherService {
 
     private final RestTemplate restTemplate;
 
-    public List<LocationWeatherResponse> toWeatherResponseDtos(List<Location> locations) {
+    public List<LocationWeatherResponse> getAllLocationWeathers(List<Location> locations) {
         return locations.stream()
-                .map(this::toWeatherResponseDto)
+                .map(this::getLocationWeather)
                 .collect(Collectors.toList());
     }
 
-    public LocationWeatherResponse toWeatherResponseDto(Location location) {
+    public LocationWeatherResponse getLocationWeather(Location location) {
         String url = String.format("%s?lat=%f&lon=%f&appid=%s&units=metric",
                 weatherApiUrl, location.getLatitude(), location.getLongitude(), weatherApiKey);
 

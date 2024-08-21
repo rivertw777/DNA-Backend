@@ -76,7 +76,7 @@ public class LocationService {
     public List<LocationWeatherResponse> getAllLocationWeathers() {
         List<Location> locations = locationRepository.findAll();
 
-        return locationWeatherService.toWeatherResponseDtos(locations);
+        return locationWeatherService.getAllLocationWeathers(locations);
     }
 
     // 단일 지역 날씨 조회
@@ -84,7 +84,7 @@ public class LocationService {
     public LocationWeatherResponse getLocationWeather(Long locationId) {
         Location location = findLocation(locationId);
 
-        return locationWeatherService.toWeatherResponseDto(location);
+        return locationWeatherService.getLocationWeather(location);
     }
 
 }
