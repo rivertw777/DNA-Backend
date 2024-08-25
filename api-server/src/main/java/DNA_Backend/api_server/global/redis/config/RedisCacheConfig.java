@@ -8,7 +8,6 @@ import static org.springframework.data.redis.serializer.RedisSerializationContex
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
-import lombok.RequiredArgsConstructor;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -21,8 +20,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @EnableCaching
 @Configuration
-@RequiredArgsConstructor
-public class CacheConfig {
+public class RedisCacheConfig {
 
     @Bean(name = "redisCacheManager")
     public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
