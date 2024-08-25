@@ -1,8 +1,8 @@
-package DNA_Backend.api_server.global.security.controller;
+package DNA_Backend.api_server.domain.auth.controller;
 
-import DNA_Backend.api_server.global.security.dto.SecurityDto.CheckFirstSocialLoginResponse;
-import DNA_Backend.api_server.global.security.dto.SecurityDto.UpdateUsernameRequest;
-import DNA_Backend.api_server.global.security.service.SecurityService;
+import DNA_Backend.api_server.domain.auth.dto.AuthDto;
+import DNA_Backend.api_server.domain.auth.dto.AuthDto.CheckFirstSocialLoginResponse;
+import DNA_Backend.api_server.domain.auth.service.AuthService;
 import DNA_Backend.api_server.global.security.cookie.CookieManager;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,15 +21,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
-public class SecurityController {
+public class AuthController {
 
-    private final SecurityService securityService;
+    private final AuthService authService;
     private final CookieManager cookieManager;
 
     @Operation(summary = "사용자 소셜 계정 최초 로그인 확인")
     @GetMapping("/first-social-login")
     public ResponseEntity<CheckFirstSocialLoginResponse> checkFirstSocialLogin(@AuthenticationPrincipal(expression = "username") String username) {
-        CheckFirstSocialLoginResponse response = securityService.checkFirstSocialLogin(username);
+        CheckFirstSocialLoginResponse response = authService.checkFirstSocialLogin(username);
         return ResponseEntity.ok(response);
     }
 
@@ -37,10 +37,10 @@ public class SecurityController {
     @PatchMapping("/name")
     public ResponseEntity<Void> updateUsername(HttpServletRequest request, HttpServletResponse response,
                                             @AuthenticationPrincipal(expression = "username") String username,
-                                            @Valid @RequestBody UpdateUsernameRequest requestParam) {
+                                            @Valid @RequestBody AuthDto.UpdateUsernameRequest requestParam) {
         cookieManager.deleteCookie(request, response);
-        securityService.updateUsername(username, requestParam.newUsername());
-        String token = securityService.getToken(requestParam.newUsername());
+        authService.updateUsername(username, requestParam.newUsername());
+        String token = authService.getToken(requestParam.newUsername());
         cookieManager.setCookie(response, token);
         return ResponseEntity.ok().build();
     }

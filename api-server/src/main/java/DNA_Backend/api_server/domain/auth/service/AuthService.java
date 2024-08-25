@@ -1,10 +1,10 @@
-package DNA_Backend.api_server.global.security.service;
+package DNA_Backend.api_server.domain.auth.service;
 
+import DNA_Backend.api_server.domain.auth.dto.AuthDto.CheckFirstSocialLoginResponse;
 import DNA_Backend.api_server.domain.user.model.User;
 import DNA_Backend.api_server.domain.user.service.UserService;
 import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
 import DNA_Backend.api_server.global.security.auth.UserDetailsServiceCustom;
-import DNA_Backend.api_server.global.security.dto.SecurityDto.CheckFirstSocialLoginResponse;
 import DNA_Backend.api_server.global.security.jwt.TokenManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class SecurityService {
+public class AuthService {
 
     private final UserDetailsServiceCustom userDetailsServiceCustom;
     private final UserService userService;

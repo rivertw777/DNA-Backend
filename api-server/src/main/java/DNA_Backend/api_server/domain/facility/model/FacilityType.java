@@ -13,7 +13,7 @@ public enum FacilityType {
     WORKATION("workation"),
     CAFE("cafe"),
     RESTAURANT("restaurant"),
-    ACCOMODATION("accomodation");
+    ACCOMMODATION("accommodation");
 
     private final String value;
 
