@@ -1,6 +1,7 @@
 package DNA_Backend.api_server.domain.location.model;
 
 import DNA_Backend.api_server.domain.facility.model.Facility;
+import DNA_Backend.api_server.domain.recommendation.model.RecommendedLocation;
 import DNA_Backend.api_server.domain.workationSchedule.model.WorkationSchedule;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -47,7 +48,7 @@ public class Location {
     private float populationDensity;
 
     @OneToMany(mappedBy = "location")
-    private List<LocationLike> locationLikes = new ArrayList<>();
+    private List<RecommendedLocation> recommendedLocations = new ArrayList<>();
 
     @OneToMany(mappedBy = "location")
     private List<Facility> facilities = new ArrayList<>();
@@ -55,8 +56,8 @@ public class Location {
     @OneToMany(mappedBy = "location")
     private List<WorkationSchedule> workationSchedules = new ArrayList<>();
 
-    public void addLocationLike(LocationLike locationLike){
-        this.locationLikes.add(locationLike);
+    public void addRecommendedLocation(RecommendedLocation recommendedLocation){
+        this.recommendedLocations.add(recommendedLocation);
     }
 
     public void addWorkationSchedule(WorkationSchedule workationSchedule) { this.workationSchedules.add(workationSchedule);

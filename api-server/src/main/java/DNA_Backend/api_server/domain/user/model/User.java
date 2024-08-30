@@ -1,7 +1,7 @@
 package DNA_Backend.api_server.domain.user.model;
 
 import DNA_Backend.api_server.domain.facility.model.FacilityBookmark;
-import DNA_Backend.api_server.domain.location.model.LocationLike;
+import DNA_Backend.api_server.domain.recommendation.model.RecommendedLocation;
 import DNA_Backend.api_server.domain.review.model.Review;
 import DNA_Backend.api_server.domain.workationSchedule.model.WorkationSchedule;
 import jakarta.persistence.CascadeType;
@@ -65,7 +65,7 @@ public class User {
     private String providerId;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<LocationLike> locationLikes = new ArrayList<>();
+    private List<RecommendedLocation> recommendedLocations = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<FacilityBookmark> facilityBookmarks = new ArrayList<>();
@@ -114,8 +114,8 @@ public class User {
         this.email = email;
     }
 
-    public void addLocationLike(LocationLike locationLike){
-        this.locationLikes.add(locationLike);
+    public void addRecommendedLocation(RecommendedLocation recommendedLocation){
+        this.recommendedLocations.add(recommendedLocation);
     }
 
     public void addFacilityBookmark(FacilityBookmark facilityBookmark){

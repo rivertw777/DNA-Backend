@@ -1,5 +1,6 @@
-package DNA_Backend.api_server.domain.location.model;
+package DNA_Backend.api_server.domain.recommendation.model;
 
+import DNA_Backend.api_server.domain.location.model.Location;
 import DNA_Backend.api_server.domain.user.model.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -21,8 +22,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder(access = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "location_likes")
-public class LocationLike {
+@Table(name = "recommended_locations")
+public class RecommendedLocation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,14 +39,14 @@ public class LocationLike {
     @JoinColumn(name = "location_id")
     private Location location;
 
-    public static LocationLike createLocationLike(User user, Location location) {
-        LocationLike locationLike = LocationLike.builder()
+    public static RecommendedLocation createLocationLike(User user, Location location) {
+        RecommendedLocation recommendedLocation = RecommendedLocation.builder()
                 .user(user)
                 .location(location)
                 .build();
-        user.addLocationLike(locationLike);
-        location.addLocationLike(locationLike);
-        return locationLike;
+        user.addRecommendedLocation(recommendedLocation);
+        location.addRecommendedLocation(recommendedLocation);
+        return recommendedLocation;
     }
 
 }

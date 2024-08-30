@@ -8,7 +8,6 @@ import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationDetailResp
 import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationLikeCountResponse;
 import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationResponse;
 import DNA_Backend.api_server.domain.location.dto.LocationWeatherDto.LocationWeatherResponse;
-import DNA_Backend.api_server.domain.location.service.LocationLikeService;
 import DNA_Backend.api_server.domain.location.service.LocationService;
 import DNA_Backend.api_server.domain.review.dto.ReviewDto.ReviewResponse;
 import DNA_Backend.api_server.domain.review.service.ReviewService;
@@ -38,7 +37,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class LocationController {
 
     private final LocationService locationService;
-    private final LocationLikeService locationLikeService;
     private final FacilityService facilityService;
     private final WorkationScheduleService workationScheduleService;
     private final ReviewService reviewService;
