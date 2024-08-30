@@ -1,6 +1,6 @@
 package DNA_Backend.api_server.domain.facility.repository;
 
-import DNA_Backend.api_server.domain.facility.model.FacilityBookmark;
+import DNA_Backend.api_server.domain.facility.model.entity.FacilityBookmark;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,7 +1,7 @@
 package DNA_Backend.api_server.domain.facility.repository;
 
-import DNA_Backend.api_server.domain.facility.model.Facility;
-import DNA_Backend.api_server.domain.facility.model.FacilityType;
+import DNA_Backend.api_server.domain.facility.model.entity.Facility;
+import DNA_Backend.api_server.domain.facility.model.enums.FacilityType;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 

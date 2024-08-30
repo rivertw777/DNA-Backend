@@ -2,7 +2,7 @@ package DNA_Backend.api_server.domain.location.service;
 
 import DNA_Backend.api_server.domain.location.dto.LocationWeatherDto.LocationWeatherApiResponse;
 import DNA_Backend.api_server.domain.location.dto.LocationWeatherDto.LocationWeatherResponse;
-import DNA_Backend.api_server.domain.location.model.Location;
+import DNA_Backend.api_server.domain.location.model.entity.Location;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;

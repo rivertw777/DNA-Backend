@@ -1,10 +1,10 @@
 package DNA_Backend.api_server.global.security.auth;
 
-import static DNA_Backend.api_server.domain.user.exception.UserExceptionMessage.USER_NAME_NOT_FOUND;
+import static DNA_Backend.api_server.domain.user.message.UserExceptionMessage.USER_NAME_NOT_FOUND;
 
-import DNA_Backend.api_server.domain.user.exception.UserException;
-import DNA_Backend.api_server.domain.user.model.User;
+import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.user.repository.UserRepository;
+import DNA_Backend.api_server.global.exception.DnaApplicationException;
 import DNA_Backend.api_server.global.security.jwt.TokenManager;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class UserDetailsServiceCustom implements UserDetailsService {
     @Transactional(readOnly = true)
     public UserDetailsCustom loadUserByUsername(String username) {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserException(USER_NAME_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new DnaApplicationException(USER_NAME_NOT_FOUND.getMessage()));
         return new UserDetailsCustom(user);
     }
 

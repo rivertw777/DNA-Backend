@@ -1,6 +1,6 @@
 package DNA_Backend.api_server.domain.review.repository;
 
-import DNA_Backend.api_server.domain.review.model.Review;
+import DNA_Backend.api_server.domain.review.model.entity.Review;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

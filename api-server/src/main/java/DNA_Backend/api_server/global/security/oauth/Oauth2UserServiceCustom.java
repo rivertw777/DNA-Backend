@@ -1,6 +1,6 @@
 package DNA_Backend.api_server.global.security.oauth;
 
-import DNA_Backend.api_server.domain.user.model.User;
+import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.user.repository.UserRepository;
 import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
 import DNA_Backend.api_server.global.security.oauth.provider.GoogleUserInfo;

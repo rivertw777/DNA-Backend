@@ -1,7 +1,7 @@
 package DNA_Backend.api_server.global.security.jwt;
 
-import static DNA_Backend.api_server.global.security.exception.JwtExceptionMessage.EXPIRED_TOKEN;
-import static DNA_Backend.api_server.global.security.exception.JwtExceptionMessage.INVALID_TOKEN;
+import static DNA_Backend.api_server.global.security.message.JwtExceptionMessage.EXPIRED_TOKEN;
+import static DNA_Backend.api_server.global.security.message.JwtExceptionMessage.INVALID_TOKEN;
 
 import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
 import io.jsonwebtoken.Claims;

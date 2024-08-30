@@ -1,16 +1,16 @@
 package DNA_Backend.api_server.domain.review.service;
 
-import static DNA_Backend.api_server.domain.review.exception.ReviewExceptionMessage.ALREADY_EXISTS;
+import static DNA_Backend.api_server.domain.review.message.ReviewExceptionMessage.ALREADY_EXISTS;
 
 import DNA_Backend.api_server.domain.review.dto.ReviewDto.ReviewResponse;
 import DNA_Backend.api_server.domain.review.dto.ReviewDto.WriteReviewRequest;
-import DNA_Backend.api_server.domain.review.exception.ReviewException;
-import DNA_Backend.api_server.domain.review.model.Review;
+import DNA_Backend.api_server.domain.review.model.entity.Review;
 import DNA_Backend.api_server.domain.review.repository.ReviewRepository;
-import DNA_Backend.api_server.domain.user.model.User;
+import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.user.service.UserService;
-import DNA_Backend.api_server.domain.workationSchedule.model.WorkationSchedule;
+import DNA_Backend.api_server.domain.workationSchedule.model.entity.WorkationSchedule;
 import DNA_Backend.api_server.domain.workationSchedule.service.WorkationScheduleService;
+import DNA_Backend.api_server.global.exception.DnaApplicationException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +39,7 @@ public class ReviewService {
 
     private void validateReviewNotExists(WorkationSchedule workationSchedule) {
         if (workationSchedule.getReview() != null) {
-            throw new ReviewException(ALREADY_EXISTS.getMessage());
+            throw new DnaApplicationException(ALREADY_EXISTS.getMessage());
         }
     }
 

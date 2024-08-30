@@ -2,7 +2,7 @@ package DNA_Backend.api_server.domain.recommendation.service;
 
 import DNA_Backend.api_server.domain.recommendation.dto.RecommendationDto.RecommendLocationRequest;
 import DNA_Backend.api_server.domain.recommendation.dto.RecommendationDto.RecommendLocationResponse;
-import DNA_Backend.api_server.domain.user.model.User;
+import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

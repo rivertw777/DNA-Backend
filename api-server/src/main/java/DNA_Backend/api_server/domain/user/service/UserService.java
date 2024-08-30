@@ -1,7 +1,7 @@
 package DNA_Backend.api_server.domain.user.service;
 
-import static DNA_Backend.api_server.domain.user.exception.UserExceptionMessage.USER_NAME_NOT_FOUND;
-import static DNA_Backend.api_server.domain.user.exception.UserExceptionMessage.USER_NOT_FOUND;
+import static DNA_Backend.api_server.domain.user.message.UserExceptionMessage.USER_NAME_NOT_FOUND;
+import static DNA_Backend.api_server.domain.user.message.UserExceptionMessage.USER_NOT_FOUND;
 
 import DNA_Backend.api_server.domain.user.dto.EmailDto.SendEmailCodeRequest;
 import DNA_Backend.api_server.domain.user.dto.EmailDto.UserPopupStatusResponse;
@@ -11,10 +11,10 @@ import DNA_Backend.api_server.domain.user.dto.UserDto.CheckDuplicateUsernameRequ
 import DNA_Backend.api_server.domain.user.dto.UserDto.CheckDuplicateUsernameResponse;
 import DNA_Backend.api_server.domain.user.dto.UserDto.SignUpRequest;
 import DNA_Backend.api_server.domain.user.dto.UserDto.UsernameResponse;
-import DNA_Backend.api_server.domain.user.exception.UserException;
-import DNA_Backend.api_server.domain.user.model.PopupStatus;
-import DNA_Backend.api_server.domain.user.model.User;
+import DNA_Backend.api_server.domain.user.model.enums.PopupStatus;
+import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.user.repository.UserRepository;
+import DNA_Backend.api_server.global.exception.DnaApplicationException;
 import DNA_Backend.api_server.global.redis.service.RedisService;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
@@ -41,14 +41,14 @@ public class UserService {
     @Transactional(readOnly = true)
     public User findUser(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(()->new UserException(USER_NOT_FOUND.getMessage()));
+                .orElseThrow(()->new DnaApplicationException(USER_NOT_FOUND.getMessage()));
     }
 
     // 이름으로 조회
     @Transactional(readOnly = true)
     public User findUser(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(()->new UserException(USER_NAME_NOT_FOUND.getMessage()));
+                .orElseThrow(()->new DnaApplicationException(USER_NAME_NOT_FOUND.getMessage()));
     }
 
     // 회원 가입

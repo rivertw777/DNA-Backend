@@ -1,16 +1,16 @@
 package DNA_Backend.api_server.domain.facility.service;
 
-import static DNA_Backend.api_server.domain.facility.exception.FacilityExceptionMessage.ALREADY_BOOKMARK;
-import static DNA_Backend.api_server.domain.facility.exception.FacilityExceptionMessage.ALREADY_UNBOOKMARK;
+import static DNA_Backend.api_server.domain.facility.message.FacilityExceptionMessage.ALREADY_BOOKMARK;
+import static DNA_Backend.api_server.domain.facility.message.FacilityExceptionMessage.ALREADY_UNBOOKMARK;
 
 import DNA_Backend.api_server.domain.facility.dto.FacilityDto.BookmarkedFacilityResponse;
 import DNA_Backend.api_server.domain.facility.dto.FacilityDto.CheckFacilityBookmarkResponse;
-import DNA_Backend.api_server.domain.facility.exception.FacilityException;
-import DNA_Backend.api_server.domain.facility.model.Facility;
-import DNA_Backend.api_server.domain.facility.model.FacilityBookmark;
+import DNA_Backend.api_server.domain.facility.model.entity.Facility;
+import DNA_Backend.api_server.domain.facility.model.entity.FacilityBookmark;
 import DNA_Backend.api_server.domain.facility.repository.FacilityBookmarkRepository;
-import DNA_Backend.api_server.domain.user.model.User;
+import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.user.service.UserService;
+import DNA_Backend.api_server.global.exception.DnaApplicationException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +38,7 @@ public class FacilityBookmarkService {
 
     private void validateBookmarkNotExists(Long userId, Long facilityId) {
         if (facilityBookmarkRepository.findByUserIdAndFacilityId(userId, facilityId).isPresent()) {
-            throw new FacilityException(ALREADY_BOOKMARK.getMessage());
+            throw new DnaApplicationException(ALREADY_BOOKMARK.getMessage());
         }
     }
 
@@ -57,7 +57,7 @@ public class FacilityBookmarkService {
 
     private void validateBookmarkExists(Long userId, Long facilityId) {
         if (facilityBookmarkRepository.findByUserIdAndFacilityId(userId, facilityId).isEmpty()) {
-            throw new FacilityException(ALREADY_UNBOOKMARK.getMessage());
+            throw new DnaApplicationException(ALREADY_UNBOOKMARK.getMessage());
         }
     }
 

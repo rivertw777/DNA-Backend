@@ -1,13 +1,12 @@
 package DNA_Backend.api_server.domain.location.service;
 
-import static DNA_Backend.api_server.domain.location.exception.LocationExceptionMessage.LOCATION_NOT_FOUND;
+import static DNA_Backend.api_server.domain.location.message.LocationExceptionMessage.LOCATION_NOT_FOUND;
 
 import DNA_Backend.api_server.domain.facility.service.FacilityService;
 import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationDetailResponse;
 import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationResponse;
 import DNA_Backend.api_server.domain.location.dto.LocationWeatherDto.LocationWeatherResponse;
-import DNA_Backend.api_server.domain.location.exception.LocationException;
-import DNA_Backend.api_server.domain.location.model.Location;
+import DNA_Backend.api_server.domain.location.model.entity.Location;
 import DNA_Backend.api_server.domain.location.repository.LocationRepository;
 import java.util.List;
 import java.util.stream.Collectors;

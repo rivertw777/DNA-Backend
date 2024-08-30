@@ -1,9 +1,9 @@
 package DNA_Backend.api_server.domain.workationSchedule.dto;
 
-import static DNA_Backend.api_server.domain.workationSchedule.exception.WorkationScheduleExceptionMessage.SAME_DATE;
-import static DNA_Backend.api_server.domain.workationSchedule.exception.WorkationScheduleExceptionMessage.START_DATE_AFTER_END_DATE;
+import static DNA_Backend.api_server.domain.workationSchedule.message.WorkationScheduleExceptionMessage.SAME_DATE;
+import static DNA_Backend.api_server.domain.workationSchedule.message.WorkationScheduleExceptionMessage.START_DATE_AFTER_END_DATE;
 
-import DNA_Backend.api_server.domain.workationSchedule.exception.WorkationScheduleException;
+import DNA_Backend.api_server.global.exception.DnaApplicationException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -15,9 +15,9 @@ public class WorkationScheduleDto {
         }
         private static void validateScheduleDates(LocalDate startDate, LocalDate endDate) {
             if (startDate.isAfter(endDate)) {
-                throw new WorkationScheduleException(START_DATE_AFTER_END_DATE.getMessage());
+                throw new DnaApplicationException(START_DATE_AFTER_END_DATE.getMessage());
             } else if (startDate.isEqual(endDate)) {
-                throw new WorkationScheduleException(SAME_DATE.getMessage());
+                throw new DnaApplicationException(SAME_DATE.getMessage());
             }
         }
     }

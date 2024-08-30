@@ -1,6 +1,6 @@
 package DNA_Backend.api_server.domain.user.repository;
 
-import DNA_Backend.api_server.domain.user.model.User;
+import DNA_Backend.api_server.domain.user.model.entity.User;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

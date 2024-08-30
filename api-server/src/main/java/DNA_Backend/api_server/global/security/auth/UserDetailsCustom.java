@@ -1,7 +1,7 @@
 package DNA_Backend.api_server.global.security.auth;
 
-import DNA_Backend.api_server.domain.user.model.Role;
-import DNA_Backend.api_server.domain.user.model.User;
+import DNA_Backend.api_server.domain.user.model.enums.Role;
+import DNA_Backend.api_server.domain.user.model.entity.User;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;

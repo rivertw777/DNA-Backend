@@ -1,6 +1,6 @@
 package DNA_Backend.api_server.global.security.config.handler;
 
-import static DNA_Backend.api_server.global.security.exception.SecurityExceptionMessage.LOGIN_FAILED;
+import static DNA_Backend.api_server.global.security.message.SecurityExceptionMessage.LOGIN_FAILED;
 import static com.nimbusds.oauth2.sdk.http.HTTPResponse.SC_UNAUTHORIZED;
 
 import DNA_Backend.api_server.global.security.utils.ResponseWriter;

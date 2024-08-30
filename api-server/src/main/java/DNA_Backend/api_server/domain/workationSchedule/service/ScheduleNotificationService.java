@@ -2,9 +2,9 @@ package DNA_Backend.api_server.domain.workationSchedule.service;
 
 import static ch.qos.logback.core.util.StringUtil.capitalizeFirstLetter;
 
-import DNA_Backend.api_server.domain.user.model.PopupStatus;
-import DNA_Backend.api_server.domain.user.model.User;
-import DNA_Backend.api_server.domain.workationSchedule.model.WorkationSchedule;
+import DNA_Backend.api_server.domain.user.model.enums.PopupStatus;
+import DNA_Backend.api_server.domain.user.model.entity.User;
+import DNA_Backend.api_server.domain.workationSchedule.model.entity.WorkationSchedule;
 import DNA_Backend.api_server.domain.workationSchedule.repository.WorkationScheduleRepository;
 import DNA_Backend.api_server.global.email.service.EmailService;
 import java.time.LocalDate;

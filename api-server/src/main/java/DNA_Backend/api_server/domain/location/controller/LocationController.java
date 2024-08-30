@@ -3,9 +3,7 @@ package DNA_Backend.api_server.domain.location.controller;
 import DNA_Backend.api_server.domain.facility.dto.FacilityDto.FacilityResponse;
 import DNA_Backend.api_server.domain.facility.dto.FacilityDto.LocationTotalFacilityCountResponse;
 import DNA_Backend.api_server.domain.facility.service.FacilityService;
-import DNA_Backend.api_server.domain.location.dto.LocationDto.CheckLocationLikeResponse;
 import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationDetailResponse;
-import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationLikeCountResponse;
 import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationResponse;
 import DNA_Backend.api_server.domain.location.dto.LocationWeatherDto.LocationWeatherResponse;
 import DNA_Backend.api_server.domain.location.service.LocationService;
@@ -22,7 +20,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -66,40 +63,6 @@ public class LocationController {
     @GetMapping("/{locationId}/weather")
     public ResponseEntity<LocationWeatherResponse> getLocationWeather(@Valid @PathVariable("locationId") Long locationId) {
         LocationWeatherResponse response = locationService.getLocationWeather(locationId);
-        return ResponseEntity.ok(response);
-    }
-
-    @Operation(summary = "사용자 지역 좋아요")
-    @PostMapping("/{locationId}/like")
-    public ResponseEntity<Void> likeLocation(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
-                                             @Valid @PathVariable("locationId") Long locationId) {
-        Long userId = userDetailsCustom.getUser().getId();
-        locationLikeService.likeLocation(userId, locationId);
-        return ResponseEntity.ok().build();
-    }
-
-    @Operation(summary = "사용자 지역 좋아요 취소")
-    @DeleteMapping("/{locationId}/like")
-    public ResponseEntity<Void> unlikeLocation(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
-                                               @Valid @PathVariable("locationId") Long locationId) {
-        Long userId = userDetailsCustom.getUser().getId();
-        locationLikeService.unlikeLocation(userId, locationId);
-        return ResponseEntity.ok().build();
-    }
-
-    @Operation(summary = "사용자 지역 좋아요 여부 확인")
-    @GetMapping("/{locationId}/like")
-    public ResponseEntity<CheckLocationLikeResponse> checkLocationLike(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
-                                                                       @Valid @PathVariable("locationId") Long locationId) {
-        Long userId = userDetailsCustom.getUser().getId();
-        CheckLocationLikeResponse response = locationLikeService.checkLocationLike(userId, locationId);
-        return ResponseEntity.ok(response);
-    }
-
-    @Operation(summary = "단일 지역 좋아요 수 조회")
-    @GetMapping("/{locationId}/like/count")
-    public ResponseEntity<LocationLikeCountResponse> getLocationLikeCount(@Valid @PathVariable("locationId") Long locationId) {
-        LocationLikeCountResponse response = locationLikeService.getLocationLikeCount(locationId);
         return ResponseEntity.ok(response);
     }
 

@@ -1,18 +1,18 @@
 package DNA_Backend.api_server.domain.workationSchedule.service;
 
-import static DNA_Backend.api_server.domain.workationSchedule.exception.WorkationScheduleExceptionMessage.OVERLAPPING_SCHEDULE;
-import static DNA_Backend.api_server.domain.workationSchedule.exception.WorkationScheduleExceptionMessage.SCHEDULE_NOT_FOUND;
+import static DNA_Backend.api_server.domain.workationSchedule.message.WorkationScheduleExceptionMessage.OVERLAPPING_SCHEDULE;
+import static DNA_Backend.api_server.domain.workationSchedule.message.WorkationScheduleExceptionMessage.SCHEDULE_NOT_FOUND;
 
-import DNA_Backend.api_server.domain.location.model.Location;
+import DNA_Backend.api_server.domain.location.model.entity.Location;
 import DNA_Backend.api_server.domain.location.service.LocationService;
-import DNA_Backend.api_server.domain.user.model.User;
+import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.user.service.UserService;
 import DNA_Backend.api_server.domain.workationSchedule.dto.WorkationScheduleDto.AllScheduledDatesResponse;
 import DNA_Backend.api_server.domain.workationSchedule.dto.WorkationScheduleDto.CreateWorkationScheduleRequest;
 import DNA_Backend.api_server.domain.workationSchedule.dto.WorkationScheduleDto.WorkationScheduleResponse;
-import DNA_Backend.api_server.domain.workationSchedule.exception.WorkationScheduleException;
-import DNA_Backend.api_server.domain.workationSchedule.model.WorkationSchedule;
+import DNA_Backend.api_server.domain.workationSchedule.model.entity.WorkationSchedule;
 import DNA_Backend.api_server.domain.workationSchedule.repository.WorkationScheduleRepository;
+import DNA_Backend.api_server.global.exception.DnaApplicationException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,7 +33,7 @@ public class WorkationScheduleService {
     @Transactional(readOnly = true)
     public WorkationSchedule findWorkationSchedule(Long scheduleId) {
         return workationScheduleRepository.findById(scheduleId)
-                .orElseThrow(()->new WorkationScheduleException((SCHEDULE_NOT_FOUND.getMessage())));
+                .orElseThrow(()->new DnaApplicationException((SCHEDULE_NOT_FOUND.getMessage())));
     }
 
     // 사용자 워케이션 일정 등록
@@ -53,7 +53,7 @@ public class WorkationScheduleService {
                 .filter(schedule -> isOverlapping(schedule.getStartDate(), schedule.getEndDate(), startDate, endDate))
                 .findAny()
                 .ifPresent(schedule -> {
-                    throw new WorkationScheduleException(OVERLAPPING_SCHEDULE.getMessage());
+                    throw new DnaApplicationException(OVERLAPPING_SCHEDULE.getMessage());
                 });
     }
 
@@ -87,7 +87,7 @@ public class WorkationScheduleService {
 
     private WorkationSchedule findWorkationSchedule(Long userId, Long scheduleId) {
         return workationScheduleRepository.findByUserIdAndId(userId, scheduleId)
-                .orElseThrow(()->new WorkationScheduleException((SCHEDULE_NOT_FOUND.getMessage())));
+                .orElseThrow(()->new DnaApplicationException((SCHEDULE_NOT_FOUND.getMessage())));
     }
 
     private WorkationScheduleResponse toResponseDto(WorkationSchedule workationSchedule) {

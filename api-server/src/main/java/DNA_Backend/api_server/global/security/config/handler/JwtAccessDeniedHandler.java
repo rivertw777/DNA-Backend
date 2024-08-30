@@ -1,6 +1,6 @@
 package DNA_Backend.api_server.global.security.config.handler;
 
-import static DNA_Backend.api_server.global.security.exception.SecurityExceptionMessage.NO_AUTHORITY;
+import static DNA_Backend.api_server.global.security.message.SecurityExceptionMessage.NO_AUTHORITY;
 import static com.nimbusds.oauth2.sdk.http.HTTPResponse.SC_FORBIDDEN;
 
 import DNA_Backend.api_server.global.security.utils.ResponseWriter;

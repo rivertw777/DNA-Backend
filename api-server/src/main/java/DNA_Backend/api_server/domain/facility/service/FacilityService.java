@@ -1,12 +1,11 @@
 package DNA_Backend.api_server.domain.facility.service;
 
-import static DNA_Backend.api_server.domain.facility.exception.FacilityExceptionMessage.FACILITY_NOT_FOUND;
+import static DNA_Backend.api_server.domain.facility.message.FacilityExceptionMessage.FACILITY_NOT_FOUND;
 
 import DNA_Backend.api_server.domain.facility.dto.FacilityDto.FacilityResponse;
 import DNA_Backend.api_server.domain.facility.dto.FacilityDto.LocationTotalFacilityCountResponse;
-import DNA_Backend.api_server.domain.facility.exception.FacilityException;
-import DNA_Backend.api_server.domain.facility.model.Facility;
-import DNA_Backend.api_server.domain.facility.model.FacilityType;
+import DNA_Backend.api_server.domain.facility.model.entity.Facility;
+import DNA_Backend.api_server.domain.facility.model.enums.FacilityType;
 import DNA_Backend.api_server.domain.facility.repository.FacilityRepository;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,7 +1,7 @@
 package DNA_Backend.api_server.domain.auth.service;
 
 import DNA_Backend.api_server.domain.auth.dto.AuthDto.CheckFirstSocialLoginResponse;
-import DNA_Backend.api_server.domain.user.model.User;
+import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.user.service.UserService;
 import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
 import DNA_Backend.api_server.global.security.auth.UserDetailsServiceCustom;
@@ -36,6 +36,7 @@ public class AuthService {
     @Transactional(readOnly = true)
     public String getToken(String newUsername) {
         UserDetailsCustom userDetails = userDetailsServiceCustom.loadUserByUsername(newUsername);
+
         String token = tokenManager.generateToken(userDetails);
         return token;
     }

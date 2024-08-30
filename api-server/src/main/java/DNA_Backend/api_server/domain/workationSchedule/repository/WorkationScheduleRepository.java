@@ -1,6 +1,6 @@
 package DNA_Backend.api_server.domain.workationSchedule.repository;
 
-import DNA_Backend.api_server.domain.workationSchedule.model.WorkationSchedule;
+import DNA_Backend.api_server.domain.workationSchedule.model.entity.WorkationSchedule;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
