@@ -33,6 +33,10 @@ public class Review extends BaseTimeEntity {
     private Long id;
 
     @NotNull
+    @Column(name = "rating")
+    private int rating;
+
+    @NotNull
     @Column(name = "content")
     private String content;
 
@@ -46,8 +50,9 @@ public class Review extends BaseTimeEntity {
     @JoinColumn(name = "workation_schedule_id")
     private WorkationSchedule workationSchedule;
 
-    public static Review createReview(User user, WorkationSchedule workationSchedule, String content) {
+    public static Review createReview(User user, WorkationSchedule workationSchedule, String content, int rating) {
         Review review = Review.builder()
+                .rating(rating)
                 .content(content)
                 .user(user)
                 .workationSchedule(workationSchedule)

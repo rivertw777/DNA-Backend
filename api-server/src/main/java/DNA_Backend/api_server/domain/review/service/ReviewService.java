@@ -44,7 +44,7 @@ public class ReviewService {
     }
 
     private void saveReview(User user, WorkationSchedule workationSchedule, WriteReviewRequest reqeustParam){
-        Review review = Review.createReview(user, workationSchedule, reqeustParam.content());
+        Review review = Review.createReview(user, workationSchedule, reqeustParam.content(), reqeustParam.rating());
         reviewRepository.save(review);
     }
 

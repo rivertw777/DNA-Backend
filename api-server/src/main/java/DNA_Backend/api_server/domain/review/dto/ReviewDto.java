@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 public class ReviewDto {
 
-    public record WriteReviewRequest(String content){
+    public record WriteReviewRequest(int rating, String content){
     }
 
     public record ReviewResponse(Long reviewId, String username, String locationName, LocalDate startDate, LocalDate endDate,
