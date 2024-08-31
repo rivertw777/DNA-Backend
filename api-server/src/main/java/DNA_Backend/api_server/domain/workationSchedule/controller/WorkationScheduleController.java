@@ -72,4 +72,13 @@ public class WorkationScheduleController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "사용자 만료되고 리뷰 없는 일정 조회")
+    @GetMapping("/expired-no-review")
+    public ResponseEntity<List<WorkationScheduleResponse>> getExpiredNoReviewScheduleResponse(
+            @AuthenticationPrincipal UserDetailsCustom userDetailsCustom) {
+        Long userId = userDetailsCustom.getUser().getId();
+        List<WorkationScheduleResponse> responses = workationScheduleService.getExpiredNoReviewScheduleResponse(userId);
+        return ResponseEntity.ok(responses);
+    }
+
 }

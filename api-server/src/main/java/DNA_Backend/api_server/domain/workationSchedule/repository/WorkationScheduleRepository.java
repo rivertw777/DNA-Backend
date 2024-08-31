@@ -11,4 +11,5 @@ public interface WorkationScheduleRepository extends JpaRepository<WorkationSche
     Optional<WorkationSchedule> findByUserIdAndId(Long userId, Long scheduleId);
     void deleteByUserIdAndId(Long userId, Long scheduleId);
     List<WorkationSchedule> findByEndDateBeforeAndIsExpiredFalse(LocalDate now);
+    List<WorkationSchedule> findByUserIdAndIsExpiredTrueAndReviewIsNull(Long userId);
 }

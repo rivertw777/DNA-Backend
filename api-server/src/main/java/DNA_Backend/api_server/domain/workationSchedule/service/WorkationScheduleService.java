@@ -120,4 +120,14 @@ public class WorkationScheduleService {
         return new AllScheduledDatesResponse(scheduledDates);
     }
 
+    // 사용자 만료되고 리뷰 없는 일정 조회
+    @Transactional
+    public List<WorkationScheduleResponse> getExpiredNoReviewScheduleResponse(Long userId) {
+        List<WorkationSchedule> workationSchedules = workationScheduleRepository.findByUserIdAndIsExpiredTrueAndReviewIsNull(userId);
+
+        return workationSchedules.stream()
+                .map(this::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
 }
