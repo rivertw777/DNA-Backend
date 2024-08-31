@@ -23,6 +23,7 @@ public class LoggingAspect {
             + "execution(* DNA_Backend.api_server.domain.workationSchedule.service.WorkationScheduleService..*(..)) || "
             + "execution(* DNA_Backend.api_server.domain.workationSchedule.service.ScheduleNotificationService..*(..)) || "
             + "execution(* DNA_Backend.api_server.domain.review.service.ReviewService..*(..)) || "
+            + "execution(* DNA_Backend.api_server.domain.recommendation.service.RecommendationService..*(..)) || "
             + "execution(* DNA_Backend.api_server.global.security.auth.UserDetailsServiceCustom..*(..)))", throwing = "ex")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable ex) {
         String methodName = joinPoint.getSignature().getName();
@@ -41,6 +42,7 @@ public class LoggingAspect {
             + "execution(* DNA_Backend.api_server.domain.workationSchedule.service.WorkationScheduleService..*(..)) || "
             + "execution(* DNA_Backend.api_server.domain.workationSchedule.service.ScheduleNotificationService..*(..)) || "
             + "execution(* DNA_Backend.api_server.domain.review.service.ReviewService..*(..)) || "
+            + "execution(* DNA_Backend.api_server.domain.recommendation.service.RecommendationService..*(..)) || "
             + "execution(* DNA_Backend.api_server.global.security.auth.UserDetailsServiceCustom..*(..)))")
     public void logBefore(JoinPoint joinPoint) {
         String methodName = joinPoint.getSignature().getName();
@@ -59,6 +61,7 @@ public class LoggingAspect {
             + "execution(* DNA_Backend.api_server.domain.workationSchedule.service.WorkationScheduleService..*(..)) || "
             + "execution(* DNA_Backend.api_server.domain.workationSchedule.service.ScheduleNotificationService..*(..)) || "
             + "execution(* DNA_Backend.api_server.domain.review.service.ReviewService..*(..)) || "
+            + "execution(* DNA_Backend.api_server.domain.recommendation.service.RecommendationService..*(..)) || "
             + "execution(* DNA_Backend.api_server.global.security.auth.UserDetailsServiceCustom..*(..)))")
     public Object logAfter(ProceedingJoinPoint joinPoint) throws Throwable {
         String methodName = joinPoint.getSignature().getName();

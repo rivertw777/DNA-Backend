@@ -7,6 +7,7 @@ import DNA_Backend.api_server.domain.facility.dto.FacilityDto.LocationTotalFacil
 import DNA_Backend.api_server.domain.facility.model.entity.Facility;
 import DNA_Backend.api_server.domain.facility.model.enums.FacilityType;
 import DNA_Backend.api_server.domain.facility.repository.FacilityRepository;
+import DNA_Backend.api_server.global.exception.DnaApplicationException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class FacilityService {
     @Transactional(readOnly = true)
     public Facility findFacility(Long facilityId) {
         return facilityRepository.findById(facilityId)
-                .orElseThrow(()->new FacilityException(FACILITY_NOT_FOUND.getMessage()));
+                .orElseThrow(()->new DnaApplicationException(FACILITY_NOT_FOUND.getMessage()));
     }
 
     // 시설 검색 by 위도, 경도 & 타입

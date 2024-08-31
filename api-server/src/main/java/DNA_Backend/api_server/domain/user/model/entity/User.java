@@ -136,4 +136,8 @@ public class User {
         this.reviews.add(review);
     }
 
+    public void deleteAllRecommendLocations() {
+        this.recommendedLocations = new ArrayList<>();
+    }
+
 }

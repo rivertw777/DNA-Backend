@@ -39,7 +39,7 @@ public class RecommendedLocation {
     @JoinColumn(name = "location_id")
     private Location location;
 
-    public static RecommendedLocation createLocationLike(User user, Location location) {
+    public static RecommendedLocation createRecommendedLocation(User user, Location location) {
         RecommendedLocation recommendedLocation = RecommendedLocation.builder()
                 .user(user)
                 .location(location)

@@ -2,12 +2,13 @@ package DNA_Backend.api_server.domain.location.service;
 
 import static DNA_Backend.api_server.domain.location.message.LocationExceptionMessage.LOCATION_NOT_FOUND;
 
-import DNA_Backend.api_server.domain.facility.service.FacilityService;
 import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationDetailResponse;
 import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationResponse;
 import DNA_Backend.api_server.domain.location.dto.LocationWeatherDto.LocationWeatherResponse;
 import DNA_Backend.api_server.domain.location.model.entity.Location;
+import DNA_Backend.api_server.domain.location.model.enums.LocationName;
 import DNA_Backend.api_server.domain.location.repository.LocationRepository;
+import DNA_Backend.api_server.global.exception.DnaApplicationException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +22,19 @@ public class LocationService {
 
     private final LocationRepository locationRepository;
     private final LocationWeatherService locationWeatherService;
-    private final FacilityService facilityService;
 
     // id로 조회
     @Transactional(readOnly = true)
     public Location findLocation(Long locationId) {
         return locationRepository.findById(locationId)
-                .orElseThrow(() -> new LocationException(LOCATION_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new DnaApplicationException(LOCATION_NOT_FOUND.getMessage()));
+    }
+
+    // 이름으로 조회
+    @Transactional(readOnly = true)
+    public Location findLocation(LocationName locationName) {
+        return locationRepository.findByName(locationName)
+                .orElseThrow(() -> new DnaApplicationException(LOCATION_NOT_FOUND.getMessage()));
     }
 
     // 전체 지역 조회
