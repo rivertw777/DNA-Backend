@@ -23,7 +23,7 @@ public enum FacilityType {
                 return type;
             }
         }
-        throw new DnaApplicationException(UNKNOWN_TYPE.getMessage());
+        throw new DnaApplicationException(UNKNOWN_TYPE.getValue());
     }
 
 }

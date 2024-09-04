@@ -12,6 +12,6 @@ public enum FacilityExceptionMessage {
     ALREADY_UNBOOKMARK("이미 북마크를 취소하였습니다."),
     UNKNOWN_TYPE("알 수 없는 시설 유형입니다.");
 
-    private final String message;
+    private final String value;
 
 }

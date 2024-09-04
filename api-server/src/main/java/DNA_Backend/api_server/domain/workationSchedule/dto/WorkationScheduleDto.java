@@ -15,9 +15,9 @@ public class WorkationScheduleDto {
         }
         private static void validateScheduleDates(LocalDate startDate, LocalDate endDate) {
             if (startDate.isAfter(endDate)) {
-                throw new DnaApplicationException(START_DATE_AFTER_END_DATE.getMessage());
+                throw new DnaApplicationException(START_DATE_AFTER_END_DATE.getValue());
             } else if (startDate.isEqual(endDate)) {
-                throw new DnaApplicationException(SAME_DATE.getMessage());
+                throw new DnaApplicationException(SAME_DATE.getValue());
             }
         }
     }

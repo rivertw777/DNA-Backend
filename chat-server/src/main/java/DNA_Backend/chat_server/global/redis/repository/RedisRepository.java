@@ -1,12 +1,12 @@
-package DNA_Backend.chat_server.global.redis.service;
+package DNA_Backend.chat_server.global.redis.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
-@Service
+@Repository
 @RequiredArgsConstructor
-public class RedisService {
+public class RedisRepository {
 
     private final RedisTemplate<String, String> redisTemplate;
 

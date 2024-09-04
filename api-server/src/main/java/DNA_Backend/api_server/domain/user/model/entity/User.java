@@ -6,6 +6,7 @@ import DNA_Backend.api_server.domain.review.model.entity.Review;
 import DNA_Backend.api_server.domain.user.model.enums.PopupStatus;
 import DNA_Backend.api_server.domain.user.model.enums.Role;
 import DNA_Backend.api_server.domain.workationSchedule.model.entity.WorkationSchedule;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -22,7 +23,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -30,6 +30,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@JsonIgnoreProperties({"provider", "providerId", "popupStatus", "recommendedLocations", "facilityBookmarks",
+        "workationSchedules", "reviews"})
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -66,6 +68,11 @@ public class User {
     @Column(name = "provider_id")
     private String providerId;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "popup_status")
+    private PopupStatus popupStatus;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<RecommendedLocation> recommendedLocations = new ArrayList<>();
 
@@ -78,18 +85,14 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "popup_status")
-    private PopupStatus popupStatus;
-
     // 일반 회원 가입
     public static User createUser(String username, String email, String encodedPassword) {
+        List<Role> roles = new ArrayList<>(List.of(Role.USER));
         User user = User.builder()
                 .username(username)
                 .email(email)
                 .password(encodedPassword)
-                .roles(Collections.singletonList(Role.USER))
+                .roles(roles)
                 .popupStatus(PopupStatus.NONE)
                 .build();
         return user;
@@ -97,10 +100,11 @@ public class User {
 
     // 소셜 계정 회원 가입
     public static User createUser(String username, String email, String provider, String providerId) {
+        List<Role> roles = new ArrayList<>(List.of(Role.USER));
         User user = User.builder()
                 .username(username)
                 .email(email)
-                .roles(Collections.singletonList(Role.USER))
+                .roles(roles)
                 .provider(provider)
                 .providerId(providerId)
                 .popupStatus(PopupStatus.NONE)
@@ -108,12 +112,16 @@ public class User {
         return user;
     }
 
-    public void setUserName(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setPopupStatus(PopupStatus popupStatus) {
+        this.popupStatus = popupStatus;
     }
 
     public void addRecommendedLocation(RecommendedLocation recommendedLocation){
@@ -126,10 +134,6 @@ public class User {
 
     public void addSchedule(WorkationSchedule workationSchedule){
         this.workationSchedules.add(workationSchedule);
-    }
-
-    public void setPopupStatus(PopupStatus popupStatus) {
-        this.popupStatus = popupStatus;
     }
 
     public void addReview(Review review) {

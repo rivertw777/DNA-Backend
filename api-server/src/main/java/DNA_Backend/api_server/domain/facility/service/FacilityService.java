@@ -25,7 +25,7 @@ public class FacilityService {
     @Transactional(readOnly = true)
     public Facility findFacility(Long facilityId) {
         return facilityRepository.findById(facilityId)
-                .orElseThrow(()->new DnaApplicationException(FACILITY_NOT_FOUND.getMessage()));
+                .orElseThrow(()->new DnaApplicationException(FACILITY_NOT_FOUND.getValue()));
     }
 
     // 시설 검색 by 위도, 경도 & 타입

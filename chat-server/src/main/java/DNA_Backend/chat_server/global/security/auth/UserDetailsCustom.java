@@ -1,7 +1,7 @@
 package DNA_Backend.chat_server.global.security.auth;
 
 import DNA_Backend.chat_server.domain.user.model.Role;
-import DNA_Backend.chat_server.domain.user.model.User;
+import DNA_Backend.chat_server.domain.user.model.UserCache;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,9 +11,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserDetailsCustom implements UserDetails {
 
-    private final User user;
+    private final UserCache user;
 
-    public UserDetailsCustom(User user) {
+    public UserDetailsCustom(UserCache user) {
         this.user = user;
     }
 

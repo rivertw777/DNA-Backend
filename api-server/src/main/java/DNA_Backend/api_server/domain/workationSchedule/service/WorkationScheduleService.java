@@ -33,7 +33,7 @@ public class WorkationScheduleService {
     @Transactional(readOnly = true)
     public WorkationSchedule findWorkationSchedule(Long scheduleId) {
         return workationScheduleRepository.findById(scheduleId)
-                .orElseThrow(()->new DnaApplicationException((SCHEDULE_NOT_FOUND.getMessage())));
+                .orElseThrow(()->new DnaApplicationException((SCHEDULE_NOT_FOUND.getValue())));
     }
 
     // 사용자 워케이션 일정 등록
@@ -53,7 +53,7 @@ public class WorkationScheduleService {
                 .filter(schedule -> isOverlapping(schedule.getStartDate(), schedule.getEndDate(), startDate, endDate))
                 .findAny()
                 .ifPresent(schedule -> {
-                    throw new DnaApplicationException(OVERLAPPING_SCHEDULE.getMessage());
+                    throw new DnaApplicationException(OVERLAPPING_SCHEDULE.getValue());
                 });
     }
 
@@ -87,7 +87,7 @@ public class WorkationScheduleService {
 
     private WorkationSchedule findWorkationSchedule(Long userId, Long scheduleId) {
         return workationScheduleRepository.findByUserIdAndId(userId, scheduleId)
-                .orElseThrow(()->new DnaApplicationException((SCHEDULE_NOT_FOUND.getMessage())));
+                .orElseThrow(()->new DnaApplicationException((SCHEDULE_NOT_FOUND.getValue())));
     }
 
     private WorkationScheduleResponse toResponseDto(WorkationSchedule workationSchedule) {

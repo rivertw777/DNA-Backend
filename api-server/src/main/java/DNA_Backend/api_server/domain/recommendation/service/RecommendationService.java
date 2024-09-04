@@ -47,7 +47,6 @@ public class RecommendationService {
     // 추천 API 요청
     private RecommendLocationResponse getRecommendLocationResponse(RecommendLocationRequest requestParam) {
         try {
-
             RecommendLocationResponse response = restTemplate.postForObject(
                     inferenceAppUrl + "/recommend",
                     requestParam,
@@ -55,7 +54,7 @@ public class RecommendationService {
             );
             return response;
         } catch (Exception e) {
-            throw new DnaApplicationException(RECOMMEND_REQUEST_FAILED.getMessage());
+            throw new DnaApplicationException(RECOMMEND_REQUEST_FAILED.getValue());
         }
     }
 

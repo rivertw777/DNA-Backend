@@ -29,7 +29,7 @@ public class AuthService {
     @Transactional
     public void updateUsername(String username, String newUsername) {
         User user = userService.findUser(username);
-        user.setUserName(newUsername);
+        user.setUsername(newUsername);
     }
 
     // 토큰 얻기

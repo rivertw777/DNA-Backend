@@ -13,6 +13,6 @@ public enum LocationExceptionMessage {
     UNVAILD_LOCATION_NAME("유효하지 않은 지역 이름입니다."),
     LOCATION_NAME_NOT_FOUND("해당하는 이름을 가진 지역이 없습니다.");
 
-    private final String message;
+    private final String value;
 
 }

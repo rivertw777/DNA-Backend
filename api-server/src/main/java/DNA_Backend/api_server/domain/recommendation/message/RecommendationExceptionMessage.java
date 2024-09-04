@@ -9,6 +9,6 @@ public enum RecommendationExceptionMessage {
 
     RECOMMEND_REQUEST_FAILED("요청에 실패하였습니다.");
 
-    private final String message;
+    private final String value;
 
 }

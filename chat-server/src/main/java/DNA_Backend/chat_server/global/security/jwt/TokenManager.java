@@ -1,7 +1,7 @@
 package DNA_Backend.chat_server.global.security.jwt;
 
-import static DNA_Backend.chat_server.global.security.jwt.JwtExceptionMessage.EXPIRED_TOKEN;
-import static DNA_Backend.chat_server.global.security.jwt.JwtExceptionMessage.INVALID_TOKEN;
+import static DNA_Backend.chat_server.global.security.message.JwtExceptionMessage.EXPIRED_TOKEN;
+import static DNA_Backend.chat_server.global.security.message.JwtExceptionMessage.INVALID_TOKEN;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -40,9 +40,9 @@ public class TokenManager {
         try {
             Jwts.parserBuilder().setSigningKey(jwtSecretKey).build().parseClaimsJws(token);
         } catch (ExpiredJwtException e) {
-            throw new JwtException(EXPIRED_TOKEN.getMessage());
+            throw new JwtException(EXPIRED_TOKEN.getValue());
         } catch (MalformedJwtException | UnsupportedJwtException | SignatureException e) {
-            throw new JwtException(INVALID_TOKEN.getMessage());
+            throw new JwtException(INVALID_TOKEN.getValue());
         }
     }
     

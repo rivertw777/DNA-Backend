@@ -27,14 +27,14 @@ public class LocationService {
     @Transactional(readOnly = true)
     public Location findLocation(Long locationId) {
         return locationRepository.findById(locationId)
-                .orElseThrow(() -> new DnaApplicationException(LOCATION_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new DnaApplicationException(LOCATION_NOT_FOUND.getValue()));
     }
 
     // 이름으로 조회
     @Transactional(readOnly = true)
     public Location findLocation(LocationName locationName) {
         return locationRepository.findByName(locationName)
-                .orElseThrow(() -> new DnaApplicationException(LOCATION_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new DnaApplicationException(LOCATION_NOT_FOUND.getValue()));
     }
 
     // 전체 지역 조회

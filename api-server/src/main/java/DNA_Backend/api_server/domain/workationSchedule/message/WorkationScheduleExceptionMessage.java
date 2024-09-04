@@ -12,6 +12,6 @@ public enum WorkationScheduleExceptionMessage {
     OVERLAPPING_SCHEDULE("해당 기간에 이미 등록된 일정이 있습니다."),
     SCHEDULE_NOT_FOUND("해당하는 일정이 없습니다.");
 
-    private final String message;
+    private final String value;
 
 }

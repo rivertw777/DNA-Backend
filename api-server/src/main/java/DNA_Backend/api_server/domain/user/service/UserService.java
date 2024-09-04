@@ -15,7 +15,7 @@ import DNA_Backend.api_server.domain.user.model.enums.PopupStatus;
 import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.user.repository.UserRepository;
 import DNA_Backend.api_server.global.exception.DnaApplicationException;
-import DNA_Backend.api_server.global.redis.service.RedisService;
+import DNA_Backend.api_server.global.redis.repository.RedisRepository;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,21 +34,21 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final EmailVerificationService emailVerificationService;
-    private final RedisService redisService;
+    private final RedisRepository redisRepository;
     private final PasswordEncoder passwordEncoder;
 
     // id로 조회
     @Transactional(readOnly = true)
     public User findUser(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(()->new DnaApplicationException(USER_NOT_FOUND.getMessage()));
+                .orElseThrow(()->new DnaApplicationException(USER_NOT_FOUND.getValue()));
     }
 
     // 이름으로 조회
     @Transactional(readOnly = true)
     public User findUser(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(()->new DnaApplicationException(USER_NAME_NOT_FOUND.getMessage()));
+                .orElseThrow(()->new DnaApplicationException(USER_NAME_NOT_FOUND.getValue()));
     }
 
     // 회원 가입
@@ -80,7 +80,7 @@ public class UserService {
     public void sendEmailCode(SendEmailCodeRequest reqeustParam) {
         String code = createCode();
         emailVerificationService.sendEmail(reqeustParam.email(), code);
-        redisService.setWithExpiration(EMAIL_AUTH_CODE_PREFIX + reqeustParam.email(), code, authCodeExpirationMillis);
+        redisRepository.setWithExpiration(EMAIL_AUTH_CODE_PREFIX + reqeustParam.email(), code, authCodeExpirationMillis);
     }
 
     private String createCode() {
@@ -90,7 +90,7 @@ public class UserService {
 
     // 이메일 인증 코드 검증
     public VerifyEmailCodeResponse verifyEmailCode(VerifyEmailCodeRequest requestParam) {
-        String findCode = redisService.get(EMAIL_AUTH_CODE_PREFIX + requestParam.email());
+        String findCode = redisRepository.get(EMAIL_AUTH_CODE_PREFIX + requestParam.email());
         boolean isVerified = requestParam.code().equals(findCode);
 
         return new VerifyEmailCodeResponse(isVerified);

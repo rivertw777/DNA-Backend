@@ -1,5 +1,6 @@
 package DNA_Backend.chat_server.global.redis.config;
 
+import DNA_Backend.chat_server.domain.user.model.UserCache;
 import DNA_Backend.chat_server.global.redis.messaging.RedisSubscriber;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,17 @@ public class RedisConfig {
         redisTemplate.setValueSerializer(serializer);
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+        return redisTemplate;
+    }
+
+    @Bean(name = "userRedisTemplate")
+    public RedisTemplate<String, UserCache> userRedisTemplate() {
+        RedisTemplate<String, UserCache> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(redisConnectionFactory());
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(UserCache.class));
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(UserCache.class));
         return redisTemplate;
     }
 

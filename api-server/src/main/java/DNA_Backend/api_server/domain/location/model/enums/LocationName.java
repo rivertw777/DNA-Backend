@@ -25,7 +25,7 @@ public enum LocationName {
                 return name;
             }
         }
-        throw new DnaApplicationException(UNVAILD_LOCATION_NAME.getMessage());
+        throw new DnaApplicationException(UNVAILD_LOCATION_NAME.getValue());
     }
 
 }

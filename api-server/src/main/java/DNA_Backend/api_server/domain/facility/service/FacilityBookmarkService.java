@@ -38,7 +38,7 @@ public class FacilityBookmarkService {
 
     private void validateBookmarkNotExists(Long userId, Long facilityId) {
         if (facilityBookmarkRepository.findByUserIdAndFacilityId(userId, facilityId).isPresent()) {
-            throw new DnaApplicationException(ALREADY_BOOKMARK.getMessage());
+            throw new DnaApplicationException(ALREADY_BOOKMARK.getValue());
         }
     }
 
@@ -57,7 +57,7 @@ public class FacilityBookmarkService {
 
     private void validateBookmarkExists(Long userId, Long facilityId) {
         if (facilityBookmarkRepository.findByUserIdAndFacilityId(userId, facilityId).isEmpty()) {
-            throw new DnaApplicationException(ALREADY_UNBOOKMARK.getMessage());
+            throw new DnaApplicationException(ALREADY_UNBOOKMARK.getValue());
         }
     }
 

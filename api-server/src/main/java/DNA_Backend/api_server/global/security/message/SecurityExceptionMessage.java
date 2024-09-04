@@ -11,6 +11,6 @@ public enum SecurityExceptionMessage {
     UNAUTHORIZED("인증이 필요합니다. 로그인해주세요."),
     NO_AUTHORITY("접근 권한이 없습니다.");
 
-    private final String message;
+    private final String value;
 
 }
