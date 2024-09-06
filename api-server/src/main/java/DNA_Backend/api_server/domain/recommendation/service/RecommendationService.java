@@ -1,6 +1,6 @@
 package DNA_Backend.api_server.domain.recommendation.service;
 
-import static DNA_Backend.api_server.domain.recommendation.message.RecommendationExceptionMessage.RECOMMEND_REQUEST_FAILED;
+import static DNA_Backend.api_server.domain.recommendation.message.RecommendationExceptionMessage.LOCATION_RECOMMEND_REQUEST_FAILED;
 
 import DNA_Backend.api_server.domain.location.model.entity.Location;
 import DNA_Backend.api_server.domain.location.model.enums.LocationName;
@@ -33,13 +33,11 @@ public class RecommendationService {
     private final LocationService locationService;
     private final RecommendedLocationRepository recommendedLocationRepository;
 
-    // 사용자 지역 추천
+    // USER - 지역 추천
     @Transactional
     public RecommendLocationResponse recommendLocation(Long userId, RecommendLocationRequest requestParam) {
         User user = userService.findUser(userId);
-
         RecommendLocationResponse response = getRecommendLocationResponse(requestParam);
-
         initUserRecommendedLocations(user, response.locationNames());
         return response;
     }
@@ -54,27 +52,25 @@ public class RecommendationService {
             );
             return response;
         } catch (Exception e) {
-            throw new DnaApplicationException(RECOMMEND_REQUEST_FAILED.getValue());
+            throw new DnaApplicationException(LOCATION_RECOMMEND_REQUEST_FAILED.getValue());
         }
     }
 
     // 사용자 추천 지역 초기화
     private void initUserRecommendedLocations(User user, List<String> locationNames) {
         recommendedLocationRepository.deleteByUserId(user.getId());
-
         locationNames.stream()
                 .map(LocationName::fromValue)
                 .map(locationService::findLocation)
                 .forEach(location -> saveRecommendedLocation(user, location));
     }
 
-    // 추천 지역 저장
     private void saveRecommendedLocation(User user, Location location) {
         RecommendedLocation recommendedLocation = RecommendedLocation.createRecommendedLocation(user, location);
         recommendedLocationRepository.save(recommendedLocation);
     }
 
-    // 사용자 추천 지역 조회
+    // USER - 전체 추천 지역 조회
     @Transactional(readOnly = true)
     public List<RecommendedLocationResponse> getRecommendedLocations(Long userId) {
         return recommendedLocationRepository.findByUserId(userId).stream()

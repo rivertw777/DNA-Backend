@@ -25,14 +25,12 @@ public class FacilityBookmarkService {
     private final FacilityService facilityService;
     private final UserService userService;
 
-    // 사용자 시설 북마크
+    // USER - 시설 북마크
     @Transactional
     public void bookmarkFacility(Long userId, Long facilityId) {
         User user = userService.findUser(userId);
         Facility facility = facilityService.findFacility(facilityId);
-
         validateBookmarkNotExists(user.getId(), facilityId);
-
         saveFacilityBookmark(user, facility);
     }
 
@@ -47,11 +45,10 @@ public class FacilityBookmarkService {
         facilityBookmarkRepository.save(facilityBookmark);
     }
 
-    // 사용자 시설 북마크 취소
+    // USER - 시설 북마크 취소
     @Transactional
     public void unbookmarkFacility(Long userId, Long facilityId) {
         validateBookmarkExists(userId, facilityId);
-
         facilityBookmarkRepository.deleteByUserIdAndFacilityId(userId, facilityId);
     }
 
@@ -61,15 +58,14 @@ public class FacilityBookmarkService {
         }
     }
 
-    // 사용자 시설 북마크 여부 확인
+    // USER - 시설 북마크 여부 확인
     @Transactional(readOnly = true)
     public CheckFacilityBookmarkResponse checkFacilityBookmark(Long userId, Long facilityId) {
         boolean isBookmarked = facilityBookmarkRepository.findByUserIdAndFacilityId(userId, facilityId).isPresent();
-
         return new CheckFacilityBookmarkResponse(isBookmarked);
     }
 
-    // 사용자 전체 북마크 시설 조회
+    // USER - 전체 북마크 시설 조회
     @Transactional(readOnly = true)
     public List<BookmarkedFacilityResponse> getAllBookmarkedFacilities(Long userId) {
         return facilityBookmarkRepository.findByUserId(userId).stream()
@@ -79,7 +75,6 @@ public class FacilityBookmarkService {
 
     private BookmarkedFacilityResponse toResponseDto(FacilityBookmark facilityBookmark) {
         Facility facility = facilityBookmark.getFacility();
-
         return new BookmarkedFacilityResponse(
                 facility.getId(),
                 facility.getName(),

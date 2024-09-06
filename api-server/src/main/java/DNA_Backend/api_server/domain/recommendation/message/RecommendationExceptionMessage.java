@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum RecommendationExceptionMessage {
 
-    RECOMMEND_REQUEST_FAILED("지역 추천 API 요청이 실패하였습니다.");
+    LOCATION_RECOMMEND_REQUEST_FAILED("지역 추천 API 요청이 실패하였습니다.");
 
     private final String value;
 

@@ -27,20 +27,16 @@ public class ScheduleNotificationService {
     @Scheduled(cron = "0 0 2 * * *")
     public void notifyExpiredSchedules() {
         LocalDate now = LocalDate.now();
-
         List<WorkationSchedule> expiredSchedules = workationScheduleRepository.findByEndDateBeforeAndIsExpiredFalse(now);
-
         expiredSchedules.forEach(this::sendEmail);
     }
 
     private void sendEmail(WorkationSchedule schedule){
         User user = schedule.getUser();
-
         String email =  user.getEmail();
         String locationName = capitalizeFirstLetter(schedule.getLocation().getName().getValue());
         String subject = getSubject(locationName);
         String text = getText(user.getUsername(), locationName);
-
         emailService.sendEmail(email, subject, text);
         upDateStatus(user, schedule);
     }

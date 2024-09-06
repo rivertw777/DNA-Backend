@@ -29,42 +29,42 @@ public class UserController {
 
     private final UserService userService;
 
-    @Operation(summary = "회원 가입")
+    @Operation(summary = "PUBLIC - 회원 가입")
     @PostMapping
     public ResponseEntity<Void> signUp(@Valid @RequestBody SignUpRequest reqeustParam) {
         userService.signUp(reqeustParam);
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "이름 중복 여부 확인")
+    @Operation(summary = "PUBLIC - 이름 중복 여부 확인")
     @PostMapping("/name/check")
     public ResponseEntity<CheckDuplicateUsernameResponse> CheckDuplicateUsername(@Valid @RequestBody CheckDuplicateUsernameRequest requestParam) {
         CheckDuplicateUsernameResponse response = userService.CheckDuplicateUsername(requestParam);
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "사용자 이름 조회")
+    @Operation(summary = "USER - 이름 조회")
     @GetMapping("/name")
     public ResponseEntity<UsernameResponse> getUsername(@AuthenticationPrincipal(expression = "username") String username) {
         UsernameResponse response = userService.getUsername(username);
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "이메일 인증 코드 전송")
+    @Operation(summary = "PUBLIC - 이메일 인증 코드 전송")
     @PostMapping("/email/code/send")
     public ResponseEntity<Void> sendEmailCode(@Valid @RequestBody SendEmailCodeRequest reqeustParam) {
         userService.sendEmailCode(reqeustParam);
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "이메일 인증 코드 검증")
+    @Operation(summary = "PUBLIC - 이메일 인증 코드 검증")
     @PostMapping("/email/code/verify")
     public ResponseEntity<VerifyEmailCodeResponse> verifyEmailCode(@Valid @RequestBody VerifyEmailCodeRequest reqeustParam) {
         VerifyEmailCodeResponse response = userService.verifyEmailCode(reqeustParam);
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "사용자 팝업 상태 조회")
+    @Operation(summary = "USER - 팝업 상태 조회")
     @GetMapping("/popup-status")
     public ResponseEntity<UserPopupStatusResponse> getUserPopupStatus(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom) {
         Long userId = userDetailsCustom.getUser().getId();
@@ -72,7 +72,7 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "사용자 팝업 상태 변경")
+    @Operation(summary = "USER - 팝업 상태 초기화")
     @PatchMapping("/popup-status")
     public ResponseEntity<Void> UpdateUserPopupStatus(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom) {
         Long userId = userDetailsCustom.getUser().getId();

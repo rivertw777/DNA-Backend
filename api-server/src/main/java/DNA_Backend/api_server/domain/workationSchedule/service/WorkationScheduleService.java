@@ -30,25 +30,22 @@ public class WorkationScheduleService {
     private final LocationService locationService;
 
     // id로 조회
-    @Transactional(readOnly = true)
     public WorkationSchedule findWorkationSchedule(Long scheduleId) {
         return workationScheduleRepository.findById(scheduleId)
                 .orElseThrow(()->new DnaApplicationException((SCHEDULE_NOT_FOUND.getValue())));
     }
 
-    // 사용자 워케이션 일정 등록
+    // USER - 워케이션 일정 등록
     @Transactional
     public void createWorkationSchedule(Long userId, Long locationId, CreateWorkationScheduleRequest requestParam) {
         User user = userService.findUser(userId);
         Location location = locationService.findLocation(locationId);
-
         validateScheduleOverlap(userId, requestParam.startDate(), requestParam.endDate());
         saveSchedule(user, location, requestParam);
     }
 
     private void validateScheduleOverlap(Long userId, LocalDate startDate, LocalDate endDate) {
         List<WorkationSchedule> schedules = workationScheduleRepository.findByUserId(userId);
-
         schedules.stream()
                 .filter(schedule -> isOverlapping(schedule.getStartDate(), schedule.getEndDate(), startDate, endDate))
                 .findAny()
@@ -67,11 +64,10 @@ public class WorkationScheduleService {
         workationScheduleRepository.save(workationSchedule);
     }
 
-    // 사용자 전체 워케이션 일정 조회
+    // USER - 전체 워케이션 일정 조회
     @Transactional(readOnly = true)
     public List<WorkationScheduleResponse> getAllWorkationSchedules(Long userId) {
         List<WorkationSchedule> workationSchedules = workationScheduleRepository.findByUserIdWithFetch(userId);
-
         return workationSchedules.stream()
                 .map(this::toResponseDto)
                 .collect(Collectors.toList());
@@ -87,31 +83,28 @@ public class WorkationScheduleService {
         );
     }
 
-    // 사용자 워케이션 일정 삭제
+    // USER - 워케이션 일정 삭제
     @Transactional
     public void deleteWorkationSchedule(Long userId, Long scheduleId) {
         workationScheduleRepository.deleteByUserIdAndId(userId, scheduleId);
     }
 
-    // 사용자 전체 일정 날짜 조회
+    // USER - 전체 예정된 날짜 조회
     @Transactional(readOnly = true)
     public AllScheduledDatesResponse getAllScheduledDates(Long userId) {
         List<WorkationSchedule> schedules = workationScheduleRepository.findByUserId(userId);
-
         List<LocalDate> scheduledDates = schedules.stream()
                 .flatMap(schedule ->
                         Stream.iterate(schedule.getStartDate(), date -> !date.isAfter(schedule.getEndDate()), date -> date.plusDays(1))
                 )
                 .collect(Collectors.toList());
-
         return new AllScheduledDatesResponse(scheduledDates);
     }
 
-    // 사용자 만료되고 리뷰 없는 일정 조회
+    // USER - 만료되고 리뷰 없는 일정 조회
     @Transactional
     public List<WorkationScheduleResponse> getExpiredNoReviewScheduleResponse(Long userId) {
         List<WorkationSchedule> workationSchedules = workationScheduleRepository.findByUserIdAndIsExpiredTrueAndReviewIsNull(userId);
-
         return workationSchedules.stream()
                 .map(this::toResponseDto)
                 .collect(Collectors.toList());

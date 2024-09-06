@@ -21,7 +21,7 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @Operation(summary = "사용자 전체 워케이션 리뷰 조회")
+    @Operation(summary = "USER - 전체 워케이션 리뷰 조회")
     @GetMapping
     public ResponseEntity<List<ReviewResponse>> getAllReviewsByUserId(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom) {
         Long userId = userDetailsCustom.getUser().getId();
@@ -29,7 +29,7 @@ public class ReviewController {
         return ResponseEntity.ok(responses);
     }
 
-    @Operation(summary = "전체 워케이션 리뷰 조회")
+    @Operation(summary = "PUBLIC - 전체 워케이션 리뷰 조회")
     @GetMapping("/all")
     public ResponseEntity<Page<ReviewResponse>> getAllReviews(Pageable pageable) {
         Page<ReviewResponse> responses = reviewService.getAllReviews(pageable);

@@ -2,15 +2,11 @@ package DNA_Backend.api_server.global.security.config;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
-import DNA_Backend.api_server.global.security.config.filter.JwtAuthenticationFilter;
 import DNA_Backend.api_server.global.security.config.filter.JwtAuthorizationFilter;
 import DNA_Backend.api_server.global.security.config.handler.JwtAccessDeniedHandler;
 import DNA_Backend.api_server.global.security.config.handler.JwtAuthenticationEntryPoint;
-import DNA_Backend.api_server.global.security.config.handler.JwtAuthenticationFailureHandler;
 import DNA_Backend.api_server.global.security.config.handler.OAuth2LoginSuccessHandler;
 import DNA_Backend.api_server.global.security.oauth.Oauth2UserServiceCustom;
-import DNA_Backend.api_server.global.security.cookie.CookieManager;
-import DNA_Backend.api_server.global.security.jwt.TokenManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,15 +27,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtAuthorizationFilter jwtAuthorizationFilter;
-    private final JwtAuthenticationFailureHandler jwtAuthenticationFailureHandler;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     private final Oauth2UserServiceCustom oauth2UserServiceCustom;
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
-
-    private final TokenManager tokenManager;
-    private final CookieManager cookieManager;
 
     // 보안 필터 체인 구성
     @Bean
@@ -50,9 +42,8 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement(AbstractHttpConfigurer::disable)
-                // 커스텀 필터 적용
-                .apply(new MyCustomFilter())
-                .and()
+                // 인가 필터
+                .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 // 예외 처리 핸들러
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler(jwtAccessDeniedHandler)
@@ -61,6 +52,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         // 회원 가입
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/users")).permitAll()
+                        // 로그인
+                        .requestMatchers(antMatcher(HttpMethod.POST, "/api/auth/login")).permitAll()
                         // 이름 중복 여부 확인
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/users/name/check")).permitAll()
                         // 이메일 인증 코드 전송, 검증
@@ -110,24 +103,6 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    // 커스텀 필터 설정
-    public class MyCustomFilter extends AbstractHttpConfigurer<MyCustomFilter, HttpSecurity> {
-        @Override
-        public void configure(HttpSecurity http) {
-            AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
-
-            // 인증 필터 설정
-            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager,
-                    tokenManager, cookieManager);
-            jwtAuthenticationFilter.setAuthenticationFailureHandler(jwtAuthenticationFailureHandler);
-            jwtAuthenticationFilter.setFilterProcessesUrl("/api/auth/login");
-
-            http
-                    .addFilter(jwtAuthenticationFilter)
-                    .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
-        }
     }
 
 }

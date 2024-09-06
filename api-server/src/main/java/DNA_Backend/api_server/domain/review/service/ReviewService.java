@@ -28,12 +28,11 @@ public class ReviewService {
     private final WorkationScheduleService workationScheduleService;
     private final UserService userService;
 
-    // 사용자 워케이션 리뷰 작성
+    // USER - 워케이션 리뷰 작성
     @Transactional
     public void writeReview(Long userId, Long scheduleId, WriteReviewRequest requestParam) {
         User user = userService.findUser(userId);
         WorkationSchedule workationSchedule = workationScheduleService.findWorkationSchedule(scheduleId);
-
         validateReviewNotExists(workationSchedule);
         saveReview(user, workationSchedule, requestParam);
         Location location = workationSchedule.getLocation();
@@ -61,35 +60,31 @@ public class ReviewService {
         location.setAverageRating(averageRating);
     }
 
-    // 사용자 전체 워케이션 리뷰 조회
+    // USER - 전체 워케이션 리뷰 조회
     @Transactional(readOnly = true)
     public List<ReviewResponse> getAllReviewsByUserId(Long userId) {
         List<Review> reviews = reviewRepository.findByUserId(userId);
-
         return reviews.stream()
                 .map(this::toResponseDto)
                 .collect(Collectors.toList());
     }
 
-    // 전체 워케이션 리뷰 조회
+    // PUBLIC - 전체 워케이션 리뷰 조회
     @Transactional(readOnly = true)
     public Page<ReviewResponse> getAllReviews(Pageable pageable) {
         Page<Review> reviewsPage = reviewRepository.findAll(pageable);
-
         return reviewsPage.map(this::toResponseDto);
     }
 
-    // 단일 지역 워케이션 리뷰 조회
+    // PUBLIC - 단일 지역 워케이션 리뷰 조회
     @Transactional(readOnly = true)
     public Page<ReviewResponse> getLocationReviews(Long locationId, Pageable pageable) {
         Page<Review> reviewsPage = reviewRepository.findByWorkationScheduleLocationId(locationId, pageable);
-
         return reviewsPage.map(this::toResponseDto);
     }
 
     private ReviewResponse toResponseDto(Review review) {
         WorkationSchedule workationSchedule = review.getWorkationSchedule();
-
         return new ReviewResponse(
                 review.getId(),
                 workationSchedule.getUser().getUsername(),

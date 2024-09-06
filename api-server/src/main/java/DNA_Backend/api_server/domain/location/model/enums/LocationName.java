@@ -1,6 +1,6 @@
 package DNA_Backend.api_server.domain.location.model.enums;
 
-import static DNA_Backend.api_server.domain.location.message.LocationExceptionMessage.UNVAILD_LOCATION_NAME;
+import static DNA_Backend.api_server.domain.location.message.LocationExceptionMessage.INVALID_LOCATION_NAME;
 
 import DNA_Backend.api_server.global.exception.DnaApplicationException;
 import lombok.Getter;
@@ -25,7 +25,7 @@ public enum LocationName {
                 return name;
             }
         }
-        throw new DnaApplicationException(UNVAILD_LOCATION_NAME.getValue());
+        throw new DnaApplicationException(INVALID_LOCATION_NAME.getValue());
     }
 
 }

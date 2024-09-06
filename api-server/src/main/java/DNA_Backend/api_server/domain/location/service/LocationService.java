@@ -24,20 +24,18 @@ public class LocationService {
     private final LocationWeatherService locationWeatherService;
 
     // id로 조회
-    @Transactional(readOnly = true)
     public Location findLocation(Long locationId) {
         return locationRepository.findById(locationId)
                 .orElseThrow(() -> new DnaApplicationException(LOCATION_NOT_FOUND.getValue()));
     }
 
     // 이름으로 조회
-    @Transactional(readOnly = true)
     public Location findLocation(LocationName locationName) {
         return locationRepository.findByName(locationName)
                 .orElseThrow(() -> new DnaApplicationException(LOCATION_NOT_FOUND.getValue()));
     }
 
-    // 전체 지역 조회
+    // PUBLIC - 전체 지역 조회
     @Transactional(readOnly = true)
     @Cacheable(cacheNames = "AllLocations", cacheManager = "redisCacheManager")
     public List<LocationResponse> getAllLocations() {
@@ -56,10 +54,9 @@ public class LocationService {
         );
     }
 
-    // 단일 지역 상세 조회
+    // PUBLIC - 단일 지역 상세 조회
     public LocationDetailResponse getLocationDetail(Long locationId) {
         Location location = findLocation(locationId);
-
         return toDetailResponseDto(location);
     }
 
@@ -77,20 +74,19 @@ public class LocationService {
         );
     }
 
-    // 전체 지역 날씨 조회
+    // PUBLIC - 전체 지역 날씨 조회
     @Transactional(readOnly = true)
     @Cacheable(cacheNames = "AllLocationWeathers", cacheManager = "redisCacheManager")
     public List<LocationWeatherResponse> getAllLocationWeathers() {
         List<Location> locations = locationRepository.findAll();
-
         return locationWeatherService.getAllLocationWeathers(locations);
     }
 
-    // 단일 지역 날씨 조회
+    // PUBLIC - 단일 지역 날씨 조회
     @Transactional(readOnly = true)
+    @Cacheable(cacheNames = "LocationWeather", key= "#p0", cacheManager = "redisCacheManager")
     public LocationWeatherResponse getLocationWeather(Long locationId) {
         Location location = findLocation(locationId);
-
         return locationWeatherService.getLocationWeather(location);
     }
 

@@ -28,7 +28,7 @@ public class FacilityController {
     private final FacilityService facilityService;
     private final FacilityBookmarkService facilityBookmarkService;
 
-    @Operation(summary = "시설 검색 by 위도, 경도 & 타입")
+    @Operation(summary = "PUBLIC - 시설 검색 by 위도, 경도 & 타입")
     @GetMapping("/search")
     public ResponseEntity<List<FacilityResponse>> searchFacilities(
             @Valid @RequestParam(name = "latMin") Double latMin, @Valid @RequestParam(name = "latMax") Double latMax,
@@ -38,7 +38,7 @@ public class FacilityController {
         return ResponseEntity.ok(responses);
     }
 
-    @Operation(summary = "사용자 시설 북마크")
+    @Operation(summary = "USER - 시설 북마크")
     @PostMapping("/{facilityId}/bookmark")
     public ResponseEntity<Void> bookmarkFacility(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
                                                  @Valid @PathVariable("facilityId") Long facilityId) {
@@ -47,7 +47,7 @@ public class FacilityController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "사용자 시설 북마크 취소")
+    @Operation(summary = "USER - 시설 북마크 취소")
     @DeleteMapping("/{facilityId}/bookmark")
     public ResponseEntity<Void> unbookmarkFacility(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
                                                    @Valid @PathVariable("facilityId") Long facilityId) {
@@ -56,7 +56,7 @@ public class FacilityController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "사용자 시설 북마크 여부 확인")
+    @Operation(summary = "USER - 시설 북마크 여부 확인")
     @GetMapping("/{facilityId}/bookmark")
     public ResponseEntity<CheckFacilityBookmarkResponse> checkFacilityBookmark(
             @AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
@@ -66,7 +66,7 @@ public class FacilityController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "사용자 전체 북마크 시설 조회")
+    @Operation(summary = "USER - 전체 북마크 시설 조회")
     @GetMapping("/bookmark")
     public ResponseEntity<List<BookmarkedFacilityResponse>> getAllBookmarkedFacilities(
             @AuthenticationPrincipal UserDetailsCustom userDetailsCustom) {

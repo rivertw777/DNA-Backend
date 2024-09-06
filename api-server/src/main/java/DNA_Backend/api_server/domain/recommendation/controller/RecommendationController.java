@@ -24,7 +24,7 @@ public class RecommendationController {
 
     private final RecommendationService recommendationService;
 
-    @Operation(summary = "사용자 지역 추천")
+    @Operation(summary = "USER - 지역 추천")
     @PostMapping
     public ResponseEntity<RecommendLocationResponse> recommendLocation(
             @AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
@@ -34,7 +34,7 @@ public class RecommendationController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "사용자 추천 지역 조회")
+    @Operation(summary = "USER - 전체 추천 지역 조회")
     @GetMapping("/locations")
     public ResponseEntity<List<RecommendedLocationResponse>> getRecommendedLocations (
             @AuthenticationPrincipal UserDetailsCustom userDetailsCustom) {

@@ -1,8 +1,11 @@
 package DNA_Backend.api_server.domain.location.service;
 
+import static DNA_Backend.api_server.domain.location.message.LocationExceptionMessage.LOCATION_WEATHER_REQUEST_FAILED;
+
 import DNA_Backend.api_server.domain.location.dto.LocationWeatherDto.LocationWeatherApiResponse;
 import DNA_Backend.api_server.domain.location.dto.LocationWeatherDto.LocationWeatherResponse;
 import DNA_Backend.api_server.domain.location.model.entity.Location;
+import DNA_Backend.api_server.global.exception.DnaApplicationException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -31,14 +34,21 @@ public class LocationWeatherService {
     public LocationWeatherResponse getLocationWeather(Location location) {
         String url = String.format("%s?lat=%f&lon=%f&appid=%s&units=metric",
                 weatherApiUrl, location.getLatitude(), location.getLongitude(), weatherApiKey);
-
-        LocationWeatherApiResponse response = restTemplate.getForObject(url, LocationWeatherApiResponse.class);
-
+        LocationWeatherApiResponse response = getLocationWeatherApiResponse(url);
         return new LocationWeatherResponse(
                 location.getId(),
                 response.main().temp(),
                 response.main().humidity(),
                 response.clouds().all());
+    }
+
+    private LocationWeatherApiResponse getLocationWeatherApiResponse(String url) {
+        try {
+            LocationWeatherApiResponse response = restTemplate.getForObject(url, LocationWeatherApiResponse.class);
+            return response;
+        } catch (Exception e) {
+            throw new DnaApplicationException(LOCATION_WEATHER_REQUEST_FAILED.getValue());
+        }
     }
 
 }

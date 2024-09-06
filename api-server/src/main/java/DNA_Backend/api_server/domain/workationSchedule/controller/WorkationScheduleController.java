@@ -28,7 +28,7 @@ public class WorkationScheduleController {
     private final WorkationScheduleService workationScheduleService;
     private final ReviewService reviewService;
 
-    @Operation(summary = "사용자 전체 워케이션 일정 조회")
+    @Operation(summary = "USER - 전체 워케이션 일정 조회")
     @GetMapping
     public ResponseEntity<List<WorkationScheduleResponse>> getAllWorkationSchedules(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom) {
         Long userId = userDetailsCustom.getUser().getId();
@@ -36,7 +36,7 @@ public class WorkationScheduleController {
         return ResponseEntity.ok(responses);
     }
 
-    @Operation(summary = "사용자 워케이션 일정 삭제")
+    @Operation(summary = "USER - 워케이션 일정 삭제")
     @DeleteMapping("/{scheduleId}")
     public ResponseEntity<Void> deleteWorkationSchedule(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
                                                         @Valid @PathVariable("scheduleId") Long scheduleId) {
@@ -45,7 +45,7 @@ public class WorkationScheduleController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "사용자 전체 일정 날짜 조회")
+    @Operation(summary = "USER - 전체 예정된 날짜 조회")
     @GetMapping("/dates")
     public ResponseEntity<AllScheduledDatesResponse> getAllScheduledDates(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom) {
         Long userId = userDetailsCustom.getUser().getId();
@@ -53,7 +53,7 @@ public class WorkationScheduleController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "사용자 워케이션 리뷰 작성")
+    @Operation(summary = "USER - 워케이션 리뷰 작성")
     @PostMapping("/{scheduleId}/reviews")
     public ResponseEntity<Void> writeReview(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
                                             @Valid @PathVariable("scheduleId") Long scheduleId,
@@ -63,7 +63,7 @@ public class WorkationScheduleController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "사용자 만료되고 리뷰 없는 일정 조회")
+    @Operation(summary = "USER - 만료되고 리뷰 없는 일정 조회")
     @GetMapping("/expired-no-review")
     public ResponseEntity<List<WorkationScheduleResponse>> getExpiredNoReviewScheduleResponse(
             @AuthenticationPrincipal UserDetailsCustom userDetailsCustom) {

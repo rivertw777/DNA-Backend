@@ -22,30 +22,27 @@ public class FacilityService {
     private final FacilityRepository facilityRepository;
 
     // id로 조회
-    @Transactional(readOnly = true)
     public Facility findFacility(Long facilityId) {
         return facilityRepository.findById(facilityId)
                 .orElseThrow(()->new DnaApplicationException(FACILITY_NOT_FOUND.getValue()));
     }
 
-    // 시설 검색 by 위도, 경도 & 타입
+    // PUBLIC - 시설 검색 by 위도, 경도 & 타입
     @Transactional(readOnly = true)
     public List<FacilityResponse> searchFacilities(double latMin, double latMax, double lngMin, double lngMax, String facilityType) {
         FacilityType type = FacilityType.fromValue(facilityType);
         List<Facility> facilities = facilityRepository.findByLatitudeBetweenAndLongitudeBetweenAndType(
                 latMin, latMax, lngMin, lngMax, type);
-
         return facilities.stream()
                 .map(this::toResponseDto)
                 .collect(Collectors.toList());
     }
 
-    // 시설 검색 by 지역 id & 타입
+    // PUBLIC - 시설 검색 by 지역 Id & 타입
     @Transactional(readOnly = true)
     public List<FacilityResponse> searchFacilitiesByLocationIdAndType(Long locationId, String facilityType) {
         FacilityType type = FacilityType.fromValue(facilityType);
         List<Facility> facilities = facilityRepository.findByLocationIdAndType(locationId, type);
-
         return facilities.stream()
                 .map(this::toResponseDto)
                 .collect(Collectors.toList());
@@ -61,14 +58,14 @@ public class FacilityService {
                 facility.getLongitude());
     }
 
-    // 전체 지역 총 시설 수 조회
+    // PUBLIC - 전체 지역 총 시설 수 조회
     @Transactional(readOnly = true)
     @Cacheable(cacheNames = "AllLocationTotalFacilityCounts", cacheManager = "redisCacheManager")
     public List<LocationTotalFacilityCountResponse> getAllLocationTotalFacilityCounts() {
         return facilityRepository.countTotalFacilitiesGroupedByLocation();
     }
 
-    // 단일 지역 총 시설 수 조회
+    // PUBLIC - 단일 지역 총 시설 수 조회
     @Transactional(readOnly = true)
     public LocationTotalFacilityCountResponse getLocationTotalFacilityCount(Long locationId) {
         return toTotalFacilityCountResponseDto(locationId);
@@ -76,7 +73,6 @@ public class FacilityService {
 
     private LocationTotalFacilityCountResponse toTotalFacilityCountResponseDto(Long locationId) {
         long facilityCount = facilityRepository.countByLocationId(locationId);
-
         return new LocationTotalFacilityCountResponse(
                 locationId,
                 facilityCount
