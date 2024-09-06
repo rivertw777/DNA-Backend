@@ -60,9 +60,7 @@ public class RecommendationService {
 
     // 사용자 추천 지역 초기화
     private void initUserRecommendedLocations(User user, List<String> locationNames) {
-        List<RecommendedLocation> locations = user.getRecommendedLocations();
-
-        locations.forEach(recommendedLocationRepository::delete);
+        recommendedLocationRepository.deleteByUserId(user.getId());
 
         locationNames.stream()
                 .map(LocationName::fromValue)

@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -24,10 +23,9 @@ public class ChatMessage {
 
     private String message;
 
-    @Indexed(expireAfter = "3600s")  // 1시간 후에 삭제
+    @Indexed
     private LocalDateTime createdAt;
 
-    @Transient
     private long participantCount;
 
     public void setSender(String sender){

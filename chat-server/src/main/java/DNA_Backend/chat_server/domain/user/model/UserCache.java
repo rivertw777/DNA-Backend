@@ -8,7 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class UserCache {
 
-    private String id;
+    private Long id;
 
     private String username;
 
