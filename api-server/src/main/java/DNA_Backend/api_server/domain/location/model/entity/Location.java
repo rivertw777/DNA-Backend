@@ -48,6 +48,9 @@ public class Location {
     @Column(name = "population_density", insertable = false, updatable = false)
     private float populationDensity;
 
+    @Column(name = "average_rating")
+    private double averageRating;
+
     @OneToMany(mappedBy = "location")
     private List<RecommendedLocation> recommendedLocations = new ArrayList<>();
 
@@ -62,6 +65,10 @@ public class Location {
     }
 
     public void addWorkationSchedule(WorkationSchedule workationSchedule) { this.workationSchedules.add(workationSchedule);
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
     }
 
 }

@@ -2,6 +2,7 @@ package DNA_Backend.api_server.domain.review.service;
 
 import static DNA_Backend.api_server.domain.review.message.ReviewExceptionMessage.ALREADY_EXISTS;
 
+import DNA_Backend.api_server.domain.location.model.entity.Location;
 import DNA_Backend.api_server.domain.review.dto.ReviewDto.ReviewResponse;
 import DNA_Backend.api_server.domain.review.dto.ReviewDto.WriteReviewRequest;
 import DNA_Backend.api_server.domain.review.model.entity.Review;
@@ -29,12 +30,14 @@ public class ReviewService {
 
     // 사용자 워케이션 리뷰 작성
     @Transactional
-    public void writeReview(Long userId, Long scheduleId, WriteReviewRequest reqeustParam) {
+    public void writeReview(Long userId, Long scheduleId, WriteReviewRequest requestParam) {
         User user = userService.findUser(userId);
         WorkationSchedule workationSchedule = workationScheduleService.findWorkationSchedule(scheduleId);
 
         validateReviewNotExists(workationSchedule);
-        saveReview(user, workationSchedule, reqeustParam);
+        saveReview(user, workationSchedule, requestParam);
+        Location location = workationSchedule.getLocation();
+        updateLocationAverageRating(location);
     }
 
     private void validateReviewNotExists(WorkationSchedule workationSchedule) {
@@ -43,9 +46,19 @@ public class ReviewService {
         }
     }
 
-    private void saveReview(User user, WorkationSchedule workationSchedule, WriteReviewRequest reqeustParam){
-        Review review = Review.createReview(user, workationSchedule, reqeustParam.content(), reqeustParam.rating());
+    private void saveReview(User user, WorkationSchedule workationSchedule, WriteReviewRequest requestParam){
+        Review review = Review.createReview(user, workationSchedule, requestParam.content(), requestParam.rating());
         reviewRepository.save(review);
+    }
+
+    // 지역 평점 갱신
+    private void updateLocationAverageRating(Location location) {
+        List<Review> reviews = reviewRepository.findByWorkationScheduleLocationId(location.getId());
+        double averageRating = reviews.stream()
+                .mapToInt(Review::getRating)
+                .average()
+                .orElse(0.0);
+        location.setAverageRating(averageRating);
     }
 
     // 사용자 전체 워케이션 리뷰 조회

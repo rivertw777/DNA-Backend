@@ -72,7 +72,8 @@ public class LocationService {
                 location.getLongitude(),
                 location.getInternetSpeed(),
                 location.getPriceIndex(),
-                location.getPopulationDensity()
+                location.getPopulationDensity(),
+                location.getAverageRating()
         );
     }
 

@@ -8,13 +8,7 @@ public class LocationDto {
 
     public record LocationDetailResponse(Long locationId, String locationName, String thumbNail,
                                          double latitude, double longitude, float internetSpeed,
-                                         float priceIndex, float populationDensity) {
-    }
-
-    public record CheckLocationLikeResponse(boolean isLiked) {
-    }
-
-    public record LocationLikeCountResponse(long likeCount) {
+                                         float priceIndex, float populationDensity, double averageRating) {
     }
 
 }
