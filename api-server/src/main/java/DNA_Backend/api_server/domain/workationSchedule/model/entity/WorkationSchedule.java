@@ -1,7 +1,7 @@
 package DNA_Backend.api_server.domain.workationSchedule.model.entity;
 
 import DNA_Backend.api_server.domain.location.model.entity.Location;
-import DNA_Backend.api_server.domain.review.model.entity.Review;
+import DNA_Backend.api_server.domain.workationReview.model.entity.WorkationReview;
 import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.global.model.entity.BaseTimeEntity;
 import jakarta.persistence.CascadeType;
@@ -55,7 +55,7 @@ public class WorkationSchedule extends BaseTimeEntity {
 
     // 수정 예정
     @OneToOne(mappedBy = "workationSchedule", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Review review;
+    private WorkationReview workationReview;
 
     @NotNull
     @Column(name = "is_expired")
@@ -78,8 +78,8 @@ public class WorkationSchedule extends BaseTimeEntity {
         this.isExpired = isExpired;
     }
 
-    public void setReview(Review review){
-        this.review = review;
+    public void setWorkationReview(WorkationReview workationReview){
+        this.workationReview = workationReview;
     }
 
 }

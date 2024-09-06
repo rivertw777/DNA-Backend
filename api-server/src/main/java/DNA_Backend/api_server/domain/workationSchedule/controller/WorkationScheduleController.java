@@ -1,7 +1,7 @@
 package DNA_Backend.api_server.domain.workationSchedule.controller;
 
-import DNA_Backend.api_server.domain.review.dto.ReviewDto.WriteReviewRequest;
-import DNA_Backend.api_server.domain.review.service.ReviewService;
+import DNA_Backend.api_server.domain.workationReview.dto.WorkationReviewDto.WriteWorkationReviewRequest;
+import DNA_Backend.api_server.domain.workationReview.service.WorkationReviewService;
 import DNA_Backend.api_server.domain.workationSchedule.dto.WorkationScheduleDto.AllScheduledDatesResponse;
 import DNA_Backend.api_server.domain.workationSchedule.dto.WorkationScheduleDto.WorkationScheduleResponse;
 import DNA_Backend.api_server.domain.workationSchedule.service.WorkationScheduleService;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class WorkationScheduleController {
 
     private final WorkationScheduleService workationScheduleService;
-    private final ReviewService reviewService;
+    private final WorkationReviewService workationReviewService;
 
     @Operation(summary = "USER - 전체 워케이션 일정 조회")
     @GetMapping
@@ -55,11 +55,11 @@ public class WorkationScheduleController {
 
     @Operation(summary = "USER - 워케이션 리뷰 작성")
     @PostMapping("/{scheduleId}/reviews")
-    public ResponseEntity<Void> writeReview(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
+    public ResponseEntity<Void> writeWorkationReview(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
                                             @Valid @PathVariable("scheduleId") Long scheduleId,
-                                            @Valid @RequestBody WriteReviewRequest requestParam) {
+                                            @Valid @RequestBody WriteWorkationReviewRequest requestParam) {
         Long userId = userDetailsCustom.getUser().getId();
-        reviewService.writeReview(userId, scheduleId, requestParam, requestParam.locationId());
+        workationReviewService.writeWorkationReview(userId, scheduleId, requestParam, requestParam.locationId());
         return ResponseEntity.ok().build();
     }
 

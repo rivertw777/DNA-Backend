@@ -7,9 +7,9 @@ import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationDetailResp
 import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationResponse;
 import DNA_Backend.api_server.domain.location.dto.LocationWeatherDto.LocationWeatherResponse;
 import DNA_Backend.api_server.domain.location.service.LocationService;
-import DNA_Backend.api_server.domain.review.dto.ReviewResponse;
-import DNA_Backend.api_server.domain.review.service.ReviewService;
-import DNA_Backend.api_server.domain.review.utils.ReviewPage;
+import DNA_Backend.api_server.domain.workationReview.dto.WorkationReviewResponse;
+import DNA_Backend.api_server.domain.workationReview.service.WorkationReviewService;
+import DNA_Backend.api_server.domain.workationReview.utils.WorkationReviewPage;
 import DNA_Backend.api_server.domain.workationSchedule.dto.WorkationScheduleDto;
 import DNA_Backend.api_server.domain.workationSchedule.service.WorkationScheduleService;
 import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
@@ -36,7 +36,7 @@ public class LocationController {
     private final LocationService locationService;
     private final FacilityService facilityService;
     private final WorkationScheduleService workationScheduleService;
-    private final ReviewService reviewService;
+    private final WorkationReviewService workationReviewService;
 
     @Operation(summary = "PUBLIC - 전체 지역 조회")
     @GetMapping
@@ -102,9 +102,9 @@ public class LocationController {
 
     @Operation(summary = "PUBLIC - 단일 지역 워케이션 리뷰 조회")
     @GetMapping("/{locationId}/reviews")
-    public ResponseEntity<ReviewPage<ReviewResponse>> getLocationReviews(
+    public ResponseEntity<WorkationReviewPage<WorkationReviewResponse>> getLocationWorkationReviews(
             @Valid @PathVariable(name = "locationId") Long locationId, Pageable pageable) {
-        ReviewPage<ReviewResponse> responses = reviewService.getLocationReviews(pageable, locationId);
+        WorkationReviewPage<WorkationReviewResponse> responses = workationReviewService.getLocationWorkationReviews(pageable, locationId);
         return ResponseEntity.ok(responses);
     }
 

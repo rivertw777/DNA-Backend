@@ -77,7 +77,7 @@ public class SecurityConfig {
                         // 시설 검색 by 위도, 경도 & 타입
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/facilities/search")).permitAll()
                         // 전체 워케이션 리뷰 조회
-                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/reviews/all")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/workation-reviews/all")).permitAll()
                         // Swagger
                         .requestMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated()

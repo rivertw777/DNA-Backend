@@ -1,11 +1,11 @@
-package DNA_Backend.api_server.domain.review.dto;
+package DNA_Backend.api_server.domain.workationReview.dto;
 
-import DNA_Backend.api_server.domain.review.model.entity.Review;
+import DNA_Backend.api_server.domain.workationReview.model.entity.WorkationReview;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record ReviewResponse(
+public record WorkationReviewResponse(
         Long reviewId,
         String username,
         String locationName,
@@ -14,15 +14,15 @@ public record ReviewResponse(
         String content,
         List<Integer> createdAt) {
 
-    public ReviewResponse(Review review) {
+    public WorkationReviewResponse(WorkationReview workationReview) {
         this(
-                review.getId(),
-                review.getWorkationSchedule().getUser().getUsername(),
-                review.getWorkationSchedule().getLocation().getName().getValue(),
-                convertDateToList(review.getWorkationSchedule().getStartDate()),
-                convertDateToList(review.getWorkationSchedule().getEndDate()),
-                review.getContent(),
-                convertDateTimeToList(review.getCreatedAt())
+                workationReview.getId(),
+                workationReview.getWorkationSchedule().getUser().getUsername(),
+                workationReview.getWorkationSchedule().getLocation().getName().getValue(),
+                convertDateToList(workationReview.getWorkationSchedule().getStartDate()),
+                convertDateToList(workationReview.getWorkationSchedule().getEndDate()),
+                workationReview.getContent(),
+                convertDateTimeToList(workationReview.getCreatedAt())
         );
     }
 

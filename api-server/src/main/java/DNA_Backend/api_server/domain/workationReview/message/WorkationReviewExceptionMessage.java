@@ -1,14 +1,14 @@
-package DNA_Backend.api_server.domain.review.message;
+package DNA_Backend.api_server.domain.workationReview.message;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum ReviewExceptionMessage {
+public enum WorkationReviewExceptionMessage {
 
     ALREADY_EXISTS("A review already exists for this schedule.");
 
-    private final String message;
+    private final String value;
 
 }

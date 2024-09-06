@@ -1,4 +1,4 @@
-package DNA_Backend.api_server.domain.review.utils;
+package DNA_Backend.api_server.domain.workationReview.utils;
 
 import java.util.List;
 import lombok.Getter;
@@ -7,12 +7,12 @@ import org.springframework.data.domain.Page;
 
 @Getter
 @NoArgsConstructor
-public class ReviewPage<T> {
+public class WorkationReviewPage<T> {
     private List<T> content;
     private int totalPages;
     private long totalElements;
 
-    public ReviewPage(Page<T> page) {
+    public WorkationReviewPage(Page<T> page) {
         this.content = page.getContent();
         this.totalPages = page.getTotalPages();
         this.totalElements = page.getTotalElements();

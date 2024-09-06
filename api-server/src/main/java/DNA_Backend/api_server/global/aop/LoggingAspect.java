@@ -23,7 +23,7 @@ public class LoggingAspect {
             + "execution(* DNA_Backend.api_server.domain.facility.service.FacilityBookmarkService..*(..)) || "
             + "execution(* DNA_Backend.api_server.domain.workationSchedule.service.WorkationScheduleService..*(..)) || "
             + "execution(* DNA_Backend.api_server.domain.workationSchedule.service.ScheduleNotificationService..*(..)) || "
-            + "execution(* DNA_Backend.api_server.domain.review.service.ReviewService..*(..)) || "
+            + "execution(* DNA_Backend.api_server.domain.workationReview.service.WorkationReviewService..*(..)) || "
             + "execution(* DNA_Backend.api_server.domain.recommendation.service.RecommendationService..*(..)))", throwing = "ex")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable ex) {
         String methodName = joinPoint.getSignature().getName();
@@ -42,7 +42,7 @@ public class LoggingAspect {
             + "execution(* DNA_Backend.api_server.domain.facility.service.FacilityBookmarkService..*(..)) || "
             + "execution(* DNA_Backend.api_server.domain.workationSchedule.service.WorkationScheduleService..*(..)) || "
             + "execution(* DNA_Backend.api_server.domain.workationSchedule.service.ScheduleNotificationService..*(..)) || "
-            + "execution(* DNA_Backend.api_server.domain.review.service.ReviewService..*(..)) || "
+            + "execution(* DNA_Backend.api_server.domain.workationReview.service.WorkationReviewService..*(..)) || "
             + "execution(* DNA_Backend.api_server.domain.recommendation.service.RecommendationService..*(..)))")
     public void logBefore(JoinPoint joinPoint) {
         String methodName = joinPoint.getSignature().getName();
@@ -61,7 +61,7 @@ public class LoggingAspect {
             + "execution(* DNA_Backend.api_server.domain.facility.service.FacilityBookmarkService..*(..)) || "
             + "execution(* DNA_Backend.api_server.domain.workationSchedule.service.WorkationScheduleService..*(..)) || "
             + "execution(* DNA_Backend.api_server.domain.workationSchedule.service.ScheduleNotificationService..*(..)) || "
-            + "execution(* DNA_Backend.api_server.domain.review.service.ReviewService..*(..)) || "
+            + "execution(* DNA_Backend.api_server.domain.workationReview.service.WorkationReviewService..*(..)) || "
             + "execution(* DNA_Backend.api_server.domain.recommendation.service.RecommendationService..*(..)))")
     public Object logAfter(ProceedingJoinPoint joinPoint) throws Throwable {
         String methodName = joinPoint.getSignature().getName();

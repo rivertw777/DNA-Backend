@@ -1,4 +1,4 @@
-package DNA_Backend.api_server.domain.review.model.entity;
+package DNA_Backend.api_server.domain.workationReview.model.entity;
 
 import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.workationSchedule.model.entity.WorkationSchedule;
@@ -25,8 +25,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder(access = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "reviews")
-public class Review extends BaseTimeEntity {
+@Table(name = "workation_reviews")
+public class WorkationReview extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,16 +50,16 @@ public class Review extends BaseTimeEntity {
     @JoinColumn(name = "workation_schedule_id")
     private WorkationSchedule workationSchedule;
 
-    public static Review createReview(User user, WorkationSchedule workationSchedule, String content, int rating) {
-        Review review = Review.builder()
+    public static WorkationReview createWorkationReview(User user, WorkationSchedule workationSchedule, String content, int rating) {
+        WorkationReview workationReview = WorkationReview.builder()
                 .rating(rating)
                 .content(content)
                 .user(user)
                 .workationSchedule(workationSchedule)
                 .build();
-        user.addReview(review);
-        workationSchedule.setReview(review);
-        return review;
+        user.addReview(workationReview);
+        workationSchedule.setWorkationReview(workationReview);
+        return workationReview;
     }
 
 }

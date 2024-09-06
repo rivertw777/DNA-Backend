@@ -1,11 +1,11 @@
-package DNA_Backend.api_server.domain.review.utils;
+package DNA_Backend.api_server.domain.workationReview.utils;
 
 import java.lang.reflect.Method;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.stereotype.Component;
 
-@Component("ReviewPageKeyGenerator")
-public class ReviewPageKeyGenerator implements KeyGenerator {
+@Component("WorkationReviewPageKeyGenerator")
+public class WorkationReviewPageKeyGenerator implements KeyGenerator {
     @Override
     public Object generate(Object target, Method method, Object... params) {
         Object locationId = (params.length > 1) ? params[1] : "SimpleKey []";

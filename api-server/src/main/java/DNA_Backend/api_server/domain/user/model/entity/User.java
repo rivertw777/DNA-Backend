@@ -2,7 +2,7 @@ package DNA_Backend.api_server.domain.user.model.entity;
 
 import DNA_Backend.api_server.domain.facility.model.entity.FacilityBookmark;
 import DNA_Backend.api_server.domain.recommendation.model.entity.RecommendedLocation;
-import DNA_Backend.api_server.domain.review.model.entity.Review;
+import DNA_Backend.api_server.domain.workationReview.model.entity.WorkationReview;
 import DNA_Backend.api_server.domain.user.model.enums.PopupStatus;
 import DNA_Backend.api_server.domain.user.model.enums.Role;
 import DNA_Backend.api_server.domain.workationSchedule.model.entity.WorkationSchedule;
@@ -83,7 +83,7 @@ public class User {
     private List<WorkationSchedule> workationSchedules = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Review> reviews;
+    private List<WorkationReview> workationReviews;
 
     // 일반 회원 가입
     public static User createUser(String username, String email, String encodedPassword) {
@@ -136,8 +136,8 @@ public class User {
         this.workationSchedules.add(workationSchedule);
     }
 
-    public void addReview(Review review) {
-        this.reviews.add(review);
+    public void addReview(WorkationReview workationReview) {
+        this.workationReviews.add(workationReview);
     }
 
     public void deleteAllRecommendLocations() {
