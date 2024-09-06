@@ -7,8 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum EmailExceptionMessage {
 
-    SEND_MAIL_FAILED("메일 전송에 실패하였습니다.");
+    SEND_MAIL_FAILED("Failed to send email.");
 
     private final String message;
 
 }
+

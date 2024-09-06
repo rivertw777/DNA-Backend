@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum JwtExceptionMessage {
 
-    INVALID_TOKEN("유효하지 않은 토큰입니다."),
-    EXPIRED_TOKEN("만료된 토큰입니다. 다시 로그인해주세요.");
+    INVALID_TOKEN("Invalid token."),
+    EXPIRED_TOKEN("Expired token.");
 
     private final String value;
 

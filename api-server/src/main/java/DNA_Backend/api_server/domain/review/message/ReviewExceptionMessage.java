@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ReviewExceptionMessage {
 
-    ALREADY_EXISTS("일정에 이미 리뷰가 존재합니다.");
+    ALREADY_EXISTS("A review already exists for this schedule.");
 
     private final String message;
 

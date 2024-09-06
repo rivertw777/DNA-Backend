@@ -19,7 +19,7 @@ public class CookieManager {
                 .httpOnly(true)
                 .secure(true)
                 .sameSite("Strict")
-                .maxAge(3600)
+                .maxAge(-1)
                 .path("/")
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());

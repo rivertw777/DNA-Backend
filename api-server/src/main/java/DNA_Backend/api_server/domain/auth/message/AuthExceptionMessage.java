@@ -7,8 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum AuthExceptionMessage {
 
-    PASSWORD_NOT_MATCH("비밀번호가 일치하지 않습니다.");
+    PASSWORD_NOT_MATCH("Password does not match.");
 
     private final String value;
 
 }
+
