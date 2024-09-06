@@ -36,15 +36,6 @@ public class WorkationScheduleController {
         return ResponseEntity.ok(responses);
     }
 
-    @Operation(summary = "사용자 단일 워케이션 일정 조회")
-    @GetMapping("/{scheduleId}")
-    public ResponseEntity<WorkationScheduleResponse> getWorkationSchedule(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
-                                                        @Valid @PathVariable("scheduleId") Long scheduleId) {
-        Long userId = userDetailsCustom.getUser().getId();
-        WorkationScheduleResponse response = workationScheduleService.getWorkationSchedule(userId, scheduleId);
-        return ResponseEntity.ok(response);
-    }
-
     @Operation(summary = "사용자 워케이션 일정 삭제")
     @DeleteMapping("/{scheduleId}")
     public ResponseEntity<Void> deleteWorkationSchedule(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom,

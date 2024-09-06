@@ -70,24 +70,11 @@ public class WorkationScheduleService {
     // 사용자 전체 워케이션 일정 조회
     @Transactional(readOnly = true)
     public List<WorkationScheduleResponse> getAllWorkationSchedules(Long userId) {
-        List<WorkationSchedule> workationSchedules = workationScheduleRepository.findByUserId(userId);
+        List<WorkationSchedule> workationSchedules = workationScheduleRepository.findByUserIdWithFetch(userId);
 
         return workationSchedules.stream()
                 .map(this::toResponseDto)
                 .collect(Collectors.toList());
-    }
-
-    // 사용자 단일 워케이션 일정 조회
-    @Transactional(readOnly = true)
-    public WorkationScheduleResponse getWorkationSchedule(Long userId, Long scheduleId) {
-        WorkationSchedule workationSchedule = findWorkationSchedule(userId, scheduleId);
-
-        return toResponseDto(workationSchedule);
-    }
-
-    private WorkationSchedule findWorkationSchedule(Long userId, Long scheduleId) {
-        return workationScheduleRepository.findByUserIdAndId(userId, scheduleId)
-                .orElseThrow(()->new DnaApplicationException((SCHEDULE_NOT_FOUND.getValue())));
     }
 
     private WorkationScheduleResponse toResponseDto(WorkationSchedule workationSchedule) {
