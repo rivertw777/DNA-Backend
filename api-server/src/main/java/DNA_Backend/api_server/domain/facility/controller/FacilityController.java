@@ -16,20 +16,18 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/facilities")
 public class FacilityController {
 
     private final FacilityService facilityService;
     private final FacilityBookmarkService facilityBookmarkService;
 
     @Operation(summary = "PUBLIC - 시설 검색 by 위도, 경도 & 타입")
-    @GetMapping("/search")
+    @GetMapping("/api/public/facilities/search")
     public ResponseEntity<List<FacilityResponse>> searchFacilities(
             @Valid @RequestParam(name = "latMin") Double latMin, @Valid @RequestParam(name = "latMax") Double latMax,
             @Valid @RequestParam(name = "lngMin") Double lngMin, @Valid @RequestParam(name = "lngMax") Double lngMax,
@@ -39,7 +37,7 @@ public class FacilityController {
     }
 
     @Operation(summary = "USER - 시설 북마크")
-    @PostMapping("/{facilityId}/bookmark")
+    @PostMapping("/api/facilities/{facilityId}/bookmark")
     public ResponseEntity<Void> bookmarkFacility(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
                                                  @Valid @PathVariable("facilityId") Long facilityId) {
         Long userId = userDetailsCustom.getUser().getId();
@@ -48,7 +46,7 @@ public class FacilityController {
     }
 
     @Operation(summary = "USER - 시설 북마크 취소")
-    @DeleteMapping("/{facilityId}/bookmark")
+    @DeleteMapping("/api/facilities/{facilityId}/bookmark")
     public ResponseEntity<Void> unbookmarkFacility(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
                                                    @Valid @PathVariable("facilityId") Long facilityId) {
         Long userId = userDetailsCustom.getUser().getId();
@@ -57,7 +55,7 @@ public class FacilityController {
     }
 
     @Operation(summary = "USER - 시설 북마크 여부 확인")
-    @GetMapping("/{facilityId}/bookmark")
+    @GetMapping("/api/facilities/{facilityId}/bookmark")
     public ResponseEntity<CheckFacilityBookmarkResponse> checkFacilityBookmark(
             @AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
             @Valid @PathVariable("facilityId") Long facilityId) {
@@ -67,7 +65,7 @@ public class FacilityController {
     }
 
     @Operation(summary = "USER - 전체 북마크 시설 조회")
-    @GetMapping("/bookmark")
+    @GetMapping("/api/facilities/bookmark")
     public ResponseEntity<List<BookmarkedFacilityResponse>> getAllBookmarkedFacilities(
             @AuthenticationPrincipal UserDetailsCustom userDetailsCustom) {
         Long userId = userDetailsCustom.getUser().getId();

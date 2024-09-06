@@ -46,7 +46,7 @@ public class WorkationScheduleController {
     }
 
     @Operation(summary = "USER - 전체 예정된 날짜 조회")
-    @GetMapping("/dates")
+    @GetMapping("/scheduled-dates")
     public ResponseEntity<AllScheduledDatesResponse> getAllScheduledDates(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom) {
         Long userId = userDetailsCustom.getUser().getId();
         AllScheduledDatesResponse response = workationScheduleService.getAllScheduledDates(userId);

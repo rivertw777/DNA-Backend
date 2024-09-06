@@ -10,7 +10,6 @@ import DNA_Backend.api_server.global.security.oauth.Oauth2UserServiceCustom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -50,34 +49,8 @@ public class SecurityConfig {
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 )
                 .authorizeHttpRequests(authz -> authz
-                        // 회원 가입
-                        .requestMatchers(antMatcher(HttpMethod.POST, "/api/users")).permitAll()
-                        // 로그인
-                        .requestMatchers(antMatcher(HttpMethod.POST, "/api/auth/login")).permitAll()
-                        // 이름 중복 여부 확인
-                        .requestMatchers(antMatcher(HttpMethod.POST, "/api/users/name/check")).permitAll()
-                        // 이메일 인증 코드 전송, 검증
-                        .requestMatchers(HttpMethod.POST, "api/users/email/**").permitAll()
-                        // 전체 지역 조회
-                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations")).permitAll()
-                        // 단일 지역 조회
-                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/{\\d+}")).permitAll()
-                        // 전체 지역 날씨 조회
-                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/weather")).permitAll()
-                        // 단일 지역 날씨 조회
-                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/{\\d+}/weather")).permitAll()
-                        // 시설 검색 by 지역 id & 타입
-                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/{\\d+}/facilities/search")).permitAll()
-                        // 전체 지역 총 시설 수 조회
-                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/facilities/count")).permitAll()
-                        // 단일 지역 총 시설 수 조회
-                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/{\\d+}/facilities/count")).permitAll()
-                        // 단일 지역 워케이션 리뷰 조회
-                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/locations/{\\d+}/reviews")).permitAll()
-                        // 시설 검색 by 위도, 경도 & 타입
-                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/facilities/search")).permitAll()
-                        // 전체 워케이션 리뷰 조회
-                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/workation-reviews/all")).permitAll()
+                        // Public API
+                        .requestMatchers(antMatcher("/api/public/**")).permitAll()
                         // Swagger
                         .requestMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated()

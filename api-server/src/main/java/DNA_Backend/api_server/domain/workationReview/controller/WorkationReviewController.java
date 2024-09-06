@@ -11,18 +11,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/workation-reviews")
 public class WorkationReviewController {
 
     private final WorkationReviewService workationReviewService;
 
     @Operation(summary = "USER - 전체 워케이션 리뷰 조회")
-    @GetMapping
+    @GetMapping("/api/workation-reviews")
     public ResponseEntity<List<WorkationReviewResponse>> getUserWorkationReviews(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom) {
         Long userId = userDetailsCustom.getUser().getId();
         List<WorkationReviewResponse> responses = workationReviewService.getUserWorkationReviews(userId);
@@ -30,7 +28,7 @@ public class WorkationReviewController {
     }
 
     @Operation(summary = "PUBLIC - 전체 워케이션 리뷰 조회")
-    @GetMapping("/all")
+    @GetMapping("/api/public/workation-reviews/all")
     public ResponseEntity<WorkationReviewPage<WorkationReviewResponse>> getAllWorkationReviews(Pageable pageable) {
         WorkationReviewPage<WorkationReviewResponse> responses = workationReviewService.getAllWorkationReviews(pageable);
         return ResponseEntity.ok(responses);
