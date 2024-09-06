@@ -67,6 +67,7 @@ public class FacilityService {
 
     // PUBLIC - 단일 지역 총 시설 수 조회
     @Transactional(readOnly = true)
+    @Cacheable(cacheNames = "LocationTotalFacilityCount", key= "#p0", cacheManager = "redisCacheManager")
     public LocationTotalFacilityCountResponse getLocationTotalFacilityCount(Long locationId) {
         return toTotalFacilityCountResponseDto(locationId);
     }

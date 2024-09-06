@@ -1,8 +1,12 @@
 package DNA_Backend.api_server.global.redis.config;
 
-import static DNA_Backend.api_server.global.redis.config.CasheName.ALL_LOCATIONS;
-import static DNA_Backend.api_server.global.redis.config.CasheName.ALL_LOCATION_TOTAL_FACILITY_COUNTS;
-import static DNA_Backend.api_server.global.redis.config.CasheName.ALL_LOCATION_WEATHER;
+import static DNA_Backend.api_server.global.redis.config.CacheName.ALL_LOCATIONS;
+import static DNA_Backend.api_server.global.redis.config.CacheName.ALL_LOCATION_TOTAL_FACILITY_COUNTS;
+import static DNA_Backend.api_server.global.redis.config.CacheName.ALL_LOCATION_WEATHERS;
+import static DNA_Backend.api_server.global.redis.config.CacheName.All_WORKATION_REVIEWS;
+import static DNA_Backend.api_server.global.redis.config.CacheName.LOCATION_DETAIL;
+import static DNA_Backend.api_server.global.redis.config.CacheName.LOCATION_TOTAL_FACILITY_COUNT;
+import static DNA_Backend.api_server.global.redis.config.CacheName.LOCATION_WEATHER;
 import static org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair.fromSerializer;
 
 import java.time.Duration;
@@ -34,15 +38,18 @@ public class RedisCacheConfig {
         return RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(fromSerializer(new GenericJackson2JsonRedisSerializer()))
-                .entryTtl(Duration.ofDays(1));
+                .entryTtl(Duration.ofHours(1));
     }
 
     private Map<String, RedisCacheConfiguration> confMap() {
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
-        cacheConfigurations.put(ALL_LOCATIONS.getValue(), defaultConf());
-        cacheConfigurations.put(ALL_LOCATION_WEATHER.getValue(), defaultConf().entryTtl(Duration.ofHours(1)));
-        cacheConfigurations.put(ALL_LOCATION_TOTAL_FACILITY_COUNTS.getValue(), defaultConf());
+        cacheConfigurations.put(ALL_LOCATIONS.getValue(), defaultConf().entryTtl(Duration.ofDays(1)));
+        cacheConfigurations.put(LOCATION_DETAIL.getValue(), defaultConf());
+        cacheConfigurations.put(ALL_LOCATION_WEATHERS.getValue(), defaultConf().entryTtl(Duration.ofHours(1)));
+        cacheConfigurations.put(LOCATION_WEATHER.getValue(), defaultConf());
+        cacheConfigurations.put(ALL_LOCATION_TOTAL_FACILITY_COUNTS.getValue(), defaultConf().entryTtl(Duration.ofDays(1)));
+        cacheConfigurations.put(LOCATION_TOTAL_FACILITY_COUNT.getValue(), defaultConf().entryTtl(Duration.ofDays(1)));
+        cacheConfigurations.put(All_WORKATION_REVIEWS.getValue(), defaultConf());
         return cacheConfigurations;
     }
-
 }

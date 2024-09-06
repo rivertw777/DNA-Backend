@@ -7,8 +7,9 @@ import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationDetailResp
 import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationResponse;
 import DNA_Backend.api_server.domain.location.dto.LocationWeatherDto.LocationWeatherResponse;
 import DNA_Backend.api_server.domain.location.service.LocationService;
-import DNA_Backend.api_server.domain.review.dto.ReviewDto.ReviewResponse;
+import DNA_Backend.api_server.domain.review.dto.ReviewResponse;
 import DNA_Backend.api_server.domain.review.service.ReviewService;
+import DNA_Backend.api_server.domain.review.utils.ReviewPage;
 import DNA_Backend.api_server.domain.workationSchedule.dto.WorkationScheduleDto;
 import DNA_Backend.api_server.domain.workationSchedule.service.WorkationScheduleService;
 import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
@@ -16,7 +17,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -102,9 +102,9 @@ public class LocationController {
 
     @Operation(summary = "PUBLIC - 단일 지역 워케이션 리뷰 조회")
     @GetMapping("/{locationId}/reviews")
-    public ResponseEntity<Page<ReviewResponse>> getLocationReviews(
+    public ResponseEntity<ReviewPage<ReviewResponse>> getLocationReviews(
             @Valid @PathVariable(name = "locationId") Long locationId, Pageable pageable) {
-        Page<ReviewResponse> responses = reviewService.getLocationReviews(locationId, pageable);
+        ReviewPage<ReviewResponse> responses = reviewService.getLocationReviews(pageable, locationId);
         return ResponseEntity.ok(responses);
     }
 

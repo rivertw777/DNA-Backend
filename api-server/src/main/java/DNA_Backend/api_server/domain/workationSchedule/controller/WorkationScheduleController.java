@@ -1,6 +1,6 @@
 package DNA_Backend.api_server.domain.workationSchedule.controller;
 
-import DNA_Backend.api_server.domain.review.dto.ReviewDto;
+import DNA_Backend.api_server.domain.review.dto.ReviewDto.WriteReviewRequest;
 import DNA_Backend.api_server.domain.review.service.ReviewService;
 import DNA_Backend.api_server.domain.workationSchedule.dto.WorkationScheduleDto.AllScheduledDatesResponse;
 import DNA_Backend.api_server.domain.workationSchedule.dto.WorkationScheduleDto.WorkationScheduleResponse;
@@ -57,9 +57,9 @@ public class WorkationScheduleController {
     @PostMapping("/{scheduleId}/reviews")
     public ResponseEntity<Void> writeReview(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
                                             @Valid @PathVariable("scheduleId") Long scheduleId,
-                                            @Valid @RequestBody ReviewDto.WriteReviewRequest reqeustParam) {
+                                            @Valid @RequestBody WriteReviewRequest requestParam) {
         Long userId = userDetailsCustom.getUser().getId();
-        reviewService.writeReview(userId, scheduleId, reqeustParam);
+        reviewService.writeReview(userId, scheduleId, requestParam, requestParam.locationId());
         return ResponseEntity.ok().build();
     }
 

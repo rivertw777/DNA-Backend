@@ -55,6 +55,8 @@ public class LocationService {
     }
 
     // PUBLIC - 단일 지역 상세 조회
+    @Transactional(readOnly = true)
+    @Cacheable(cacheNames = "LocationDetail", key= "#p0", cacheManager = "redisCacheManager")
     public LocationDetailResponse getLocationDetail(Long locationId) {
         Location location = findLocation(locationId);
         return toDetailResponseDto(location);

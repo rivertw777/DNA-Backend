@@ -3,8 +3,8 @@ package DNA_Backend.api_server.domain.review.service;
 import static DNA_Backend.api_server.domain.review.message.ReviewExceptionMessage.ALREADY_EXISTS;
 
 import DNA_Backend.api_server.domain.location.model.entity.Location;
-import DNA_Backend.api_server.domain.review.dto.ReviewDto.ReviewResponse;
 import DNA_Backend.api_server.domain.review.dto.ReviewDto.WriteReviewRequest;
+import DNA_Backend.api_server.domain.review.dto.ReviewResponse;
 import DNA_Backend.api_server.domain.review.model.entity.Review;
 import DNA_Backend.api_server.domain.review.repository.ReviewRepository;
 import DNA_Backend.api_server.domain.user.model.entity.User;
@@ -12,9 +12,13 @@ import DNA_Backend.api_server.domain.user.service.UserService;
 import DNA_Backend.api_server.domain.workationSchedule.model.entity.WorkationSchedule;
 import DNA_Backend.api_server.domain.workationSchedule.service.WorkationScheduleService;
 import DNA_Backend.api_server.global.exception.DnaApplicationException;
+import DNA_Backend.api_server.domain.review.utils.ReviewPage;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,7 +34,12 @@ public class ReviewService {
 
     // USER - 워케이션 리뷰 작성
     @Transactional
-    public void writeReview(Long userId, Long scheduleId, WriteReviewRequest requestParam) {
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "LocationDetail", key= "#p3"),
+            @CacheEvict(cacheNames = "AllWorkationReviews", allEntries = true),
+            @CacheEvict(cacheNames = "LocationWorkationReviews", key= "#p3"),
+    })
+    public void writeReview(Long userId, Long scheduleId, WriteReviewRequest requestParam, Long locationId) {
         User user = userService.findUser(userId);
         WorkationSchedule workationSchedule = workationScheduleService.findWorkationSchedule(scheduleId);
         validateReviewNotExists(workationSchedule);
@@ -62,37 +71,27 @@ public class ReviewService {
 
     // USER - 전체 워케이션 리뷰 조회
     @Transactional(readOnly = true)
-    public List<ReviewResponse> getAllReviewsByUserId(Long userId) {
+    public List<ReviewResponse> getUserReviews(Long userId) {
         List<Review> reviews = reviewRepository.findByUserId(userId);
         return reviews.stream()
-                .map(this::toResponseDto)
+                .map(ReviewResponse::new)
                 .collect(Collectors.toList());
     }
 
     // PUBLIC - 전체 워케이션 리뷰 조회
     @Transactional(readOnly = true)
-    public Page<ReviewResponse> getAllReviews(Pageable pageable) {
-        Page<Review> reviewsPage = reviewRepository.findAll(pageable);
-        return reviewsPage.map(this::toResponseDto);
+    @Cacheable(cacheNames = "AllWorkationReviews", keyGenerator = "ReviewPageKeyGenerator", cacheManager = "redisCacheManager")
+    public ReviewPage<ReviewResponse> getAllReviews(Pageable pageable) {
+        Page<Review> reviewPage = reviewRepository.findAll(pageable);
+        return new ReviewPage<>(reviewPage.map(ReviewResponse::new));
     }
 
     // PUBLIC - 단일 지역 워케이션 리뷰 조회
     @Transactional(readOnly = true)
-    public Page<ReviewResponse> getLocationReviews(Long locationId, Pageable pageable) {
-        Page<Review> reviewsPage = reviewRepository.findByWorkationScheduleLocationId(locationId, pageable);
-        return reviewsPage.map(this::toResponseDto);
-    }
-
-    private ReviewResponse toResponseDto(Review review) {
-        WorkationSchedule workationSchedule = review.getWorkationSchedule();
-        return new ReviewResponse(
-                review.getId(),
-                workationSchedule.getUser().getUsername(),
-                workationSchedule.getLocation().getName().getValue(),
-                workationSchedule.getStartDate(),
-                workationSchedule.getEndDate(),
-                review.getContent(),
-                review.getCreatedAt());
+    @Cacheable(cacheNames = "LocationWorkationReviews", keyGenerator = "ReviewPageKeyGenerator", cacheManager = "redisCacheManager")
+    public ReviewPage<ReviewResponse> getLocationReviews(Pageable pageable, Long locationId) {
+        Page<Review> reviewPage = reviewRepository.findByWorkationScheduleLocationId(locationId, pageable);
+        return new ReviewPage<>(reviewPage.map(ReviewResponse::new));
     }
 
 }

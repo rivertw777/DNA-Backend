@@ -76,6 +76,7 @@ public class WorkationScheduleService {
     private WorkationScheduleResponse toResponseDto(WorkationSchedule workationSchedule) {
         return new WorkationScheduleResponse(
                 workationSchedule.getId(),
+                workationSchedule.getLocation().getId(),
                 workationSchedule.getLocation().getName().getValue(),
                 workationSchedule.getStartDate(),
                 workationSchedule.getEndDate(),

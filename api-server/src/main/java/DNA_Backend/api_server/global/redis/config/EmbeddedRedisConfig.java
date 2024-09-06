@@ -7,7 +7,7 @@ import jakarta.annotation.PreDestroy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Profile("dev")
+@Profile("de")
 @Configuration
 public class EmbeddedRedisConfig {
 
