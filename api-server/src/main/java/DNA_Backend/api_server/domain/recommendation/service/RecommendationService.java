@@ -5,9 +5,9 @@ import static DNA_Backend.api_server.domain.recommendation.message.Recommendatio
 import DNA_Backend.api_server.domain.location.model.entity.Location;
 import DNA_Backend.api_server.domain.location.model.enums.LocationName;
 import DNA_Backend.api_server.domain.location.service.LocationService;
-import DNA_Backend.api_server.domain.recommendation.dto.RecommendationDto.RecommendLocationRequest;
-import DNA_Backend.api_server.domain.recommendation.dto.RecommendationDto.RecommendLocationResponse;
-import DNA_Backend.api_server.domain.recommendation.dto.RecommendationDto.RecommendedLocationResponse;
+import DNA_Backend.api_server.domain.recommendation.dto.request.RecommendLocationRequest;
+import DNA_Backend.api_server.domain.recommendation.dto.response.RecommendLocationResponse;
+import DNA_Backend.api_server.domain.recommendation.dto.response.RecommendedLocationResponse;
 import DNA_Backend.api_server.domain.recommendation.model.entity.RecommendedLocation;
 import DNA_Backend.api_server.domain.recommendation.repository.RecommendedLocationRepository;
 import DNA_Backend.api_server.domain.user.model.entity.User;
@@ -74,17 +74,8 @@ public class RecommendationService {
     @Transactional(readOnly = true)
     public List<RecommendedLocationResponse> getRecommendedLocations(Long userId) {
         return recommendedLocationRepository.findByUserId(userId).stream()
-                .map(this::toResponseDto)
+                .map(RecommendedLocationResponse::new)
                 .collect(Collectors.toList());
-    }
-    
-    private RecommendedLocationResponse toResponseDto(RecommendedLocation recommendedLocation) {
-        Location location = recommendedLocation.getLocation();
-        return new RecommendedLocationResponse(
-                location.getId(),
-                location.getName().getValue(),
-                location.getThumbnail()
-        );
     }
 
 }

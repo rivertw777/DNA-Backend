@@ -2,9 +2,9 @@ package DNA_Backend.api_server.domain.location.service;
 
 import static DNA_Backend.api_server.domain.location.message.LocationExceptionMessage.LOCATION_NOT_FOUND;
 
-import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationDetailResponse;
-import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationResponse;
-import DNA_Backend.api_server.domain.location.dto.LocationWeatherDto.LocationWeatherResponse;
+import DNA_Backend.api_server.domain.location.dto.response.LocationWeatherResponse;
+import DNA_Backend.api_server.domain.location.dto.response.LocationDetailResponse;
+import DNA_Backend.api_server.domain.location.dto.response.LocationResponse;
 import DNA_Backend.api_server.domain.location.model.entity.Location;
 import DNA_Backend.api_server.domain.location.model.enums.LocationName;
 import DNA_Backend.api_server.domain.location.repository.LocationRepository;
@@ -40,18 +40,8 @@ public class LocationService {
     @Cacheable(cacheNames = "AllLocations", cacheManager = "redisCacheManager")
     public List<LocationResponse> getAllLocations() {
         return locationRepository.findAll().stream()
-                .map(this::toResponseDto)
+                .map(LocationResponse::new)
                 .collect(Collectors.toList());
-    }
-
-    private LocationResponse toResponseDto(Location location) {
-        return new LocationResponse(
-                location.getId(),
-                location.getName().getValue(),
-                location.getThumbnail(),
-                location.getLatitude(),
-                location.getLongitude()
-        );
     }
 
     // PUBLIC - 단일 지역 상세 조회
@@ -59,21 +49,7 @@ public class LocationService {
     @Cacheable(cacheNames = "LocationDetail", key= "#p0", cacheManager = "redisCacheManager")
     public LocationDetailResponse getLocationDetail(Long locationId) {
         Location location = findLocation(locationId);
-        return toDetailResponseDto(location);
-    }
-
-    private LocationDetailResponse toDetailResponseDto(Location location) {
-        return new LocationDetailResponse(
-                location.getId(),
-                location.getName().getValue(),
-                location.getThumbnail(),
-                location.getLatitude(),
-                location.getLongitude(),
-                location.getInternetSpeed(),
-                location.getPriceIndex(),
-                location.getPopulationDensity(),
-                location.getAverageRating()
-        );
+        return new LocationDetailResponse(location);
     }
 
     // PUBLIC - 전체 지역 날씨 조회

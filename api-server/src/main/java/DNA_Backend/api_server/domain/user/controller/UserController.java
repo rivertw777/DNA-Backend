@@ -1,13 +1,13 @@
 package DNA_Backend.api_server.domain.user.controller;
 
-import DNA_Backend.api_server.domain.user.dto.EmailDto.SendEmailCodeRequest;
-import DNA_Backend.api_server.domain.user.dto.EmailDto.UserPopupStatusResponse;
-import DNA_Backend.api_server.domain.user.dto.EmailDto.VerifyEmailCodeRequest;
-import DNA_Backend.api_server.domain.user.dto.EmailDto.VerifyEmailCodeResponse;
-import DNA_Backend.api_server.domain.user.dto.UserDto.CheckDuplicateUsernameRequest;
-import DNA_Backend.api_server.domain.user.dto.UserDto.SignUpRequest;
-import DNA_Backend.api_server.domain.user.dto.UserDto.CheckDuplicateUsernameResponse;
-import DNA_Backend.api_server.domain.user.dto.UserDto.UsernameResponse;
+import DNA_Backend.api_server.domain.user.dto.request.CheckDuplicateUsernameRequest;
+import DNA_Backend.api_server.domain.user.dto.request.SendEmailCodeRequest;
+import DNA_Backend.api_server.domain.user.dto.request.SignUpRequest;
+import DNA_Backend.api_server.domain.user.dto.request.VerifyEmailCodeRequest;
+import DNA_Backend.api_server.domain.user.dto.response.CheckDuplicateUsernameResponse;
+import DNA_Backend.api_server.domain.user.dto.response.UserPopupStatusResponse;
+import DNA_Backend.api_server.domain.user.dto.response.UsernameResponse;
+import DNA_Backend.api_server.domain.user.dto.response.VerifyEmailCodeResponse;
 import DNA_Backend.api_server.domain.user.service.UserService;
 import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
 import io.swagger.v3.oas.annotations.Operation;

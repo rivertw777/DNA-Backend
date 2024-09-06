@@ -1,6 +1,6 @@
 package DNA_Backend.api_server.domain.workationReview.controller;
 
-import DNA_Backend.api_server.domain.workationReview.dto.WorkationReviewResponse;
+import DNA_Backend.api_server.domain.workationReview.dto.response.WorkationReviewResponse;
 import DNA_Backend.api_server.domain.workationReview.service.WorkationReviewService;
 import DNA_Backend.api_server.domain.workationReview.utils.WorkationReviewPage;
 import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;

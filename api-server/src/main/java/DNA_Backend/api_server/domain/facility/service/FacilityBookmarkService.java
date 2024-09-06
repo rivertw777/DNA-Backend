@@ -3,8 +3,8 @@ package DNA_Backend.api_server.domain.facility.service;
 import static DNA_Backend.api_server.domain.facility.message.FacilityExceptionMessage.ALREADY_BOOKMARK;
 import static DNA_Backend.api_server.domain.facility.message.FacilityExceptionMessage.ALREADY_UNBOOKMARK;
 
-import DNA_Backend.api_server.domain.facility.dto.FacilityDto.BookmarkedFacilityResponse;
-import DNA_Backend.api_server.domain.facility.dto.FacilityDto.CheckFacilityBookmarkResponse;
+import DNA_Backend.api_server.domain.facility.dto.response.BookmarkedFacilityResponse;
+import DNA_Backend.api_server.domain.facility.dto.response.CheckFacilityBookmarkResponse;
 import DNA_Backend.api_server.domain.facility.model.entity.Facility;
 import DNA_Backend.api_server.domain.facility.model.entity.FacilityBookmark;
 import DNA_Backend.api_server.domain.facility.repository.FacilityBookmarkRepository;
@@ -69,18 +69,8 @@ public class FacilityBookmarkService {
     @Transactional(readOnly = true)
     public List<BookmarkedFacilityResponse> getAllBookmarkedFacilities(Long userId) {
         return facilityBookmarkRepository.findByUserId(userId).stream()
-                .map(this::toResponseDto)
+                .map(BookmarkedFacilityResponse::new)
                 .collect(Collectors.toList());
-    }
-
-    private BookmarkedFacilityResponse toResponseDto(FacilityBookmark facilityBookmark) {
-        Facility facility = facilityBookmark.getFacility();
-        return new BookmarkedFacilityResponse(
-                facility.getId(),
-                facility.getName(),
-                facility.getType().getValue(),
-                facility.getAddress()
-        );
     }
 
 }

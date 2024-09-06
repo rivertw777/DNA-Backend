@@ -2,8 +2,8 @@ package DNA_Backend.api_server.domain.facility.service;
 
 import static DNA_Backend.api_server.domain.facility.message.FacilityExceptionMessage.FACILITY_NOT_FOUND;
 
-import DNA_Backend.api_server.domain.facility.dto.FacilityDto.FacilityResponse;
-import DNA_Backend.api_server.domain.facility.dto.FacilityDto.LocationTotalFacilityCountResponse;
+import DNA_Backend.api_server.domain.facility.dto.response.FacilityResponse;
+import DNA_Backend.api_server.domain.facility.dto.response.LocationTotalFacilityCountResponse;
 import DNA_Backend.api_server.domain.facility.model.entity.Facility;
 import DNA_Backend.api_server.domain.facility.model.enums.FacilityType;
 import DNA_Backend.api_server.domain.facility.repository.FacilityRepository;
@@ -34,7 +34,7 @@ public class FacilityService {
         List<Facility> facilities = facilityRepository.findByLatitudeBetweenAndLongitudeBetweenAndType(
                 latMin, latMax, lngMin, lngMax, type);
         return facilities.stream()
-                .map(this::toResponseDto)
+                .map(FacilityResponse::new)
                 .collect(Collectors.toList());
     }
 
@@ -44,18 +44,8 @@ public class FacilityService {
         FacilityType type = FacilityType.fromValue(facilityType);
         List<Facility> facilities = facilityRepository.findByLocationIdAndType(locationId, type);
         return facilities.stream()
-                .map(this::toResponseDto)
+                .map(FacilityResponse::new)
                 .collect(Collectors.toList());
-    }
-
-    private FacilityResponse toResponseDto(Facility facility) {
-        return new FacilityResponse(
-                facility.getId(),
-                facility.getName(),
-                facility.getType().getValue(),
-                facility.getAddress(),
-                facility.getLatitude(),
-                facility.getLongitude());
     }
 
     // PUBLIC - 전체 지역 총 시설 수 조회
@@ -69,15 +59,12 @@ public class FacilityService {
     @Transactional(readOnly = true)
     @Cacheable(cacheNames = "LocationTotalFacilityCount", key= "#p0", cacheManager = "redisCacheManager")
     public LocationTotalFacilityCountResponse getLocationTotalFacilityCount(Long locationId) {
-        return toTotalFacilityCountResponseDto(locationId);
+        return toLocationTotalFacilityCountResponseDto(locationId);
     }
 
-    private LocationTotalFacilityCountResponse toTotalFacilityCountResponseDto(Long locationId) {
+    private LocationTotalFacilityCountResponse toLocationTotalFacilityCountResponseDto(Long locationId) {
         long facilityCount = facilityRepository.countByLocationId(locationId);
-        return new LocationTotalFacilityCountResponse(
-                locationId,
-                facilityCount
-        );
+        return new LocationTotalFacilityCountResponse(locationId, facilityCount);
     }
 
 }

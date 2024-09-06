@@ -1,16 +1,16 @@
 package DNA_Backend.api_server.domain.location.controller;
 
-import DNA_Backend.api_server.domain.facility.dto.FacilityDto.FacilityResponse;
-import DNA_Backend.api_server.domain.facility.dto.FacilityDto.LocationTotalFacilityCountResponse;
+import DNA_Backend.api_server.domain.facility.dto.response.FacilityResponse;
+import DNA_Backend.api_server.domain.facility.dto.response.LocationTotalFacilityCountResponse;
 import DNA_Backend.api_server.domain.facility.service.FacilityService;
-import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationDetailResponse;
-import DNA_Backend.api_server.domain.location.dto.LocationDto.LocationResponse;
-import DNA_Backend.api_server.domain.location.dto.LocationWeatherDto.LocationWeatherResponse;
+import DNA_Backend.api_server.domain.location.dto.request.CreateWorkationScheduleRequest;
+import DNA_Backend.api_server.domain.location.dto.response.LocationWeatherResponse;
+import DNA_Backend.api_server.domain.location.dto.response.LocationDetailResponse;
+import DNA_Backend.api_server.domain.location.dto.response.LocationResponse;
 import DNA_Backend.api_server.domain.location.service.LocationService;
-import DNA_Backend.api_server.domain.workationReview.dto.WorkationReviewResponse;
+import DNA_Backend.api_server.domain.workationReview.dto.response.WorkationReviewResponse;
 import DNA_Backend.api_server.domain.workationReview.service.WorkationReviewService;
 import DNA_Backend.api_server.domain.workationReview.utils.WorkationReviewPage;
-import DNA_Backend.api_server.domain.workationSchedule.dto.WorkationScheduleDto;
 import DNA_Backend.api_server.domain.workationSchedule.service.WorkationScheduleService;
 import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
 import io.swagger.v3.oas.annotations.Operation;
@@ -92,7 +92,7 @@ public class LocationController {
     @PostMapping("/api/locations/{locationId}/workation-schedules")
     public ResponseEntity<Void> createWorkationSchedule(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
                                                         @Valid @PathVariable("locationId") Long locationId,
-                                                        @Valid @RequestBody WorkationScheduleDto.CreateWorkationScheduleRequest requestParam) {
+                                                        @Valid @RequestBody CreateWorkationScheduleRequest requestParam) {
         Long userId = userDetailsCustom.getUser().getId();
         workationScheduleService.createWorkationSchedule(userId, locationId, requestParam);
         return ResponseEntity.ok().build();

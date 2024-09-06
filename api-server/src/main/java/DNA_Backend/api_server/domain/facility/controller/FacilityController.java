@@ -1,8 +1,8 @@
 package DNA_Backend.api_server.domain.facility.controller;
 
-import DNA_Backend.api_server.domain.facility.dto.FacilityDto.BookmarkedFacilityResponse;
-import DNA_Backend.api_server.domain.facility.dto.FacilityDto.CheckFacilityBookmarkResponse;
-import DNA_Backend.api_server.domain.facility.dto.FacilityDto.FacilityResponse;
+import DNA_Backend.api_server.domain.facility.dto.response.BookmarkedFacilityResponse;
+import DNA_Backend.api_server.domain.facility.dto.response.CheckFacilityBookmarkResponse;
+import DNA_Backend.api_server.domain.facility.dto.response.FacilityResponse;
 import DNA_Backend.api_server.domain.facility.service.FacilityBookmarkService;
 import DNA_Backend.api_server.domain.facility.service.FacilityService;
 import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;

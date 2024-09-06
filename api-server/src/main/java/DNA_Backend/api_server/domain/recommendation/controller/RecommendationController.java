@@ -1,8 +1,8 @@
 package DNA_Backend.api_server.domain.recommendation.controller;
 
-import DNA_Backend.api_server.domain.recommendation.dto.RecommendationDto.RecommendLocationRequest;
-import DNA_Backend.api_server.domain.recommendation.dto.RecommendationDto.RecommendLocationResponse;
-import DNA_Backend.api_server.domain.recommendation.dto.RecommendationDto.RecommendedLocationResponse;
+import DNA_Backend.api_server.domain.recommendation.dto.request.RecommendLocationRequest;
+import DNA_Backend.api_server.domain.recommendation.dto.response.RecommendLocationResponse;
+import DNA_Backend.api_server.domain.recommendation.dto.response.RecommendedLocationResponse;
 import DNA_Backend.api_server.domain.recommendation.service.RecommendationService;
 import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
 import io.swagger.v3.oas.annotations.Operation;

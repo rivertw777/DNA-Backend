@@ -1,9 +1,9 @@
 package DNA_Backend.api_server.domain.facility.repository;
 
-import static DNA_Backend.api_server.domain.facility.model.QFacility.facility;
+import static DNA_Backend.api_server.domain.facility.model.entity.QFacility.facility;
 
-import DNA_Backend.api_server.domain.facility.dto.FacilityDto.LocationTotalFacilityCountResponse;
-import DNA_Backend.api_server.domain.facility.dto.QFacilityDto_LocationTotalFacilityCountResponse;
+import DNA_Backend.api_server.domain.facility.dto.response.LocationTotalFacilityCountResponse;
+import DNA_Backend.api_server.domain.facility.dto.response.QLocationTotalFacilityCountResponse;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -16,7 +16,7 @@ public class FacilityRepositoryImpl implements FacilityRepositoryCustom {
 
     public List<LocationTotalFacilityCountResponse> countTotalFacilitiesGroupedByLocation() {
         return queryFactory
-                .select(new QFacilityDto_LocationTotalFacilityCountResponse(facility.location.id, facility.count()))
+                .select(new QLocationTotalFacilityCountResponse(facility.location.id, facility.count()))
                 .from(facility)
                 .where(facility.location.id.isNotNull())
                 .groupBy(facility.location.id)

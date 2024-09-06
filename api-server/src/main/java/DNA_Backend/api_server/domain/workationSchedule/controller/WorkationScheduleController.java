@@ -1,9 +1,9 @@
 package DNA_Backend.api_server.domain.workationSchedule.controller;
 
-import DNA_Backend.api_server.domain.workationReview.dto.WorkationReviewDto.WriteWorkationReviewRequest;
 import DNA_Backend.api_server.domain.workationReview.service.WorkationReviewService;
-import DNA_Backend.api_server.domain.workationSchedule.dto.WorkationScheduleDto.AllScheduledDatesResponse;
-import DNA_Backend.api_server.domain.workationSchedule.dto.WorkationScheduleDto.WorkationScheduleResponse;
+import DNA_Backend.api_server.domain.workationSchedule.dto.request.WriteWorkationReviewRequest;
+import DNA_Backend.api_server.domain.workationSchedule.dto.response.AllScheduledDatesResponse;
+import DNA_Backend.api_server.domain.workationSchedule.dto.response.WorkationScheduleResponse;
 import DNA_Backend.api_server.domain.workationSchedule.service.WorkationScheduleService;
 import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
 import io.swagger.v3.oas.annotations.Operation;

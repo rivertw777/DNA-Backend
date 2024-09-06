@@ -2,8 +2,8 @@ package DNA_Backend.api_server.domain.auth.service;
 
 import static DNA_Backend.api_server.domain.auth.message.AuthExceptionMessage.PASSWORD_NOT_MATCH;
 
-import DNA_Backend.api_server.domain.auth.dto.AuthDto.CheckFirstSocialLoginResponse;
-import DNA_Backend.api_server.domain.auth.dto.AuthDto.LoginRequest;
+import DNA_Backend.api_server.domain.auth.dto.request.LoginRequest;
+import DNA_Backend.api_server.domain.auth.dto.response.CheckFirstSocialLoginResponse;
 import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.user.service.UserService;
 import DNA_Backend.api_server.global.exception.DnaApplicationException;

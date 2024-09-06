@@ -1,8 +1,8 @@
 package DNA_Backend.api_server.domain.auth.controller;
 
-import DNA_Backend.api_server.domain.auth.dto.AuthDto.LoginRequest;
-import DNA_Backend.api_server.domain.auth.dto.AuthDto.UpdateUsernameRequest;
-import DNA_Backend.api_server.domain.auth.dto.AuthDto.CheckFirstSocialLoginResponse;
+import DNA_Backend.api_server.domain.auth.dto.request.LoginRequest;
+import DNA_Backend.api_server.domain.auth.dto.request.UpdateUsernameRequest;
+import DNA_Backend.api_server.domain.auth.dto.response.CheckFirstSocialLoginResponse;
 import DNA_Backend.api_server.domain.auth.service.AuthService;
 import DNA_Backend.api_server.global.security.cookie.CookieManager;
 import io.swagger.v3.oas.annotations.Operation;

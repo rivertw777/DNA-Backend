@@ -1,4 +1,4 @@
-package DNA_Backend.api_server.domain.workationReview.dto;
+package DNA_Backend.api_server.domain.workationReview.dto.response;
 
 import DNA_Backend.api_server.domain.workationReview.model.entity.WorkationReview;
 import java.time.LocalDate;

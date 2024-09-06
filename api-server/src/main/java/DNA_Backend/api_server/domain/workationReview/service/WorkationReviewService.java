@@ -3,12 +3,12 @@ package DNA_Backend.api_server.domain.workationReview.service;
 import static DNA_Backend.api_server.domain.workationReview.message.WorkationReviewExceptionMessage.ALREADY_EXISTS;
 
 import DNA_Backend.api_server.domain.location.model.entity.Location;
-import DNA_Backend.api_server.domain.workationReview.dto.WorkationReviewDto.WriteWorkationReviewRequest;
-import DNA_Backend.api_server.domain.workationReview.dto.WorkationReviewResponse;
+import DNA_Backend.api_server.domain.workationReview.dto.response.WorkationReviewResponse;
 import DNA_Backend.api_server.domain.workationReview.model.entity.WorkationReview;
 import DNA_Backend.api_server.domain.workationReview.repository.WorkationReviewRepository;
 import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.user.service.UserService;
+import DNA_Backend.api_server.domain.workationSchedule.dto.request.WriteWorkationReviewRequest;
 import DNA_Backend.api_server.domain.workationSchedule.model.entity.WorkationSchedule;
 import DNA_Backend.api_server.domain.workationSchedule.service.WorkationScheduleService;
 import DNA_Backend.api_server.global.exception.DnaApplicationException;

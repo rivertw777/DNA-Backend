@@ -3,13 +3,13 @@ package DNA_Backend.api_server.domain.workationSchedule.service;
 import static DNA_Backend.api_server.domain.workationSchedule.message.WorkationScheduleExceptionMessage.OVERLAPPING_SCHEDULE;
 import static DNA_Backend.api_server.domain.workationSchedule.message.WorkationScheduleExceptionMessage.SCHEDULE_NOT_FOUND;
 
+import DNA_Backend.api_server.domain.location.dto.request.CreateWorkationScheduleRequest;
 import DNA_Backend.api_server.domain.location.model.entity.Location;
 import DNA_Backend.api_server.domain.location.service.LocationService;
 import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.user.service.UserService;
-import DNA_Backend.api_server.domain.workationSchedule.dto.WorkationScheduleDto.AllScheduledDatesResponse;
-import DNA_Backend.api_server.domain.workationSchedule.dto.WorkationScheduleDto.CreateWorkationScheduleRequest;
-import DNA_Backend.api_server.domain.workationSchedule.dto.WorkationScheduleDto.WorkationScheduleResponse;
+import DNA_Backend.api_server.domain.workationSchedule.dto.response.AllScheduledDatesResponse;
+import DNA_Backend.api_server.domain.workationSchedule.dto.response.WorkationScheduleResponse;
 import DNA_Backend.api_server.domain.workationSchedule.model.entity.WorkationSchedule;
 import DNA_Backend.api_server.domain.workationSchedule.repository.WorkationScheduleRepository;
 import DNA_Backend.api_server.global.exception.DnaApplicationException;
@@ -69,19 +69,8 @@ public class WorkationScheduleService {
     public List<WorkationScheduleResponse> getAllWorkationSchedules(Long userId) {
         List<WorkationSchedule> workationSchedules = workationScheduleRepository.findByUserIdWithFetch(userId);
         return workationSchedules.stream()
-                .map(this::toResponseDto)
+                .map(WorkationScheduleResponse::new)
                 .collect(Collectors.toList());
-    }
-
-    private WorkationScheduleResponse toResponseDto(WorkationSchedule workationSchedule) {
-        return new WorkationScheduleResponse(
-                workationSchedule.getId(),
-                workationSchedule.getLocation().getId(),
-                workationSchedule.getLocation().getName().getValue(),
-                workationSchedule.getStartDate(),
-                workationSchedule.getEndDate(),
-                workationSchedule.getWorkationReview() != null
-        );
     }
 
     // USER - 워케이션 일정 삭제
@@ -107,7 +96,7 @@ public class WorkationScheduleService {
     public List<WorkationScheduleResponse> getExpiredNoReviewScheduleResponse(Long userId) {
         List<WorkationSchedule> workationSchedules = workationScheduleRepository.findByUserIdAndIsExpiredTrueAndWorkationReviewIsNull(userId);
         return workationSchedules.stream()
-                .map(this::toResponseDto)
+                .map(WorkationScheduleResponse::new)
                 .collect(Collectors.toList());
     }
 
