@@ -3,6 +3,7 @@ package DNA_Backend.api_server.domain.workationReview.service;
 import static DNA_Backend.api_server.domain.workationReview.message.WorkationReviewExceptionMessage.ALREADY_EXISTS;
 
 import DNA_Backend.api_server.domain.location.model.entity.Location;
+import DNA_Backend.api_server.domain.workationReview.dto.mapper.WorkationReviewMapper;
 import DNA_Backend.api_server.domain.workationReview.dto.response.WorkationReviewResponse;
 import DNA_Backend.api_server.domain.workationReview.model.entity.WorkationReview;
 import DNA_Backend.api_server.domain.workationReview.repository.WorkationReviewRepository;
@@ -14,7 +15,6 @@ import DNA_Backend.api_server.domain.workationSchedule.service.WorkationSchedule
 import DNA_Backend.api_server.global.exception.DnaApplicationException;
 import DNA_Backend.api_server.domain.workationReview.utils.WorkationReviewPage;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -31,6 +31,7 @@ public class WorkationReviewService {
     private final WorkationReviewRepository workationReviewRepository;
     private final WorkationScheduleService workationScheduleService;
     private final UserService userService;
+    private final WorkationReviewMapper workationReviewMapper;
 
     // USER - 워케이션 리뷰 작성
     @Transactional
@@ -73,9 +74,7 @@ public class WorkationReviewService {
     @Transactional(readOnly = true)
     public List<WorkationReviewResponse> getUserWorkationReviews(Long userId) {
         List<WorkationReview> workationReviews = workationReviewRepository.findByUserId(userId);
-        return workationReviews.stream()
-                .map(WorkationReviewResponse::new)
-                .collect(Collectors.toList());
+        return workationReviewMapper.toResponses(workationReviews);
     }
 
     // PUBLIC - 전체 워케이션 리뷰 조회
@@ -83,7 +82,7 @@ public class WorkationReviewService {
     @Cacheable(cacheNames = "AllWorkationReviews", keyGenerator = "WorkationReviewPageKeyGenerator", cacheManager = "redisCacheManager")
     public WorkationReviewPage<WorkationReviewResponse> getAllWorkationReviews(Pageable pageable) {
         Page<WorkationReview> reviewPage = workationReviewRepository.findAll(pageable);
-        return new WorkationReviewPage<>(reviewPage.map(WorkationReviewResponse::new));
+        return new WorkationReviewPage<>(reviewPage.map(workationReviewMapper::toResponse));
     }
 
     // PUBLIC - 단일 지역 워케이션 리뷰 조회
@@ -91,7 +90,7 @@ public class WorkationReviewService {
     @Cacheable(cacheNames = "LocationWorkationReviews", keyGenerator = "WorkationReviewPageKeyGenerator", cacheManager = "redisCacheManager")
     public WorkationReviewPage<WorkationReviewResponse> getLocationWorkationReviews(Pageable pageable, Long locationId) {
         Page<WorkationReview> reviewPage = workationReviewRepository.findByWorkationScheduleLocationId(locationId, pageable);
-        return new WorkationReviewPage<>(reviewPage.map(WorkationReviewResponse::new));
+        return new WorkationReviewPage<>(reviewPage.map(workationReviewMapper::toResponse));
     }
 
 }

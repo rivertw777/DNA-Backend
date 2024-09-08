@@ -10,6 +10,7 @@ import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.user.service.UserService;
 import DNA_Backend.api_server.domain.workationSchedule.dto.response.AllScheduledDatesResponse;
 import DNA_Backend.api_server.domain.workationSchedule.dto.response.WorkationScheduleResponse;
+import DNA_Backend.api_server.domain.workationSchedule.dto.mapper.WorkationScheduleMapper;
 import DNA_Backend.api_server.domain.workationSchedule.model.entity.WorkationSchedule;
 import DNA_Backend.api_server.domain.workationSchedule.repository.WorkationScheduleRepository;
 import DNA_Backend.api_server.global.exception.DnaApplicationException;
@@ -28,6 +29,7 @@ public class WorkationScheduleService {
     private final WorkationScheduleRepository workationScheduleRepository;
     private final UserService userService;
     private final LocationService locationService;
+    private final WorkationScheduleMapper workationScheduleMapper;
 
     // id로 조회
     public WorkationSchedule findWorkationSchedule(Long scheduleId) {
@@ -68,9 +70,7 @@ public class WorkationScheduleService {
     @Transactional(readOnly = true)
     public List<WorkationScheduleResponse> getAllWorkationSchedules(Long userId) {
         List<WorkationSchedule> workationSchedules = workationScheduleRepository.findByUserIdWithFetch(userId);
-        return workationSchedules.stream()
-                .map(WorkationScheduleResponse::new)
-                .collect(Collectors.toList());
+        return workationScheduleMapper.toResponses(workationSchedules);
     }
 
     // USER - 워케이션 일정 삭제
@@ -95,9 +95,7 @@ public class WorkationScheduleService {
     @Transactional
     public List<WorkationScheduleResponse> getExpiredNoReviewScheduleResponse(Long userId) {
         List<WorkationSchedule> workationSchedules = workationScheduleRepository.findByUserIdAndIsExpiredTrueAndWorkationReviewIsNull(userId);
-        return workationSchedules.stream()
-                .map(WorkationScheduleResponse::new)
-                .collect(Collectors.toList());
+        return workationScheduleMapper.toResponses(workationSchedules);
     }
 
 }

@@ -2,6 +2,7 @@ package DNA_Backend.api_server.domain.facility.service;
 
 import static DNA_Backend.api_server.domain.facility.message.FacilityExceptionMessage.FACILITY_NOT_FOUND;
 
+import DNA_Backend.api_server.domain.facility.dto.mapper.FacilityMapper;
 import DNA_Backend.api_server.domain.facility.dto.response.FacilityResponse;
 import DNA_Backend.api_server.domain.facility.dto.response.LocationTotalFacilityCountResponse;
 import DNA_Backend.api_server.domain.facility.model.entity.Facility;
@@ -9,7 +10,6 @@ import DNA_Backend.api_server.domain.facility.model.enums.FacilityType;
 import DNA_Backend.api_server.domain.facility.repository.FacilityRepository;
 import DNA_Backend.api_server.global.exception.DnaApplicationException;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class FacilityService {
 
     private final FacilityRepository facilityRepository;
+    private final FacilityMapper facilityMapper;
 
     // id로 조회
     public Facility findFacility(Long facilityId) {
@@ -33,9 +34,7 @@ public class FacilityService {
         FacilityType type = FacilityType.fromValue(facilityType);
         List<Facility> facilities = facilityRepository.findByLatitudeBetweenAndLongitudeBetweenAndType(
                 latMin, latMax, lngMin, lngMax, type);
-        return facilities.stream()
-                .map(FacilityResponse::new)
-                .collect(Collectors.toList());
+        return facilityMapper.toResponses(facilities);
     }
 
     // PUBLIC - 시설 검색 by 지역 Id & 타입
@@ -43,9 +42,7 @@ public class FacilityService {
     public List<FacilityResponse> searchFacilitiesByLocationIdAndType(Long locationId, String facilityType) {
         FacilityType type = FacilityType.fromValue(facilityType);
         List<Facility> facilities = facilityRepository.findByLocationIdAndType(locationId, type);
-        return facilities.stream()
-                .map(FacilityResponse::new)
-                .collect(Collectors.toList());
+        return facilityMapper.toResponses(facilities);
     }
 
     // PUBLIC - 전체 지역 총 시설 수 조회

@@ -31,7 +31,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @JsonIgnoreProperties({"provider", "providerId", "popupStatus", "recommendedLocations", "facilityBookmarks",
-        "workationSchedules", "reviews"})
+        "workationSchedules", "workationReviews"})
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)

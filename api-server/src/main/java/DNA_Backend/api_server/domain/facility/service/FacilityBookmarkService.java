@@ -3,6 +3,7 @@ package DNA_Backend.api_server.domain.facility.service;
 import static DNA_Backend.api_server.domain.facility.message.FacilityExceptionMessage.ALREADY_BOOKMARK;
 import static DNA_Backend.api_server.domain.facility.message.FacilityExceptionMessage.ALREADY_UNBOOKMARK;
 
+import DNA_Backend.api_server.domain.facility.dto.mapper.FacilityBookmarkMapper;
 import DNA_Backend.api_server.domain.facility.dto.response.BookmarkedFacilityResponse;
 import DNA_Backend.api_server.domain.facility.dto.response.CheckFacilityBookmarkResponse;
 import DNA_Backend.api_server.domain.facility.model.entity.Facility;
@@ -12,7 +13,6 @@ import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.user.service.UserService;
 import DNA_Backend.api_server.global.exception.DnaApplicationException;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +24,7 @@ public class FacilityBookmarkService {
     private final FacilityBookmarkRepository facilityBookmarkRepository;
     private final FacilityService facilityService;
     private final UserService userService;
+    private final FacilityBookmarkMapper facilityBookmarkMapper;
 
     // USER - 시설 북마크
     @Transactional
@@ -68,9 +69,8 @@ public class FacilityBookmarkService {
     // USER - 전체 북마크 시설 조회
     @Transactional(readOnly = true)
     public List<BookmarkedFacilityResponse> getAllBookmarkedFacilities(Long userId) {
-        return facilityBookmarkRepository.findByUserId(userId).stream()
-                .map(BookmarkedFacilityResponse::new)
-                .collect(Collectors.toList());
+        List<FacilityBookmark> facilityBookmarks = facilityBookmarkRepository.findByUserId(userId);
+        return facilityBookmarkMapper.toResponses(facilityBookmarks);
     }
 
 }

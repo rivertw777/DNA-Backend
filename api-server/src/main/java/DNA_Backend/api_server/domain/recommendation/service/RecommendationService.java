@@ -5,6 +5,7 @@ import static DNA_Backend.api_server.domain.recommendation.message.Recommendatio
 import DNA_Backend.api_server.domain.location.model.entity.Location;
 import DNA_Backend.api_server.domain.location.model.enums.LocationName;
 import DNA_Backend.api_server.domain.location.service.LocationService;
+import DNA_Backend.api_server.domain.recommendation.dto.mapper.RecommendedLocationMapper;
 import DNA_Backend.api_server.domain.recommendation.dto.request.RecommendLocationRequest;
 import DNA_Backend.api_server.domain.recommendation.dto.response.RecommendLocationResponse;
 import DNA_Backend.api_server.domain.recommendation.dto.response.RecommendedLocationResponse;
@@ -14,7 +15,6 @@ import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.user.service.UserService;
 import DNA_Backend.api_server.global.exception.DnaApplicationException;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -32,6 +32,7 @@ public class RecommendationService {
     private final UserService userService;
     private final LocationService locationService;
     private final RecommendedLocationRepository recommendedLocationRepository;
+    private final RecommendedLocationMapper recommendedLocationMapper;
 
     // USER - 지역 추천
     @Transactional
@@ -73,9 +74,8 @@ public class RecommendationService {
     // USER - 전체 추천 지역 조회
     @Transactional(readOnly = true)
     public List<RecommendedLocationResponse> getRecommendedLocations(Long userId) {
-        return recommendedLocationRepository.findByUserId(userId).stream()
-                .map(RecommendedLocationResponse::new)
-                .collect(Collectors.toList());
+        List<RecommendedLocation> recommendedLocations = recommendedLocationRepository.findByUserId(userId);
+        return recommendedLocationMapper.toResponses(recommendedLocations);
     }
 
 }

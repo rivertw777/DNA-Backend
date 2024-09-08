@@ -43,7 +43,7 @@ public class LocationController {
         return ResponseEntity.ok(responses);
     }
 
-    @Operation(summary = "PUBLIC - 단일 지역 상세 단일 조회")
+    @Operation(summary = "PUBLIC - 단일 지역 상세 조회")
     @GetMapping("/api/public/locations/{locationId}")
     public ResponseEntity<LocationDetailResponse> getLocationDetail(@Valid @PathVariable("locationId") Long locationId) {
         LocationDetailResponse response = locationService.getLocationDetail(locationId);
