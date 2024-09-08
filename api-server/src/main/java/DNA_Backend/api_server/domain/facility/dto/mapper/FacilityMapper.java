@@ -11,8 +11,7 @@ public interface FacilityMapper {
 
     @Mapping(target = "facilityId", source = "id")
     @Mapping(target = "facilityName", source = "name")
-    @Mapping(target = "type", source = "type")
-    @Mapping(target = "address", source = "address")
+    @Mapping(target = "type", source = "type.value")
     FacilityResponse toResponse(Facility facility);
 
     List<FacilityResponse> toResponses(List<Facility> facilities);

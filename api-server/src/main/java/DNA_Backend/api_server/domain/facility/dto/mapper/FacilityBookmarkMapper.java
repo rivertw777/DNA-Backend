@@ -11,7 +11,7 @@ public interface FacilityBookmarkMapper {
 
     @Mapping(target = "facilityId", source = "facility.id")
     @Mapping(target = "facilityName", source = "facility.name")
-    @Mapping(target = "type", source = "facility.type")
+    @Mapping(target = "type", source = "facility.type.value")
     @Mapping(target = "address", source = "facility.address")
     BookmarkedFacilityResponse toResponse(FacilityBookmark facilityBookmark);
 

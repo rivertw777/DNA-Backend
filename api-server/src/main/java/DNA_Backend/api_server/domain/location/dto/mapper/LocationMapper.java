@@ -11,13 +11,13 @@ import org.mapstruct.Mapping;
 public interface LocationMapper {
 
     @Mapping(target = "locationId", source = "id")
-    @Mapping(target = "locationName", source = "name")
+    @Mapping(target = "locationName", source = "name.value")
     LocationResponse toResponse(Location location);
 
     List<LocationResponse> toResponses(List<Location> locations);
 
     @Mapping(target = "locationId", source = "id")
-    @Mapping(target = "locationName", source = "name")
+    @Mapping(target = "locationName", source = "name.value")
     LocationDetailResponse toDetailResponse(Location location);
 
 }

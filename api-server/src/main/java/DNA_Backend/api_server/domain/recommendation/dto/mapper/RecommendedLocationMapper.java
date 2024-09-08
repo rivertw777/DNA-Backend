@@ -9,9 +9,9 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface RecommendedLocationMapper {
 
-    @Mapping(target = "locationId", source = "recommendedLocation.location.id")
-    @Mapping(target = "locationName", source = "recommendedLocation.location.name")
-    @Mapping(target = "thumbnail", source = "recommendedLocation.location.thumbnail")
+    @Mapping(target = "locationId", source = "location.id")
+    @Mapping(target = "locationName", source = "location.name")
+    @Mapping(target = "thumbnail", source = "location.thumbnail")
     RecommendedLocationResponse toResponse(RecommendedLocation recommendedLocation);
 
     List<RecommendedLocationResponse> toResponses(List<RecommendedLocation> recommendedLocations);
