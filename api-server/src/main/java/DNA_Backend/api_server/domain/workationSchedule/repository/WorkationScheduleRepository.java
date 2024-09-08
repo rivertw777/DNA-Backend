@@ -12,9 +12,9 @@ public interface WorkationScheduleRepository extends JpaRepository<WorkationSche
     @Query("SELECT ws FROM WorkationSchedule ws " +
             "JOIN FETCH ws.location " +
             "LEFT JOIN FETCH ws.workationReview " +
-            "WHERE ws.user.id = :userId")
+            "WHERE ws.user.id = :userId " +
+            "ORDER BY ws.endDate DESC")
     List<WorkationSchedule> findByUserIdWithFetch(@Param("userId") Long userId);
-    void deleteByUserIdAndId(Long userId, Long scheduleId);
     List<WorkationSchedule> findByEndDateBeforeAndIsExpiredFalse(LocalDate now);
     List<WorkationSchedule> findByUserIdAndIsExpiredTrueAndWorkationReviewIsNull(Long userId);
 }
