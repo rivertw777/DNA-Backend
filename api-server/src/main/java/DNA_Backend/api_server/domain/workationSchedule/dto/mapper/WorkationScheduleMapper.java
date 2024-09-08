@@ -13,7 +13,12 @@ public interface WorkationScheduleMapper {
     @Mapping(target = "locationId", source = "location.id")
     @Mapping(target = "locationName", source = "location.name.value")
     @Mapping(target = "locationThumbnail", source = "location.thumbnail")
+    @Mapping(target = "hasReview", expression = "java(hasReview(workationSchedule))")
     WorkationScheduleResponse toResponse(WorkationSchedule workationSchedule);
 
     List<WorkationScheduleResponse> toResponses(List<WorkationSchedule> workationSchedules);
+
+    default boolean hasReview(WorkationSchedule workationSchedule) {
+        return workationSchedule.getWorkationReview() != null;
+    }
 }

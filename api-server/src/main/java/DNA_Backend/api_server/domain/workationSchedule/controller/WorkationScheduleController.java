@@ -54,7 +54,7 @@ public class WorkationScheduleController {
     }
 
     @Operation(summary = "USER - 워케이션 리뷰 작성")
-    @PostMapping("/{scheduleId}/reviews")
+    @PostMapping("/{scheduleId}/workation-reviews")
     public ResponseEntity<Void> writeWorkationReview(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
                                             @Valid @PathVariable("scheduleId") Long scheduleId,
                                             @Valid @RequestBody WriteWorkationReviewRequest requestParam) {
