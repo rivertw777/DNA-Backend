@@ -99,7 +99,7 @@ public class LocationController {
     }
 
     @Operation(summary = "PUBLIC - 단일 지역 워케이션 리뷰 조회")
-    @GetMapping("/api/public/locations/{locationId}/reviews")
+    @GetMapping("/api/public/locations/{locationId}/workation-reviews")
     public ResponseEntity<WorkationReviewPage<WorkationReviewResponse>> getLocationWorkationReviews(
             @Valid @PathVariable(name = "locationId") Long locationId, Pageable pageable) {
         WorkationReviewPage<WorkationReviewResponse> responses = workationReviewService.getLocationWorkationReviews(pageable, locationId);

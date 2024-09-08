@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum SecurityExceptionMessage {
 
-    UNAUTHORIZED("인증이 필요합니다. 로그인해주세요."),
-    NO_AUTHORITY("접근 권한이 없습니다.");
+    UNAUTHORIZED("Authentication is required. Please log in."),
+    NO_AUTHORITY("Access is denied.");
 
     private final String value;
 

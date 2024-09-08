@@ -24,7 +24,7 @@ public class ScheduleNotificationService {
     private final EmailService emailService;
 
     @Transactional
-    @Scheduled(cron = "*/10 * * * * *")
+    @Scheduled(cron = "0 0 2 * * *")
     public void notifyExpiredSchedules() {
         LocalDate now = LocalDate.now();
         List<WorkationSchedule> expiredSchedules = workationScheduleRepository.findByEndDateBeforeAndIsExpiredFalse(now);
