@@ -38,5 +38,6 @@ public interface WorkationReviewMapper {
                 dateTime.getSecond()
         );
     }
+
 }
 

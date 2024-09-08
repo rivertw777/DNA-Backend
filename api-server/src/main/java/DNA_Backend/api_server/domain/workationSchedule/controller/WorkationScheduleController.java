@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -38,10 +39,9 @@ public class WorkationScheduleController {
 
     @Operation(summary = "USER - 워케이션 일정 삭제")
     @DeleteMapping("/{scheduleId}")
-    public ResponseEntity<Void> deleteWorkationSchedule(@AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
-                                                        @Valid @PathVariable("scheduleId") Long scheduleId) {
-        Long userId = userDetailsCustom.getUser().getId();
-        workationScheduleService.deleteWorkationSchedule(userId, scheduleId);
+    public ResponseEntity<Void> deleteWorkationSchedule(@Valid @PathVariable("scheduleId") Long scheduleId,
+                                                        @RequestParam("locationId") Long locationId) {
+        workationScheduleService.deleteWorkationSchedule(scheduleId, locationId);
         return ResponseEntity.ok().build();
     }
 

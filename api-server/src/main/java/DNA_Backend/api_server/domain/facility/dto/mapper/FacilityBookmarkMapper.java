@@ -13,6 +13,7 @@ public interface FacilityBookmarkMapper {
     @Mapping(target = "facilityName", source = "facility.name")
     @Mapping(target = "type", source = "facility.type.value")
     @Mapping(target = "address", source = "facility.address")
+    @Mapping(target = "locationName", source = "facility.location.name.value")
     BookmarkedFacilityResponse toResponse(FacilityBookmark facilityBookmark);
 
     List<BookmarkedFacilityResponse> toResponses(List<FacilityBookmark> facilityBookmarks);

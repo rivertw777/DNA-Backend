@@ -8,6 +8,7 @@ import DNA_Backend.api_server.domain.location.model.entity.Location;
 import DNA_Backend.api_server.domain.location.service.LocationService;
 import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.user.service.UserService;
+import DNA_Backend.api_server.domain.workationReview.service.WorkationService;
 import DNA_Backend.api_server.domain.workationSchedule.dto.response.AllScheduledDatesResponse;
 import DNA_Backend.api_server.domain.workationSchedule.dto.response.WorkationScheduleResponse;
 import DNA_Backend.api_server.domain.workationSchedule.dto.mapper.WorkationScheduleMapper;
@@ -19,6 +20,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +33,7 @@ public class WorkationScheduleService {
     private final UserService userService;
     private final LocationService locationService;
     private final WorkationScheduleMapper workationScheduleMapper;
+    private final WorkationService workationService;
 
     // id로 조회
     public WorkationSchedule findWorkationSchedule(Long scheduleId) {
@@ -75,8 +79,16 @@ public class WorkationScheduleService {
 
     // USER - 워케이션 일정 삭제
     @Transactional
-    public void deleteWorkationSchedule(Long userId, Long scheduleId) {
-        workationScheduleRepository.deleteByUserIdAndId(userId, scheduleId);
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "LocationDetail", key= "#p1"),
+            @CacheEvict(cacheNames = "AllWorkationReviews", allEntries = true),
+            @CacheEvict(cacheNames = "LocationWorkationReviews", key= "#p1"),
+    })
+    public void deleteWorkationSchedule(Long scheduleId, Long locationId) {
+        WorkationSchedule workationSchedule = findWorkationSchedule(scheduleId);
+        Location location = workationSchedule.getLocation();
+        workationScheduleRepository.delete(workationSchedule);
+        workationService.updateLocationData(location);
     }
 
     // USER - 전체 예정된 날짜 조회

@@ -51,6 +51,9 @@ public class Location {
     @Column(name = "average_rating")
     private double averageRating;
 
+    @Column(name = "review_count")
+    private int reviewCount;
+
     @OneToMany(mappedBy = "location")
     private List<RecommendedLocation> recommendedLocations = new ArrayList<>();
 
@@ -67,8 +70,9 @@ public class Location {
     public void addWorkationSchedule(WorkationSchedule workationSchedule) { this.workationSchedules.add(workationSchedule);
     }
 
-    public void setAverageRating(double averageRating) {
+    public void updateData(double averageRating, int reviewCount) {
         this.averageRating = averageRating;
+        this.reviewCount = reviewCount;
     }
 
 }

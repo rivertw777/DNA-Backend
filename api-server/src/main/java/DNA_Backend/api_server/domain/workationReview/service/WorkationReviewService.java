@@ -32,6 +32,7 @@ public class WorkationReviewService {
     private final WorkationScheduleService workationScheduleService;
     private final UserService userService;
     private final WorkationReviewMapper workationReviewMapper;
+    private final WorkationService workationService;
 
     // USER - 워케이션 리뷰 작성
     @Transactional
@@ -46,7 +47,7 @@ public class WorkationReviewService {
         validateReviewNotExists(workationSchedule);
         saveWorkationReview(user, workationSchedule, requestParam);
         Location location = workationSchedule.getLocation();
-        updateLocationAverageRating(location);
+        workationService.updateLocationData(location);
     }
 
     private void validateReviewNotExists(WorkationSchedule workationSchedule) {
@@ -58,16 +59,6 @@ public class WorkationReviewService {
     private void saveWorkationReview(User user, WorkationSchedule workationSchedule, WriteWorkationReviewRequest requestParam){
         WorkationReview workationReview = WorkationReview.createWorkationReview(user, workationSchedule, requestParam.content(), requestParam.rating());
         workationReviewRepository.save(workationReview);
-    }
-
-    // 지역 평점 갱신
-    private void updateLocationAverageRating(Location location) {
-        List<WorkationReview> workationReviews = workationReviewRepository.findByWorkationScheduleLocationId(location.getId());
-        double averageRating = workationReviews.stream()
-                .mapToInt(WorkationReview::getRating)
-                .average()
-                .orElse(0.0);
-        location.setAverageRating(averageRating);
     }
 
     // USER - 전체 워케이션 리뷰 조회
