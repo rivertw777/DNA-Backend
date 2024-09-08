@@ -12,6 +12,7 @@ public interface WorkationScheduleMapper {
     @Mapping(target = "scheduleId", source = "id")
     @Mapping(target = "locationId", source = "location.id")
     @Mapping(target = "locationName", source = "location.name.value")
+    @Mapping(target = "locationThumbnail", source = "location.thumbnail")
     WorkationScheduleResponse toResponse(WorkationSchedule workationSchedule);
 
     List<WorkationScheduleResponse> toResponses(List<WorkationSchedule> workationSchedules);

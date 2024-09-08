@@ -8,6 +8,7 @@ public record WorkationReviewResponse(
         String locationName,
         List<Integer> startDate,
         List<Integer> endDate,
+        int rating,
         String content,
         List<Integer> createdAt) {
 }

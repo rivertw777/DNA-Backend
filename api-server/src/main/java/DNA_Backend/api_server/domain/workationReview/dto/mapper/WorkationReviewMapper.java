@@ -18,6 +18,7 @@ public interface WorkationReviewMapper {
     @Mapping(target = "startDate", expression = "java(convertDateToList(workationReview.getWorkationSchedule().getStartDate()))")
     @Mapping(target = "endDate", expression = "java(convertDateToList(workationReview.getWorkationSchedule().getEndDate()))")
     @Mapping(target = "content", source = "content")
+    @Mapping(target = "rating", source = "rating")
     @Mapping(target = "createdAt", expression = "java(convertDateTimeToList(workationReview.getCreatedAt()))")
     WorkationReviewResponse toResponse(WorkationReview workationReview);
 
