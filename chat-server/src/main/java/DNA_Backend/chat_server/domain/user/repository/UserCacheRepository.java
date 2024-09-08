@@ -1,8 +1,6 @@
 package DNA_Backend.chat_server.domain.user.repository;
 
-import DNA_Backend.chat_server.domain.user.model.Role;
 import DNA_Backend.chat_server.domain.user.model.UserCache;
-import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,8 +20,7 @@ public class UserCacheRepository {
 
     public UserCache getUserCache(String username) {
         String key = USER_CACHE_KEY_PREFIX + username;
-        //UserCache user = userRedisTemplate.opsForValue().get(key);
-        UserCache user = new UserCache(1L, "test", "test@naver.com", "123456", Collections.singletonList(Role.USER));
+        UserCache user = userRedisTemplate.opsForValue().get(key);
         log.info("User {} Cache find", username);
         return user;
     }

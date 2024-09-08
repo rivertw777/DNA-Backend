@@ -40,7 +40,7 @@ public class LocationService {
     @Transactional(readOnly = true)
     @Cacheable(cacheNames = "AllLocations", cacheManager = "redisCacheManager")
     public List<LocationResponse> getAllLocations() {
-        List<Location> locations = locationRepository.findAll();
+        List<Location> locations = locationRepository.findAllByOrderByIdAsc();
         return locationMapper.toResponses(locations);
     }
 

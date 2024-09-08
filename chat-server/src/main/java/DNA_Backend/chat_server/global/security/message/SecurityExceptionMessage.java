@@ -5,10 +5,9 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum JwtExceptionMessage {
+public enum SecurityExceptionMessage {
 
-    INVALID_TOKEN("Invalid token."),
-    EXPIRED_TOKEN("Expired token.");
+    UNAUTHORIZED("Authentication is required. Please log in.");
 
     private final String value;
 
