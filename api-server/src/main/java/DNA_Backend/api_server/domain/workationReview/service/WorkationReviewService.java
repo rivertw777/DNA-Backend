@@ -32,7 +32,7 @@ public class WorkationReviewService {
     private final WorkationScheduleService workationScheduleService;
     private final UserService userService;
     private final WorkationReviewMapper workationReviewMapper;
-    private final WorkationService workationService;
+    private final WorkationScheduleReviewService workationScheduleReviewService;
 
     // USER - 워케이션 리뷰 작성
     @Transactional
@@ -47,7 +47,7 @@ public class WorkationReviewService {
         validateReviewNotExists(workationSchedule);
         saveWorkationReview(user, workationSchedule, requestParam);
         Location location = workationSchedule.getLocation();
-        workationService.updateLocationData(location);
+        workationScheduleReviewService.updateLocationData(location);
     }
 
     private void validateReviewNotExists(WorkationSchedule workationSchedule) {

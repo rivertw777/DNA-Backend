@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class WorkationService {
+public class WorkationScheduleReviewService {
 
     private final WorkationReviewRepository workationReviewRepository;
 
@@ -23,4 +23,5 @@ public class WorkationService {
         int reviewCount = workationReviews.size();
         location.updateData(averageRating, reviewCount);
     }
+
 }

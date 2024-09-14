@@ -8,7 +8,7 @@ import DNA_Backend.api_server.domain.location.model.entity.Location;
 import DNA_Backend.api_server.domain.location.service.LocationService;
 import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.user.service.UserService;
-import DNA_Backend.api_server.domain.workationReview.service.WorkationService;
+import DNA_Backend.api_server.domain.workationReview.service.WorkationScheduleReviewService;
 import DNA_Backend.api_server.domain.workationSchedule.dto.response.AllScheduledDatesResponse;
 import DNA_Backend.api_server.domain.workationSchedule.dto.response.WorkationScheduleResponse;
 import DNA_Backend.api_server.domain.workationSchedule.dto.mapper.WorkationScheduleMapper;
@@ -33,7 +33,7 @@ public class WorkationScheduleService {
     private final UserService userService;
     private final LocationService locationService;
     private final WorkationScheduleMapper workationScheduleMapper;
-    private final WorkationService workationService;
+    private final WorkationScheduleReviewService workationScheduleReviewService;
 
     // id로 조회
     public WorkationSchedule findWorkationSchedule(Long scheduleId) {
@@ -88,7 +88,7 @@ public class WorkationScheduleService {
         WorkationSchedule workationSchedule = findWorkationSchedule(scheduleId);
         Location location = workationSchedule.getLocation();
         workationScheduleRepository.delete(workationSchedule);
-        workationService.updateLocationData(location);
+        workationScheduleReviewService.updateLocationData(location);
     }
 
     // USER - 전체 예정된 날짜 조회
