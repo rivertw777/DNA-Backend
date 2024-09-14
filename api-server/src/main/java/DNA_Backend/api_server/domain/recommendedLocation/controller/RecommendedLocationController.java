@@ -25,7 +25,7 @@ public class RecommendedLocationController {
     private final RecommendedLocationService recommendedLocationService;
 
     @Operation(summary = "USER - 지역 추천")
-    @PostMapping
+    @PostMapping("/locations")
     public ResponseEntity<RecommendLocationResponse> recommendLocation(
             @AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
             @Valid @RequestBody RecommendLocationRequest requestParam) {
