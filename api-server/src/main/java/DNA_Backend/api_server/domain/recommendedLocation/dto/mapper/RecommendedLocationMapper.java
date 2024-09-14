@@ -1,7 +1,7 @@
-package DNA_Backend.api_server.domain.recommendation.dto.mapper;
+package DNA_Backend.api_server.domain.recommendedLocation.dto.mapper;
 
-import DNA_Backend.api_server.domain.recommendation.dto.response.RecommendedLocationResponse;
-import DNA_Backend.api_server.domain.recommendation.model.entity.RecommendedLocation;
+import DNA_Backend.api_server.domain.recommendedLocation.dto.response.RecommendedLocationResponse;
+import DNA_Backend.api_server.domain.recommendedLocation.model.entity.RecommendedLocation;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,3 +17,4 @@ public interface RecommendedLocationMapper {
     List<RecommendedLocationResponse> toResponses(List<RecommendedLocation> recommendedLocations);
 
 }
+

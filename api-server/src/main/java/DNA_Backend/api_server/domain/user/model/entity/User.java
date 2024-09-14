@@ -1,7 +1,7 @@
 package DNA_Backend.api_server.domain.user.model.entity;
 
 import DNA_Backend.api_server.domain.facility.model.entity.FacilityBookmark;
-import DNA_Backend.api_server.domain.recommendation.model.entity.RecommendedLocation;
+import DNA_Backend.api_server.domain.recommendedLocation.model.entity.RecommendedLocation;
 import DNA_Backend.api_server.domain.workationReview.model.entity.WorkationReview;
 import DNA_Backend.api_server.domain.user.model.enums.PopupStatus;
 import DNA_Backend.api_server.domain.user.model.enums.Role;
@@ -138,10 +138,6 @@ public class User {
 
     public void addReview(WorkationReview workationReview) {
         this.workationReviews.add(workationReview);
-    }
-
-    public void deleteAllRecommendLocations() {
-        this.recommendedLocations = new ArrayList<>();
     }
 
 }

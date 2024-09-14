@@ -14,8 +14,14 @@ public enum LocationName {
     CHUNCHEON("chuncheon"),
     YANGYANG("yangyang"),
     GANGNEUNG("gangneung"),
-    WONJU("wonju"),
-    SAMCHEOK("samcheok");
+    YEONGWOL("yeongwol"),
+    SAMCHEOK("samcheok"),
+    HONGCHEON("hongcheon"),
+    HOENGSEONG("hoengseong"),
+    JEONGSEON("jeongseon"),
+    INJE("inje"),
+    GOSEONG("goseong"),
+    PYEONGCHANG("pyeongchang");
 
     private final String value;
 

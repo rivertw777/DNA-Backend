@@ -1,4 +1,4 @@
-package DNA_Backend.api_server.domain.recommendation.dto.request;
+package DNA_Backend.api_server.domain.recommendedLocation.dto.request;
 
 public record RecommendLocationRequest(
         int activities,

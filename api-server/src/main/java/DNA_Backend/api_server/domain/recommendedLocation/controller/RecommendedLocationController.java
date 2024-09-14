@@ -1,9 +1,9 @@
-package DNA_Backend.api_server.domain.recommendation.controller;
+package DNA_Backend.api_server.domain.recommendedLocation.controller;
 
-import DNA_Backend.api_server.domain.recommendation.dto.request.RecommendLocationRequest;
-import DNA_Backend.api_server.domain.recommendation.dto.response.RecommendLocationResponse;
-import DNA_Backend.api_server.domain.recommendation.dto.response.RecommendedLocationResponse;
-import DNA_Backend.api_server.domain.recommendation.service.RecommendationService;
+import DNA_Backend.api_server.domain.recommendedLocation.dto.request.RecommendLocationRequest;
+import DNA_Backend.api_server.domain.recommendedLocation.dto.response.RecommendLocationResponse;
+import DNA_Backend.api_server.domain.recommendedLocation.dto.response.RecommendedLocationResponse;
+import DNA_Backend.api_server.domain.recommendedLocation.service.RecommendedLocationService;
 import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/recommend")
-public class RecommendationController {
+public class RecommendedLocationController {
 
-    private final RecommendationService recommendationService;
+    private final RecommendedLocationService recommendedLocationService;
 
     @Operation(summary = "USER - 지역 추천")
     @PostMapping
@@ -30,7 +30,7 @@ public class RecommendationController {
             @AuthenticationPrincipal UserDetailsCustom userDetailsCustom,
             @Valid @RequestBody RecommendLocationRequest requestParam) {
         Long userId = userDetailsCustom.getUser().getId();
-        RecommendLocationResponse response = recommendationService.recommendLocation(userId, requestParam);
+        RecommendLocationResponse response = recommendedLocationService.recommendLocation(userId, requestParam);
         return ResponseEntity.ok(response);
     }
 
@@ -39,7 +39,7 @@ public class RecommendationController {
     public ResponseEntity<List<RecommendedLocationResponse>> getRecommendedLocations (
             @AuthenticationPrincipal UserDetailsCustom userDetailsCustom) {
         Long userId = userDetailsCustom.getUser().getId();
-        List<RecommendedLocationResponse> responses = recommendationService.getRecommendedLocations(userId);
+        List<RecommendedLocationResponse> responses = recommendedLocationService.getRecommendedLocations(userId);
         return ResponseEntity.ok(responses);
     }
 

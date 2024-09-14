@@ -1,16 +1,16 @@
-package DNA_Backend.api_server.domain.recommendation.service;
+package DNA_Backend.api_server.domain.recommendedLocation.service;
 
-import static DNA_Backend.api_server.domain.recommendation.message.RecommendationExceptionMessage.LOCATION_RECOMMEND_REQUEST_FAILED;
+import static DNA_Backend.api_server.domain.recommendedLocation.message.RecommendedLocationExceptionMessage.LOCATION_RECOMMEND_REQUEST_FAILED;
 
 import DNA_Backend.api_server.domain.location.model.entity.Location;
 import DNA_Backend.api_server.domain.location.model.enums.LocationName;
 import DNA_Backend.api_server.domain.location.service.LocationService;
-import DNA_Backend.api_server.domain.recommendation.dto.mapper.RecommendedLocationMapper;
-import DNA_Backend.api_server.domain.recommendation.dto.request.RecommendLocationRequest;
-import DNA_Backend.api_server.domain.recommendation.dto.response.RecommendLocationResponse;
-import DNA_Backend.api_server.domain.recommendation.dto.response.RecommendedLocationResponse;
-import DNA_Backend.api_server.domain.recommendation.model.entity.RecommendedLocation;
-import DNA_Backend.api_server.domain.recommendation.repository.RecommendedLocationRepository;
+import DNA_Backend.api_server.domain.recommendedLocation.dto.mapper.RecommendedLocationMapper;
+import DNA_Backend.api_server.domain.recommendedLocation.dto.request.RecommendLocationRequest;
+import DNA_Backend.api_server.domain.recommendedLocation.dto.response.RecommendLocationResponse;
+import DNA_Backend.api_server.domain.recommendedLocation.dto.response.RecommendedLocationResponse;
+import DNA_Backend.api_server.domain.recommendedLocation.model.entity.RecommendedLocation;
+import DNA_Backend.api_server.domain.recommendedLocation.repository.RecommendedLocationRepository;
 import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.user.service.UserService;
 import DNA_Backend.api_server.global.exception.DnaApplicationException;
@@ -23,7 +23,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 @RequiredArgsConstructor
-public class RecommendationService {
+public class RecommendedLocationService {
 
     @Value("${inference.app.url}")
     private String inferenceAppUrl;

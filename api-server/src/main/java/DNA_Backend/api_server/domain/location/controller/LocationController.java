@@ -8,6 +8,8 @@ import DNA_Backend.api_server.domain.location.dto.response.LocationWeatherRespon
 import DNA_Backend.api_server.domain.location.dto.response.LocationDetailResponse;
 import DNA_Backend.api_server.domain.location.dto.response.LocationResponse;
 import DNA_Backend.api_server.domain.location.service.LocationService;
+import DNA_Backend.api_server.domain.workationOffice.dto.response.WorkationOfficeResponse;
+import DNA_Backend.api_server.domain.workationOffice.service.WorkationOfficeService;
 import DNA_Backend.api_server.domain.workationReview.dto.response.WorkationReviewResponse;
 import DNA_Backend.api_server.domain.workationReview.service.WorkationReviewService;
 import DNA_Backend.api_server.domain.workationReview.utils.WorkationReviewPage;
@@ -35,6 +37,7 @@ public class LocationController {
     private final FacilityService facilityService;
     private final WorkationScheduleService workationScheduleService;
     private final WorkationReviewService workationReviewService;
+    private final WorkationOfficeService workationOfficeService;
 
     @Operation(summary = "PUBLIC - 전체 지역 조회")
     @GetMapping("/api/public/locations")
@@ -103,6 +106,14 @@ public class LocationController {
     public ResponseEntity<WorkationReviewPage<WorkationReviewResponse>> getLocationWorkationReviews(
             @Valid @PathVariable(name = "locationId") Long locationId, Pageable pageable) {
         WorkationReviewPage<WorkationReviewResponse> responses = workationReviewService.getLocationWorkationReviews(pageable, locationId);
+        return ResponseEntity.ok(responses);
+    }
+
+    @Operation(summary = "PUBLIC - 워케이션 오피스 검색 by 지역 Id")
+    @GetMapping("/api/public/locations/{locationId}/workation-offices/search")
+    public ResponseEntity<List<WorkationOfficeResponse>> searchWorkationOfficesByLocationId(
+            @Valid @PathVariable(name = "locationId") Long locationId) {
+        List<WorkationOfficeResponse> responses = workationOfficeService.searchWorkationOfficesByLocationId(locationId);
         return ResponseEntity.ok(responses);
     }
 

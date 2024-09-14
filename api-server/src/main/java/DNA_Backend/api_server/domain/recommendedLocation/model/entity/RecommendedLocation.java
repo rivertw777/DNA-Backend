@@ -1,4 +1,4 @@
-package DNA_Backend.api_server.domain.recommendation.model.entity;
+package DNA_Backend.api_server.domain.recommendedLocation.model.entity;
 
 import DNA_Backend.api_server.domain.location.model.entity.Location;
 import DNA_Backend.api_server.domain.user.model.entity.User;
