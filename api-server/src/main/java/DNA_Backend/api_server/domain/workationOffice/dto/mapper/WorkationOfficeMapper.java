@@ -10,14 +10,15 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface WorkationOfficeMapper {
 
-    @Mapping(target = "workationOfficeId", source = "id")
-    @Mapping(target = "workationName", source = "name")
+    @Mapping(target = "facilityId", source = "id")
+    @Mapping(target = "facilityName", source = "name")
+    @Mapping(target = "type", expression = "java(\"Workation Office\")")
     WorkationOfficeResponse toResponse(WorkationOffice workationOffice);
 
     List<WorkationOfficeResponse> toResponses(List<WorkationOffice> workationOffices);
 
     @Mapping(target = "workationOfficeId", source = "id")
-    @Mapping(target = "workationName", source = "name")
+    @Mapping(target = "workationOfficeName", source = "name")
     WorkationOfficeDetailResponse toDetailResponse(WorkationOffice workationOffice);
 
 }

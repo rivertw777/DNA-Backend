@@ -31,7 +31,7 @@ public class WorkationOffice {
     private double longitude;
 
     @Column(name = "open_time", insertable = false, updatable = false)
-    private String openTime;
+    private String businessHours;
 
     @Column(name = "tel_number", insertable = false, updatable = false)
     private String telNumber;
