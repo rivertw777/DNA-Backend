@@ -1,7 +1,7 @@
 package DNA_Backend.chat_server.global.security.auth;
 
 import DNA_Backend.chat_server.domain.user.model.UserCache;
-import DNA_Backend.chat_server.domain.user.repository.UserCacheRepository;
+import DNA_Backend.chat_server.domain.user.service.UserCacheService;
 import DNA_Backend.chat_server.global.security.jwt.TokenManager;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -16,12 +16,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserDetailsServiceCustom implements UserDetailsService {
 
-    private final UserCacheRepository userCacheRepository;
+    private final UserCacheService userCacheService;
     private final TokenManager tokenManager;
 
     @Override
     public UserDetailsCustom loadUserByUsername(String username) {
-        UserCache user = userCacheRepository.getUserCache(username);
+        UserCache user = userCacheService.getUserCache(username);
         return new UserDetailsCustom(user);
     }
 

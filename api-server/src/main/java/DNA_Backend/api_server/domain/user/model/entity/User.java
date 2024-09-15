@@ -60,7 +60,7 @@ public class User {
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
-    private List<Role> roles = new ArrayList<>();
+    private List<Role> roles;
 
     @Column(name = "provider")
     private String provider;
@@ -74,13 +74,13 @@ public class User {
     private PopupStatus popupStatus;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<RecommendedLocation> recommendedLocations = new ArrayList<>();
+    private List<RecommendedLocation> recommendedLocations;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<FacilityBookmark> facilityBookmarks = new ArrayList<>();
+    private List<FacilityBookmark> facilityBookmarks;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<WorkationSchedule> workationSchedules = new ArrayList<>();
+    private List<WorkationSchedule> workationSchedules;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<WorkationReview> workationReviews;

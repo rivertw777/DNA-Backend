@@ -1,4 +1,4 @@
-package DNA_Backend.api_server.domain.user.repository;
+package DNA_Backend.api_server.domain.user.service;
 
 import DNA_Backend.api_server.domain.user.model.entity.User;
 import java.time.Duration;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-public class UserCacheRepository {
+public class UserCacheService {
 
     private final String USER_CACHE_KEY_PREFIX = "UserCache:";
 

@@ -3,7 +3,7 @@ package DNA_Backend.api_server.global.security.auth;
 import static DNA_Backend.api_server.domain.user.message.UserExceptionMessage.USER_NAME_NOT_FOUND;
 
 import DNA_Backend.api_server.domain.user.model.entity.User;
-import DNA_Backend.api_server.domain.user.repository.UserCacheRepository;
+import DNA_Backend.api_server.domain.user.service.UserCacheService;
 import DNA_Backend.api_server.domain.user.repository.UserRepository;
 import DNA_Backend.api_server.global.exception.DnaApplicationException;
 import DNA_Backend.api_server.global.security.jwt.TokenManager;
@@ -20,7 +20,7 @@ public class UserDetailsServiceCustom implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final TokenManager tokenManager;
-    private final UserCacheRepository userCacheRepository;
+    private final UserCacheService userCacheService;
 
     // 이름으로 회원 조회
     @Override
@@ -30,11 +30,11 @@ public class UserDetailsServiceCustom implements UserDetailsService {
     }
 
     private User getUserFromCache(String username) {
-        User user = userCacheRepository.getUserCache(username);
+        User user = userCacheService.getUserCache(username);
         if (user == null) {
             user = userRepository.findByUsername(username)
                     .orElseThrow(() -> new DnaApplicationException(USER_NAME_NOT_FOUND.getValue()));
-            userCacheRepository.setUserCache(username, user);
+            userCacheService.setUserCache(username, user);
         }
         return user;
     }

@@ -17,6 +17,9 @@ import DNA_Backend.api_server.global.exception.DnaApplicationException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Recover;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -36,6 +39,7 @@ public class RecommendedLocationService {
 
     // USER - 지역 추천
     @Transactional
+    @Retryable(value = Exception.class, maxAttempts = 3, backoff = @Backoff(delay = 1000))
     public RecommendLocationResponse recommendLocation(Long userId, RecommendLocationRequest requestParam) {
         User user = userService.findUser(userId);
         RecommendLocationResponse response = getRecommendLocationResponse(requestParam);
@@ -45,16 +49,15 @@ public class RecommendedLocationService {
 
     // 추천 API 요청
     private RecommendLocationResponse getRecommendLocationResponse(RecommendLocationRequest requestParam) {
-        try {
-            RecommendLocationResponse response = restTemplate.postForObject(
-                    inferenceAppUrl + "/recommend",
-                    requestParam,
-                    RecommendLocationResponse.class
-            );
-            return response;
-        } catch (Exception e) {
-            throw new DnaApplicationException(LOCATION_RECOMMEND_REQUEST_FAILED.getValue());
-        }
+        return restTemplate.postForObject(
+                inferenceAppUrl + "/recommend",
+                requestParam,
+                RecommendLocationResponse.class);
+    }
+
+    @Recover
+    public RecommendLocationResponse recover(Exception e) {
+        throw new DnaApplicationException(LOCATION_RECOMMEND_REQUEST_FAILED.getValue());
     }
 
     // 사용자 추천 지역 초기화
