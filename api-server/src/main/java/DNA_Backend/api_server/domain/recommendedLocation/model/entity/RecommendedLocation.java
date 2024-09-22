@@ -2,6 +2,7 @@ package DNA_Backend.api_server.domain.recommendedLocation.model.entity;
 
 import DNA_Backend.api_server.domain.location.model.entity.Location;
 import DNA_Backend.api_server.domain.user.model.entity.User;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -30,6 +31,10 @@ public class RecommendedLocation {
     private Long id;
 
     @NotNull
+    @Column(name = "ranking")
+    private int ranking;
+
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -39,10 +44,11 @@ public class RecommendedLocation {
     @JoinColumn(name = "location_id")
     private Location location;
 
-    public static RecommendedLocation createRecommendedLocation(User user, Location location) {
+    public static RecommendedLocation createRecommendedLocation(User user, Location location, int ranking) {
         RecommendedLocation recommendedLocation = RecommendedLocation.builder()
                 .user(user)
                 .location(location)
+                .ranking(ranking)
                 .build();
         user.addRecommendedLocation(recommendedLocation);
         location.addRecommendedLocation(recommendedLocation);

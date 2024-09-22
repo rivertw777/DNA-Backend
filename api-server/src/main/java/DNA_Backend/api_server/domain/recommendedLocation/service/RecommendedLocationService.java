@@ -7,6 +7,7 @@ import DNA_Backend.api_server.domain.location.model.enums.LocationName;
 import DNA_Backend.api_server.domain.location.service.LocationService;
 import DNA_Backend.api_server.domain.recommendedLocation.dto.mapper.RecommendedLocationMapper;
 import DNA_Backend.api_server.domain.recommendedLocation.dto.request.RecommendLocationRequest;
+import DNA_Backend.api_server.domain.recommendedLocation.dto.response.LocationData;
 import DNA_Backend.api_server.domain.recommendedLocation.dto.response.RecommendLocationResponse;
 import DNA_Backend.api_server.domain.recommendedLocation.dto.response.RecommendedLocationResponse;
 import DNA_Backend.api_server.domain.recommendedLocation.model.entity.RecommendedLocation;
@@ -43,7 +44,7 @@ public class RecommendedLocationService {
     public RecommendLocationResponse recommendLocation(Long userId, RecommendLocationRequest requestParam) {
         User user = userService.findUser(userId);
         RecommendLocationResponse response = getRecommendLocationResponse(requestParam);
-        initUserRecommendedLocations(user, response.locationNames());
+        initUserRecommendedLocations(user, response.locations());
         return response;
     }
 
@@ -61,16 +62,18 @@ public class RecommendedLocationService {
     }
 
     // 사용자 추천 지역 초기화
-    private void initUserRecommendedLocations(User user, List<String> locationNames) {
+    private void initUserRecommendedLocations(User user, List<LocationData> locations) {
         recommendedLocationRepository.deleteByUserId(user.getId());
-        locationNames.stream()
-                .map(LocationName::fromValue)
-                .map(locationService::findLocation)
-                .forEach(location -> saveRecommendedLocation(user, location));
+
+        for (LocationData locationData : locations) {
+            LocationName locationName = LocationName.fromValue(locationData.locationName());
+            Location location = locationService.findLocation(locationName);
+            saveRecommendedLocation(user, location, locationData.ranking());
+        }
     }
 
-    private void saveRecommendedLocation(User user, Location location) {
-        RecommendedLocation recommendedLocation = RecommendedLocation.createRecommendedLocation(user, location);
+    private void saveRecommendedLocation(User user, Location location, int ranking) {
+        RecommendedLocation recommendedLocation = RecommendedLocation.createRecommendedLocation(user, location, ranking);
         recommendedLocationRepository.save(recommendedLocation);
     }
 
