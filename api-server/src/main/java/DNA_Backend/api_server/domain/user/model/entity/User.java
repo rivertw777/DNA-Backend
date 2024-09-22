@@ -2,6 +2,7 @@ package DNA_Backend.api_server.domain.user.model.entity;
 
 import DNA_Backend.api_server.domain.facility.model.entity.FacilityBookmark;
 import DNA_Backend.api_server.domain.recommendedLocation.model.entity.RecommendedLocation;
+import DNA_Backend.api_server.domain.workationOffice.model.entity.WorkationOfficeBookmark;
 import DNA_Backend.api_server.domain.workationReview.model.entity.WorkationReview;
 import DNA_Backend.api_server.domain.user.model.enums.PopupStatus;
 import DNA_Backend.api_server.domain.user.model.enums.Role;
@@ -31,7 +32,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @JsonIgnoreProperties({"provider", "providerId", "popupStatus", "recommendedLocations", "facilityBookmarks",
-        "workationSchedules", "workationReviews"})
+        "workationOfficeBookmarks", "workationSchedules", "workationReviews"})
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -74,16 +75,19 @@ public class User {
     private PopupStatus popupStatus;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<RecommendedLocation> recommendedLocations;
+    private List<RecommendedLocation> recommendedLocations = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<FacilityBookmark> facilityBookmarks;
+    private List<FacilityBookmark> facilityBookmarks = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<WorkationSchedule> workationSchedules;
+    private List<WorkationOfficeBookmark> workationOfficeBookmarks = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<WorkationReview> workationReviews;
+    private List<WorkationSchedule> workationSchedules = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<WorkationReview> workationReviews = new ArrayList<>();
 
     // 일반 회원 가입
     public static User createUser(String username, String email, String encodedPassword) {
@@ -130,6 +134,10 @@ public class User {
 
     public void addFacilityBookmark(FacilityBookmark facilityBookmark){
         this.facilityBookmarks.add(facilityBookmark);
+    }
+
+    public void addWorkationOfficeBookmark(WorkationOfficeBookmark workationOfficeBookmark){
+        this.workationOfficeBookmarks.add(workationOfficeBookmark);
     }
 
     public void addSchedule(WorkationSchedule workationSchedule){

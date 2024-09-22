@@ -31,7 +31,7 @@ public class FacilityBookmarkService {
     public void bookmarkFacility(Long userId, Long facilityId) {
         User user = userService.findUser(userId);
         Facility facility = facilityService.findFacility(facilityId);
-        validateBookmarkNotExists(user.getId(), facilityId);
+        validateBookmarkNotExists(userId, facilityId);
         saveFacilityBookmark(user, facility);
     }
 

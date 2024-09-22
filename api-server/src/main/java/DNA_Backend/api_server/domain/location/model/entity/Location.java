@@ -36,6 +36,12 @@ public class Location {
     @Column(name = "thumbnail", insertable = false, updatable = false)
     private String thumbnail;
 
+    @Column(name = "keyword", insertable = false, updatable = false)
+    private String keyword;
+
+    @Column(name = "description", insertable = false, updatable = false)
+    private String description;
+
     @Column(name = "average_rating")
     private double averageRating;
 

@@ -14,6 +14,8 @@ public interface RecommendedLocationMapper {
     @Mapping(target = "thumbnail", source = "location.thumbnail")
     @Mapping(target = "latitude", source = "location.latitude")
     @Mapping(target = "longitude", source = "location.longitude")
+    @Mapping(target = "keyword", source = "location.keyword")
+    @Mapping(target = "description", source = "location.description")
     RecommendedLocationResponse toResponse(RecommendedLocation recommendedLocation);
 
     List<RecommendedLocationResponse> toResponses(List<RecommendedLocation> recommendedLocations);

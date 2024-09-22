@@ -54,7 +54,7 @@ public class WorkationSchedule extends BaseTimeEntity {
     private Location location;
 
     // 수정 예정
-    @OneToOne(mappedBy = "workationSchedule", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "workationSchedule", cascade = CascadeType.ALL)
     private WorkationReview workationReview;
 
     @NotNull

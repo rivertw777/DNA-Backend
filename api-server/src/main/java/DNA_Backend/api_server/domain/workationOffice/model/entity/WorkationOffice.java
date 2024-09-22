@@ -1,13 +1,17 @@
 package DNA_Backend.api_server.domain.workationOffice.model.entity;
 
 import DNA_Backend.api_server.domain.location.model.entity.Location;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 
 @Getter
@@ -42,5 +46,12 @@ public class WorkationOffice {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id", insertable = false, updatable = false)
     private Location location;
+
+    @OneToMany(mappedBy = "workationOffice", cascade = CascadeType.ALL)
+    private List<WorkationOfficeBookmark> workationOfficeBookmarks = new ArrayList<>();
+
+    public void addWorkationOfficeBookmark(WorkationOfficeBookmark workationOfficeBookmark) {
+        this.workationOfficeBookmarks.add(workationOfficeBookmark);
+    }
 
 }
