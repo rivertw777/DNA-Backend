@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum LocationName {
 
-    SOCKCHO("sockcho"),
+    SOCKCHO("sokcho"),
     CHUNCHEON("chuncheon"),
     YANGYANG("yangyang"),
     GANGNEUNG("gangneung"),
