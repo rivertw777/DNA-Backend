@@ -1,12 +1,12 @@
 .<div align="center">
-<img src="https://a1bnb-project.s3.ap-northeast-2.amazonaws.com/%EB%8C%80%EB%AC%B83.png" width="800px" height="270px"/></a>
+![asdasdasdasd](https://github.com/user-attachments/assets/9981521a-b934-4c3b-ba90-158fc4d25226)
 </div>
 <br>
 
 # 🖥 DNA
 <br>
 <div align="center">
-<b>DNA(Digital Nomad Attraction)는 추천시스템 기반 외국인 디지털 노마드 워케이션 정보 제공 서비스입니다.<br>
+<b>DNA(Digital Nomad Attraction)는 해외 디지털 노마드를 위한 맟춤 워케이션 지역 추천 서비스입니다.<br>
 <b>본 서비스는 해외 디지털 노마드를 대상으로 강원특별자치도를 워케이션 여행지로 소개하고 추천합니다.<br>
 <b>또한 각 지역에서 원격 근무와 여행을 동시에 즐길 수 있도록 다양한 정보 및 기능들을 제공합니다.<br>	
 </div>
@@ -50,7 +50,8 @@
 ## 🛠️&nbsp;&nbsp;&nbsp;Project Architecture&nbsp;&nbsp;&nbsp;
 <br>
 <div align="center">
-<img src="https://a1bnb-project.s3.ap-northeast-2.amazonaws.com/%ED%94%8C%EC%A0%9D+%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98.png" width="83.7%"/></a>
+	
+![dna](https://github.com/user-attachments/assets/04441419-ea61-4c4b-9334-5d4c4f38d309)
 </div>
 <br>
 <br>
@@ -69,8 +70,11 @@
 <table border=""4>
   
   <tr>
-    <td rowspan="1" align="center"><b>BE</td>
+    <td rowspan="2" align="center"><b>BE</td>
     <td><img src="https://user-images.githubusercontent.com/112257466/209075280-78be8487-7d6a-485c-92a8-d6677f0caab9.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>Spring Boot</td>
+  </tr>
+  <tr>
+    <td><img src="https://oopy.lazyrockets.com/api/v2/notion/image?src=https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F8ce5e86e-0ad9-4f4f-9f83-24f640b95ea4%2Fd4eebbbc-5a22-46dd-87a3-5adc5166b97a%2Ffastapi-1.svg&blockId=fc630fe9-2f36-4317-8d1b-04cf2740031b&width=256" width="15px" alt="_icon" />&nbsp;&nbsp;<b>FastAPI</td>
   </tr>
 
   <tr>
@@ -79,15 +83,18 @@
   </tr>
 
   <tr>
-    <td rowspan="2" align="center"><b>DB</td>
-    <td><img src="https://user-images.githubusercontent.com/112257466/209078356-d9120e3d-9498-4ee4-a38d-139a263910f4.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>MySQL</td>
+    <td rowspan="3" align="center"><b>DB</td>
+    <td><img src="https://w7.pngwing.com/pngs/448/730/png-transparent-postgresql-plain-logo-icon.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>PostgreSQL</td>
   </tr>
   <tr>
     <td><img src="https://p7.hiclipart.com/preview/282/358/343/redis-database-erlang-cache-computer-servers-others-thumbnail.jpg" width="15px" alt="_icon" />&nbsp;&nbsp;<b>Redis</td>
   </tr>
+  <tr>
+    <td><img src="https://www.mongodb.com/assets/images/global/leaf.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>MongoDB</td>
+  </tr>
   
   <tr>
-    <td rowspan="6" align="center"><b>Infra</td>
+    <td rowspan="4" align="center"><b>Infra</td>
     <td><img src="https://static-00.iconduck.com/assets.00/aws-ec2-icon-423x512-iaajemnx.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS EC2</td>
   </tr>
   <tr>
@@ -99,23 +106,16 @@
   <tr>
     <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Amazon-S3-Logo.svg/1200px-Amazon-S3-Logo.svg.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS S3</td>
   </tr>
-  <tr>
-    <td><img src="https://www.tsmean.com/assets/img/the-ultimate-aws-lambda-tutorial-for-nodejs/aws-lambda-logo.svg" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS Lambda</td>
-  </tr>
-  <tr>
-    <td><img src="https://iconape.com/wp-content/files/kz/370585/svg/aws-api-gateway-logo-icon-png-svg.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS Api Gateway</td>
-  </tr>
 	    
   <tr>
-  <td rowspan="3" align="center"><b>CI/CD</td>
+  <td rowspan="2" align="center"><b>CI/CD</td>
       <td><img src="https://www.svgrepo.com/show/353659/docker-icon.svg" width="15px" alt="_icon" />&nbsp;&nbsp;<b>Docker</td>
   </tr>
   <tr>
       <td><img src="https://cdn.icon-icons.com/icons2/2699/PNG/512/jenkins_logo_icon_170552.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>Jenkins</td>
   </tr>
   <tr>
-      <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFrK09IvHpZZXR7UwT4C9F-lSA9BOXh0-QmXx7aZ3Ngw&s" width="15px" alt="_icon" />&nbsp;&nbsp;<b>Ngrok</td>
-  </tr>
+	  
 </table>
 </div>
 
