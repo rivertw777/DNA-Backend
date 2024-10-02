@@ -6,7 +6,9 @@
 # 🖥 DNA
 <br>
 <div align="center">
-<b>DNA(Digital Nomad Attraction)는 추천시스템 기반 외국인 디지털 노마드 워케이션 정보제공 서비스입니다.<br>
+<b>DNA(Digital Nomad Attraction)는 추천시스템 기반 외국인 디지털 노마드 워케이션 정보 제공 서비스입니다.<br>
+<b>본 서비스는 해외 디지털 노마드를 대상으로 강원특별자치도를 워케이션 여행지로 소개하고 추천합니다.<br>
+<b>또한 각 지역에서 원격 근무와 여행을 동시에 즐길 수 있도록 다양한 정보 및 기능들을 제공합니다.<br>	
 </div>
 <br>
 <br>
@@ -38,7 +40,10 @@
 
 ## 🛠️&nbsp;&nbsp;&nbsp;시연 영상&nbsp;&nbsp;&nbsp;
 <br>
-
+<div align="center">
+	
+[![Video Title](https://img.youtube.com/vi/V-obquo1iJc/0.jpg)](https://www.youtube.com/watch?v=V-obquo1iJc)
+</div>
 <br>
 <br>
 
