@@ -56,14 +56,6 @@
 <br>
 <br>
 
-## 🛠️&nbsp;&nbsp;&nbsp;ERD&nbsp;&nbsp;&nbsp;
-<br>
-<div align="center">
-<img src="https://a1bnb-project.s3.ap-northeast-2.amazonaws.com/a1bnb+erd.png" width="100%"/></a>
-</div>
-<br>
-<br>
-
 ## 🛠️&nbsp;&nbsp;&nbsp;Tech Stacks&nbsp;&nbsp;&nbsp;
 <br>
 <div align="center">
