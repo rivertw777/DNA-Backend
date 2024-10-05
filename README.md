@@ -56,6 +56,25 @@
 <br>
 <br>
 
+## 🛠️&nbsp;&nbsp;&nbsp;ERD&nbsp;&nbsp;&nbsp;
+<br>
+
+<div align="center">
+
+<div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+  <div style="text-align: left;">
+    <h3>Locations ERD</h3>
+    <img src="https://github.com/user-attachments/assets/5b69e948-9b25-4566-b253-6aabaaca95fd" alt="Locations ERD" height="500"/>
+  </div>
+  <div style="text-align: right;">
+    <h3>Users ERD</h3>
+    <img src="https://github.com/user-attachments/assets/a87ea7e1-cced-4e6f-8752-b0aa6cb8077c" alt="Users ERD" height="500"/>
+  </div>
+</div>
+
+<br>
+<br>
+
 ## 🛠️&nbsp;&nbsp;&nbsp;Tech Stacks&nbsp;&nbsp;&nbsp;
 <br>
 <div align="center">
