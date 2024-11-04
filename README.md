@@ -17,12 +17,7 @@
 <br>
 <div align="center">
 <table border=""4>
-
-  <tr>
-    <td rowspan="1" align="center"><b>배포 링크</td>
-    <td>https://dna-kangwon.site/</td>
-  </tr>
-	  	    
+	    
   <tr>
     <td rowspan="1" align="center"><b>Frontend Repo</td>
     <td>https://github.com/choaeri/DNA_Frontend</td>
