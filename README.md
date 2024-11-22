@@ -101,7 +101,7 @@
   
   <tr>
     <td rowspan="4" align="center"><b>Infra</td>
-    <td><img src="https://static-00.iconduck.com/assets.00/aws-ec2-icon-423x512-iaajemnx.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS EC2</td>
+    <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJw8utG9EjSW1-doGUZw_aNQW5gDxw1dNIfQ&s" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS EC2</td>
   </tr>
   <tr>
     <td><img src="https://seeklogo.com/images/A/aws-rds-relational-database-service-logo-99EA3E8EA4-seeklogo.com.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS RDS</td>
