@@ -6,8 +6,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FacilityRepository extends JpaRepository<Facility, Long>, FacilityRepositoryCustom {
-    List<Facility> findByLatitudeBetweenAndLongitudeBetweenAndType(
-            double latMin, double latMax, double lngMin, double lngMax, FacilityType type);
     List<Facility> findByLocationIdAndType(Long locationId, FacilityType type);
     long countByLocationId(Long locationId);
 }

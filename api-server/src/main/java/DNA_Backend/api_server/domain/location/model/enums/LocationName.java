@@ -1,8 +1,8 @@
 package DNA_Backend.api_server.domain.location.model.enums;
 
-import static DNA_Backend.api_server.domain.location.message.LocationExceptionMessage.INVALID_LOCATION_NAME;
+import static DNA_Backend.api_server.domain.location.exception.LocationExceptionMessage.INVALID_LOCATION_NAME;
 
-import DNA_Backend.api_server.global.exception.DnaApplicationException;
+import DNA_Backend.api_server.common.exception.DnaApplicationException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

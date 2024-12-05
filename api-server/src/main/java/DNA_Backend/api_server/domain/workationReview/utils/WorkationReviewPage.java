@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 @Getter
 @NoArgsConstructor
 public class WorkationReviewPage<T> {
+
     private List<T> content;
     private int totalPages;
     private long totalElements;

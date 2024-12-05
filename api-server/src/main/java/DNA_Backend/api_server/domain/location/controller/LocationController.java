@@ -2,7 +2,7 @@ package DNA_Backend.api_server.domain.location.controller;
 
 import DNA_Backend.api_server.domain.location.dto.request.CreateWorkationScheduleRequest;
 import DNA_Backend.api_server.domain.workationSchedule.service.WorkationScheduleService;
-import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
+import DNA_Backend.api_server.common.security.auth.UserDetailsCustom;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

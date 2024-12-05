@@ -64,7 +64,7 @@ public class Location {
     public void addWorkationSchedule(WorkationSchedule workationSchedule) { this.workationSchedules.add(workationSchedule);
     }
 
-    public void updateData(double averageRating, int reviewCount) {
+    public void updateReviewData(double averageRating, int reviewCount) {
         this.averageRating = averageRating;
         this.reviewCount = reviewCount;
     }

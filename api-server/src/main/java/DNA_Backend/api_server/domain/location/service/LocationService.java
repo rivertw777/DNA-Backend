@@ -1,6 +1,6 @@
 package DNA_Backend.api_server.domain.location.service;
 
-import static DNA_Backend.api_server.domain.location.message.LocationExceptionMessage.LOCATION_NOT_FOUND;
+import static DNA_Backend.api_server.domain.location.exception.LocationExceptionMessage.LOCATION_NOT_FOUND;
 
 import DNA_Backend.api_server.domain.location.dto.mapper.LocationMapper;
 import DNA_Backend.api_server.domain.location.dto.response.LocationWeatherResponse;
@@ -9,7 +9,7 @@ import DNA_Backend.api_server.domain.location.dto.response.LocationResponse;
 import DNA_Backend.api_server.domain.location.model.entity.Location;
 import DNA_Backend.api_server.domain.location.model.enums.LocationName;
 import DNA_Backend.api_server.domain.location.repository.LocationRepository;
-import DNA_Backend.api_server.global.exception.DnaApplicationException;
+import DNA_Backend.api_server.common.exception.DnaApplicationException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;

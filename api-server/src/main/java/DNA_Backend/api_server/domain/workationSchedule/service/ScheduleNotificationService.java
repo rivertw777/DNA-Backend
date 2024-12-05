@@ -6,7 +6,7 @@ import DNA_Backend.api_server.domain.user.model.enums.PopupStatus;
 import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.workationSchedule.model.entity.WorkationSchedule;
 import DNA_Backend.api_server.domain.workationSchedule.repository.WorkationScheduleRepository;
-import DNA_Backend.api_server.global.email.service.EmailService;
+import DNA_Backend.api_server.common.email.service.EmailService;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -37,8 +37,9 @@ public class ScheduleNotificationService {
         String locationName = capitalizeFirstLetter(schedule.getLocation().getName().getValue());
         String subject = getSubject(locationName);
         String text = getText(user.getUsername(), locationName);
+
         emailService.sendEmail(email, subject, text);
-        upDateStatus(user, schedule);
+        updateStatus(user, schedule);
     }
 
     private String getSubject(String locationName) {
@@ -54,7 +55,7 @@ public class ScheduleNotificationService {
         return text;
     }
 
-    private void upDateStatus(User user, WorkationSchedule schedule) {
+    private void updateStatus(User user, WorkationSchedule schedule) {
         user.setPopupStatus(PopupStatus.REVIEW_WRITING);
         schedule.setIsExpired(true);
     }

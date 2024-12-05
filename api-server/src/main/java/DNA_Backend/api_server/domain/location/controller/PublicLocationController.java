@@ -31,8 +31,8 @@ public class PublicLocationController {
 
     private final LocationService locationService;
     private final FacilityService facilityService;
-    private final WorkationReviewService workationReviewService;
     private final WorkationOfficeService workationOfficeService;
+    private final WorkationReviewService workationReviewService;
 
     @Operation(summary = "PUBLIC - 전체 지역 조회")
     @GetMapping
@@ -71,6 +71,14 @@ public class PublicLocationController {
         return ResponseEntity.ok(responses);
     }
 
+    @Operation(summary = "PUBLIC - 워케이션 오피스 검색 by 지역 Id")
+    @GetMapping("/{locationId}/workation-offices/search")
+    public ResponseEntity<List<WorkationOfficeResponse>> searchWorkationOfficesByLocationId(
+            @Valid @PathVariable(name = "locationId") Long locationId) {
+        List<WorkationOfficeResponse> responses = workationOfficeService.searchWorkationOfficesByLocationId(locationId);
+        return ResponseEntity.ok(responses);
+    }
+
     @Operation(summary = "PUBLIC - 전체 지역 총 시설 수 조회")
     @GetMapping("/facilities/count")
     public ResponseEntity<List<LocationTotalFacilityCountResponse>> getAllLocationTotalFacilityCounts() {
@@ -86,19 +94,18 @@ public class PublicLocationController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "PUBLIC - 전체 지역 워케이션 리뷰 조회")
+    @GetMapping("/workation-reviews")
+    public ResponseEntity<WorkationReviewPage<WorkationReviewResponse>> getAllLocationWorkationReviews(Pageable pageable) {
+        WorkationReviewPage<WorkationReviewResponse> responses = workationReviewService.getAllLocationWorkationReviews(pageable);
+        return ResponseEntity.ok(responses);
+    }
+
     @Operation(summary = "PUBLIC - 단일 지역 워케이션 리뷰 조회")
     @GetMapping("/{locationId}/workation-reviews")
     public ResponseEntity<WorkationReviewPage<WorkationReviewResponse>> getLocationWorkationReviews(
             @Valid @PathVariable(name = "locationId") Long locationId, Pageable pageable) {
         WorkationReviewPage<WorkationReviewResponse> responses = workationReviewService.getLocationWorkationReviews(pageable, locationId);
-        return ResponseEntity.ok(responses);
-    }
-
-    @Operation(summary = "PUBLIC - 워케이션 오피스 검색 by 지역 Id")
-    @GetMapping("/{locationId}/workation-offices/search")
-    public ResponseEntity<List<WorkationOfficeResponse>> searchWorkationOfficesByLocationId(
-            @Valid @PathVariable(name = "locationId") Long locationId) {
-        List<WorkationOfficeResponse> responses = workationOfficeService.searchWorkationOfficesByLocationId(locationId);
         return ResponseEntity.ok(responses);
     }
 

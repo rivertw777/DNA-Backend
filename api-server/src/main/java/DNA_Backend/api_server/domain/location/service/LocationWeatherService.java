@@ -1,11 +1,11 @@
 package DNA_Backend.api_server.domain.location.service;
 
-import static DNA_Backend.api_server.domain.location.message.LocationExceptionMessage.LOCATION_WEATHER_REQUEST_FAILED;
+import static DNA_Backend.api_server.domain.location.exception.LocationExceptionMessage.LOCATION_WEATHER_REQUEST_FAILED;
 
 import DNA_Backend.api_server.domain.location.dto.response.LocationWeatherResponse;
 import DNA_Backend.api_server.domain.location.dto.LocationWeatherApiResponse;
 import DNA_Backend.api_server.domain.location.model.entity.Location;
-import DNA_Backend.api_server.global.exception.DnaApplicationException;
+import DNA_Backend.api_server.common.exception.DnaApplicationException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -44,11 +44,10 @@ public class LocationWeatherService {
 
     private LocationWeatherApiResponse getLocationWeatherApiResponse(String url) {
         try {
-            LocationWeatherApiResponse response = restTemplate.getForObject(url, LocationWeatherApiResponse.class);
-            return response;
+            return restTemplate.getForObject(url, LocationWeatherApiResponse.class);
         } catch (Exception e) {
             throw new DnaApplicationException(LOCATION_WEATHER_REQUEST_FAILED.getValue());
         }
     }
-
+    
 }

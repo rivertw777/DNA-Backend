@@ -10,6 +10,7 @@ public record WorkationReviewResponse(
         List<Integer> endDate,
         int rating,
         String content,
-        List<Integer> createdAt) {
+        List<Integer> createdAt
+) {
 }
 

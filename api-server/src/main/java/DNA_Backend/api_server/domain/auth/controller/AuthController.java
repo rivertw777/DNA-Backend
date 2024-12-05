@@ -3,7 +3,8 @@ package DNA_Backend.api_server.domain.auth.controller;
 import DNA_Backend.api_server.domain.auth.dto.request.UpdateUsernameRequest;
 import DNA_Backend.api_server.domain.auth.dto.response.CheckFirstSocialLoginResponse;
 import DNA_Backend.api_server.domain.auth.service.AuthService;
-import DNA_Backend.api_server.global.security.cookie.CookieManager;
+import DNA_Backend.api_server.common.security.cookie.CookieManager;
+import DNA_Backend.api_server.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService authService;
+    private final UserService userService;
     private final CookieManager cookieManager;
 
     @Operation(summary = "USER - 소셜 계정 최초 로그인 확인")
@@ -39,7 +41,7 @@ public class AuthController {
                                             @AuthenticationPrincipal(expression = "username") String username,
                                             @Valid @RequestBody UpdateUsernameRequest requestParam) {
         cookieManager.deleteCookie(request, response);
-        authService.updateUsername(username, requestParam.newUsername());
+        userService.updateUsername(username, requestParam.newUsername());
         String token = authService.getToken(requestParam.newUsername());
         cookieManager.setCookie(response, token);
         return ResponseEntity.ok().build();

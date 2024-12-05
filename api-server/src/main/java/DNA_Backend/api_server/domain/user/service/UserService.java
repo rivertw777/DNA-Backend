@@ -1,7 +1,7 @@
 package DNA_Backend.api_server.domain.user.service;
 
-import static DNA_Backend.api_server.domain.user.message.UserExceptionMessage.USER_NAME_NOT_FOUND;
-import static DNA_Backend.api_server.domain.user.message.UserExceptionMessage.USER_NOT_FOUND;
+import static DNA_Backend.api_server.domain.user.exception.UserExceptionMessage.USER_NAME_NOT_FOUND;
+import static DNA_Backend.api_server.domain.user.exception.UserExceptionMessage.USER_NOT_FOUND;
 
 import DNA_Backend.api_server.domain.user.dto.request.CheckDuplicateUsernameRequest;
 import DNA_Backend.api_server.domain.user.dto.request.SendEmailCodeRequest;
@@ -14,8 +14,8 @@ import DNA_Backend.api_server.domain.user.dto.response.VerifyEmailCodeResponse;
 import DNA_Backend.api_server.domain.user.model.enums.PopupStatus;
 import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.user.repository.UserRepository;
-import DNA_Backend.api_server.global.exception.DnaApplicationException;
-import DNA_Backend.api_server.global.redis.service.RedisService;
+import DNA_Backend.api_server.common.exception.DnaApplicationException;
+import DNA_Backend.api_server.common.redis.repository.RedisRepository;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,15 +27,15 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserService {
 
-    private static final String EMAIL_AUTH_CODE_PREFIX = "Email Auth Code: ";
+    private static final String EMAIL_AUTH_CODE_PREFIX = "EmailAuthCode: ";
 
     @Value("${spring.mail.auth-code-expiration-millis}")
     private long authCodeExpirationMillis;
 
     private final UserRepository userRepository;
     private final EmailVerificationService emailVerificationService;
-    private final RedisService redisService;
     private final PasswordEncoder passwordEncoder;
+    private final RedisRepository redisRepository;
 
     // id로 조회
     public User findUser(Long userId) {
@@ -77,7 +77,7 @@ public class UserService {
     public void sendEmailCode(SendEmailCodeRequest reqeustParam) {
         String code = createCode();
         emailVerificationService.sendEmail(reqeustParam.email(), code);
-        redisService.setWithExpiration(EMAIL_AUTH_CODE_PREFIX + reqeustParam.email(), code, authCodeExpirationMillis);
+        redisRepository.setWithExpiration(EMAIL_AUTH_CODE_PREFIX + reqeustParam.email(), code, authCodeExpirationMillis);
     }
 
     private String createCode() {
@@ -87,9 +87,16 @@ public class UserService {
 
     // PUBLIC - 이메일 인증 코드 검증
     public VerifyEmailCodeResponse verifyEmailCode(VerifyEmailCodeRequest requestParam) {
-        String findCode = redisService.get(EMAIL_AUTH_CODE_PREFIX + requestParam.email());
+        String findCode = redisRepository.get(EMAIL_AUTH_CODE_PREFIX + requestParam.email());
         boolean isVerified = requestParam.code().equals(findCode);
         return new VerifyEmailCodeResponse(isVerified);
+    }
+
+    // USER - 새 이름 입력
+    @Transactional
+    public void updateUsername(String username, String newUsername) {
+        User user = findUser(username);
+        user.setUsername(newUsername);
     }
 
     // USER - 팝업 상태 조회

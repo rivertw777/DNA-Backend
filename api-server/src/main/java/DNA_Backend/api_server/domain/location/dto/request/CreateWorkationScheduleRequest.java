@@ -1,12 +1,15 @@
 package DNA_Backend.api_server.domain.location.dto.request;
 
-import static DNA_Backend.api_server.domain.workationSchedule.message.WorkationScheduleExceptionMessage.SAME_DATE;
-import static DNA_Backend.api_server.domain.workationSchedule.message.WorkationScheduleExceptionMessage.START_DATE_AFTER_END_DATE;
+import static DNA_Backend.api_server.domain.workationSchedule.exception.WorkationScheduleExceptionMessage.SAME_DATE;
+import static DNA_Backend.api_server.domain.workationSchedule.exception.WorkationScheduleExceptionMessage.START_DATE_AFTER_END_DATE;
 
-import DNA_Backend.api_server.global.exception.DnaApplicationException;
+import DNA_Backend.api_server.common.exception.DnaApplicationException;
 import java.time.LocalDate;
 
-public record CreateWorkationScheduleRequest(LocalDate startDate, LocalDate endDate) {
+public record CreateWorkationScheduleRequest(
+        LocalDate startDate,
+        LocalDate endDate
+) {
     public CreateWorkationScheduleRequest {
         validateScheduleDates(startDate, endDate);
     }

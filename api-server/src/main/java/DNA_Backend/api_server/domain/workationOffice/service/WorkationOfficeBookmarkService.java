@@ -1,7 +1,7 @@
 package DNA_Backend.api_server.domain.workationOffice.service;
 
-import static DNA_Backend.api_server.domain.facility.message.FacilityExceptionMessage.ALREADY_BOOKMARK;
-import static DNA_Backend.api_server.domain.facility.message.FacilityExceptionMessage.ALREADY_UNBOOKMARK;
+import static DNA_Backend.api_server.domain.facility.exception.FacilityExceptionMessage.ALREADY_BOOKMARK;
+import static DNA_Backend.api_server.domain.facility.exception.FacilityExceptionMessage.ALREADY_UNBOOKMARK;
 
 import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.user.service.UserService;
@@ -11,7 +11,7 @@ import DNA_Backend.api_server.domain.workationOffice.dto.response.CheckWorkation
 import DNA_Backend.api_server.domain.workationOffice.model.entity.WorkationOffice;
 import DNA_Backend.api_server.domain.workationOffice.model.entity.WorkationOfficeBookmark;
 import DNA_Backend.api_server.domain.workationOffice.repository.WorkationOfficeBookmarkRepository;
-import DNA_Backend.api_server.global.exception.DnaApplicationException;
+import DNA_Backend.api_server.common.exception.DnaApplicationException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,8 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class WorkationOfficeBookmarkService {
 
     private final WorkationOfficeBookmarkRepository workationOfficeBookmarkRepository;
-    private final WorkationOfficeService workationOfficeService;
     private final UserService userService;
+    private final WorkationOfficeService workationOfficeService;
     private final WorkationOfficeBookmarkMapper workationOfficeBookmarkMapper;
 
     // USER - 워케이션 오피스 북마크

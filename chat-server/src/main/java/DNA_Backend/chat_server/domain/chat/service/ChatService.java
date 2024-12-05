@@ -5,7 +5,7 @@ import DNA_Backend.chat_server.domain.chat.dto.ChatMessage;
 import DNA_Backend.chat_server.domain.chat.dto.ChatRoomMessageResponse;
 import DNA_Backend.chat_server.domain.chat.dto.MessageType;
 import DNA_Backend.chat_server.domain.chat.repository.ChatMessageRepository;
-import DNA_Backend.chat_server.global.redis.messaging.RedisPublisher;
+import DNA_Backend.chat_server.common.redis.messaging.RedisPublisher;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;

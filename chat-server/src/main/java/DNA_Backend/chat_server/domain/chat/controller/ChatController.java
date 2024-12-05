@@ -30,7 +30,7 @@ public class ChatController {
     // 채팅방 메시지 조회
     @GetMapping("/api/chat/{roomId}")
     @ResponseBody
-    public ResponseEntity<List<ChatRoomMessageResponse>> getChatMessagesByRoomId(@PathVariable("roomId") String roomId) {
+    public ResponseEntity<List<ChatRoomMessageResponse>> getChatMessagesByRoomId(@Valid @PathVariable("roomId") String roomId) {
         List<ChatRoomMessageResponse> responses = chatService.getChatMessagesByRoomId(roomId);
         return ResponseEntity.ok(responses);
     }

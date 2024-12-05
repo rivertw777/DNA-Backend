@@ -3,7 +3,7 @@ package DNA_Backend.api_server.domain.user.controller;
 import DNA_Backend.api_server.domain.user.dto.response.UserPopupStatusResponse;
 import DNA_Backend.api_server.domain.user.dto.response.UsernameResponse;
 import DNA_Backend.api_server.domain.user.service.UserService;
-import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
+import DNA_Backend.api_server.common.security.auth.UserDetailsCustom;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

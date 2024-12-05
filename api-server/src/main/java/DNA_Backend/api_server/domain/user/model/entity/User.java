@@ -31,8 +31,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@JsonIgnoreProperties({"provider", "providerId", "popupStatus", "recommendedLocations", "facilityBookmarks",
-        "workationOfficeBookmarks", "workationSchedules", "workationReviews"})
+@JsonIgnoreProperties({
+        "provider",
+        "providerId",
+        "popupStatus",
+        "recommendedLocations",
+        "facilityBookmarks",
+        "workationOfficeBookmarks",
+        "workationSchedules",
+        "workationReviews"
+})
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -92,20 +100,19 @@ public class User {
     // 일반 회원 가입
     public static User createUser(String username, String email, String encodedPassword) {
         List<Role> roles = new ArrayList<>(List.of(Role.USER));
-        User user = User.builder()
+        return User.builder()
                 .username(username)
                 .email(email)
                 .password(encodedPassword)
                 .roles(roles)
                 .popupStatus(PopupStatus.NONE)
                 .build();
-        return user;
     }
 
     // 소셜 계정 회원 가입
     public static User createUser(String username, String email, String provider, String providerId) {
         List<Role> roles = new ArrayList<>(List.of(Role.USER));
-        User user = User.builder()
+        return User.builder()
                 .username(username)
                 .email(email)
                 .roles(roles)
@@ -113,7 +120,6 @@ public class User {
                 .providerId(providerId)
                 .popupStatus(PopupStatus.NONE)
                 .build();
-        return user;
     }
 
     public void setUsername(String username) {

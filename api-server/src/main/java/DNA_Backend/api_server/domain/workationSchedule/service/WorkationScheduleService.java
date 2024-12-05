@@ -1,20 +1,20 @@
 package DNA_Backend.api_server.domain.workationSchedule.service;
 
-import static DNA_Backend.api_server.domain.workationSchedule.message.WorkationScheduleExceptionMessage.OVERLAPPING_SCHEDULE;
-import static DNA_Backend.api_server.domain.workationSchedule.message.WorkationScheduleExceptionMessage.SCHEDULE_NOT_FOUND;
+import static DNA_Backend.api_server.domain.workationSchedule.exception.WorkationScheduleExceptionMessage.OVERLAPPING_SCHEDULE;
+import static DNA_Backend.api_server.domain.workationSchedule.exception.WorkationScheduleExceptionMessage.SCHEDULE_NOT_FOUND;
 
 import DNA_Backend.api_server.domain.location.dto.request.CreateWorkationScheduleRequest;
 import DNA_Backend.api_server.domain.location.model.entity.Location;
 import DNA_Backend.api_server.domain.location.service.LocationService;
 import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.user.service.UserService;
-import DNA_Backend.api_server.domain.workationReview.service.WorkationScheduleReviewService;
+import DNA_Backend.api_server.domain.workationReview.service.LocationReviewService;
 import DNA_Backend.api_server.domain.workationSchedule.dto.response.AllScheduledDatesResponse;
 import DNA_Backend.api_server.domain.workationSchedule.dto.response.WorkationScheduleResponse;
 import DNA_Backend.api_server.domain.workationSchedule.dto.mapper.WorkationScheduleMapper;
 import DNA_Backend.api_server.domain.workationSchedule.model.entity.WorkationSchedule;
 import DNA_Backend.api_server.domain.workationSchedule.repository.WorkationScheduleRepository;
-import DNA_Backend.api_server.global.exception.DnaApplicationException;
+import DNA_Backend.api_server.common.exception.DnaApplicationException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,8 +32,8 @@ public class WorkationScheduleService {
     private final WorkationScheduleRepository workationScheduleRepository;
     private final UserService userService;
     private final LocationService locationService;
+    private final LocationReviewService locationReviewService;
     private final WorkationScheduleMapper workationScheduleMapper;
-    private final WorkationScheduleReviewService workationScheduleReviewService;
 
     // id로 조회
     public WorkationSchedule findWorkationSchedule(Long scheduleId) {
@@ -81,14 +81,14 @@ public class WorkationScheduleService {
     @Transactional
     @Caching(evict = {
             @CacheEvict(cacheNames = "LocationDetail", key= "#p1"),
-            @CacheEvict(cacheNames = "AllWorkationReviews", allEntries = true),
+            @CacheEvict(cacheNames = "AllLocationWorkationReviews", allEntries = true),
             @CacheEvict(cacheNames = "LocationWorkationReviews", key= "#p1"),
     })
     public void deleteWorkationSchedule(Long scheduleId, Long locationId) {
         WorkationSchedule workationSchedule = findWorkationSchedule(scheduleId);
         Location location = workationSchedule.getLocation();
         workationScheduleRepository.delete(workationSchedule);
-        workationScheduleReviewService.updateLocationData(location);
+        locationReviewService.updateReviewData(location);
     }
 
     // USER - 전체 예정된 날짜 조회
@@ -97,7 +97,11 @@ public class WorkationScheduleService {
         List<WorkationSchedule> schedules = workationScheduleRepository.findByUserId(userId);
         List<LocalDate> scheduledDates = schedules.stream()
                 .flatMap(schedule ->
-                        Stream.iterate(schedule.getStartDate(), date -> !date.isAfter(schedule.getEndDate()), date -> date.plusDays(1))
+                        Stream.iterate(
+                                schedule.getStartDate(),
+                                date -> !date.isAfter(schedule.getEndDate()),
+                                date -> date.plusDays(1)
+                        )
                 )
                 .collect(Collectors.toList());
         return new AllScheduledDatesResponse(scheduledDates);

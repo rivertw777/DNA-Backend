@@ -1,6 +1,6 @@
 package DNA_Backend.api_server.domain.user.service;
 
-import DNA_Backend.api_server.global.email.service.EmailService;
+import DNA_Backend.api_server.common.email.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

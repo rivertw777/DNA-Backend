@@ -3,7 +3,7 @@ package DNA_Backend.api_server.domain.facility.controller;
 import DNA_Backend.api_server.domain.facility.dto.response.BookmarkedFacilityResponse;
 import DNA_Backend.api_server.domain.facility.dto.response.CheckFacilityBookmarkResponse;
 import DNA_Backend.api_server.domain.facility.service.FacilityBookmarkService;
-import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
+import DNA_Backend.api_server.common.security.auth.UserDetailsCustom;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import java.util.List;

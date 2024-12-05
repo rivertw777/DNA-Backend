@@ -3,7 +3,7 @@ package DNA_Backend.api_server.domain.workationOffice.controller;
 import DNA_Backend.api_server.domain.workationOffice.dto.response.BookmarkedWorkationOfficeResponse;
 import DNA_Backend.api_server.domain.workationOffice.dto.response.CheckWorkationOfficeBookmarkResponse;
 import DNA_Backend.api_server.domain.workationOffice.service.WorkationOfficeBookmarkService;
-import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
+import DNA_Backend.api_server.common.security.auth.UserDetailsCustom;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import java.util.List;

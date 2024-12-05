@@ -1,20 +1,20 @@
 package DNA_Backend.api_server.domain.recommendedLocation.service;
 
-import static DNA_Backend.api_server.domain.recommendedLocation.message.RecommendedLocationExceptionMessage.LOCATION_RECOMMEND_REQUEST_FAILED;
+import static DNA_Backend.api_server.domain.recommendedLocation.exception.RecommendedLocationExceptionMessage.LOCATION_RECOMMEND_REQUEST_FAILED;
 
 import DNA_Backend.api_server.domain.location.model.entity.Location;
 import DNA_Backend.api_server.domain.location.model.enums.LocationName;
 import DNA_Backend.api_server.domain.location.service.LocationService;
 import DNA_Backend.api_server.domain.recommendedLocation.dto.mapper.RecommendedLocationMapper;
 import DNA_Backend.api_server.domain.recommendedLocation.dto.request.RecommendLocationRequest;
-import DNA_Backend.api_server.domain.recommendedLocation.dto.response.LocationData;
+import DNA_Backend.api_server.domain.recommendedLocation.dto.LocationData;
 import DNA_Backend.api_server.domain.recommendedLocation.dto.response.RecommendLocationResponse;
 import DNA_Backend.api_server.domain.recommendedLocation.dto.response.RecommendedLocationResponse;
 import DNA_Backend.api_server.domain.recommendedLocation.model.entity.RecommendedLocation;
 import DNA_Backend.api_server.domain.recommendedLocation.repository.RecommendedLocationRepository;
 import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.user.service.UserService;
-import DNA_Backend.api_server.global.exception.DnaApplicationException;
+import DNA_Backend.api_server.common.exception.DnaApplicationException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,11 +32,11 @@ public class RecommendedLocationService {
     @Value("${inference.app.url}")
     private String inferenceAppUrl;
 
-    private final RestTemplate restTemplate;
+    private final RecommendedLocationRepository recommendedLocationRepository;
     private final UserService userService;
     private final LocationService locationService;
-    private final RecommendedLocationRepository recommendedLocationRepository;
     private final RecommendedLocationMapper recommendedLocationMapper;
+    private final RestTemplate restTemplate;
 
     // USER - 지역 추천
     @Transactional

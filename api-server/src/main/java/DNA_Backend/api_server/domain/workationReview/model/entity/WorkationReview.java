@@ -2,7 +2,7 @@ package DNA_Backend.api_server.domain.workationReview.model.entity;
 
 import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.workationSchedule.model.entity.WorkationSchedule;
-import DNA_Backend.api_server.global.model.entity.BaseTimeEntity;
+import DNA_Backend.api_server.common.model.entity.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

@@ -1,6 +1,6 @@
 package DNA_Backend.api_server.domain.facility.service;
 
-import static DNA_Backend.api_server.domain.facility.message.FacilityExceptionMessage.FACILITY_NOT_FOUND;
+import static DNA_Backend.api_server.domain.facility.exception.FacilityExceptionMessage.FACILITY_NOT_FOUND;
 
 import DNA_Backend.api_server.domain.facility.dto.mapper.FacilityMapper;
 import DNA_Backend.api_server.domain.facility.dto.response.FacilityResponse;
@@ -8,7 +8,7 @@ import DNA_Backend.api_server.domain.facility.dto.response.LocationTotalFacility
 import DNA_Backend.api_server.domain.facility.model.entity.Facility;
 import DNA_Backend.api_server.domain.facility.model.enums.FacilityType;
 import DNA_Backend.api_server.domain.facility.repository.FacilityRepository;
-import DNA_Backend.api_server.global.exception.DnaApplicationException;
+import DNA_Backend.api_server.common.exception.DnaApplicationException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -28,17 +28,9 @@ public class FacilityService {
                 .orElseThrow(()->new DnaApplicationException(FACILITY_NOT_FOUND.getValue()));
     }
 
-    // PUBLIC - 시설 검색 by 위도, 경도 & 타입
-    @Transactional(readOnly = true)
-    public List<FacilityResponse> searchFacilities(double latMin, double latMax, double lngMin, double lngMax, String facilityType) {
-        FacilityType type = FacilityType.fromValue(facilityType);
-        List<Facility> facilities = facilityRepository.findByLatitudeBetweenAndLongitudeBetweenAndType(
-                latMin, latMax, lngMin, lngMax, type);
-        return facilityMapper.toResponses(facilities);
-    }
-
     // PUBLIC - 시설 검색 by 지역 Id & 타입
     @Transactional(readOnly = true)
+    @Cacheable(cacheNames = "FacilitySearchResults", key = "#p0 + ':' + #p1", cacheManager = "redisCacheManager")
     public List<FacilityResponse> searchFacilitiesByLocationIdAndType(Long locationId, String facilityType) {
         FacilityType type = FacilityType.fromValue(facilityType);
         List<Facility> facilities = facilityRepository.findByLocationIdAndType(locationId, type);

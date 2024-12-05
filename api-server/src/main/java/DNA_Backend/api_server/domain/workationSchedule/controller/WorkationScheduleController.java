@@ -5,7 +5,7 @@ import DNA_Backend.api_server.domain.workationSchedule.dto.request.WriteWorkatio
 import DNA_Backend.api_server.domain.workationSchedule.dto.response.AllScheduledDatesResponse;
 import DNA_Backend.api_server.domain.workationSchedule.dto.response.WorkationScheduleResponse;
 import DNA_Backend.api_server.domain.workationSchedule.service.WorkationScheduleService;
-import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
+import DNA_Backend.api_server.common.security.auth.UserDetailsCustom;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import java.util.List;

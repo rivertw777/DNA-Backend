@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 public class WorkationReviewPageKeyGenerator implements KeyGenerator {
     @Override
     public Object generate(Object target, Method method, Object... params) {
-        Object locationId = (params.length > 1) ? params[1] : "SimpleKey []";
-        return locationId;
+        return (params.length > 1) ? params[1] : "SimpleKey []";
     }
 }
+
 
 
 

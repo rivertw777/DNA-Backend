@@ -1,6 +1,6 @@
 package DNA_Backend.api_server.domain.workationReview.service;
 
-import static DNA_Backend.api_server.domain.workationReview.message.WorkationReviewExceptionMessage.ALREADY_EXISTS;
+import static DNA_Backend.api_server.domain.workationReview.exception.WorkationReviewExceptionMessage.ALREADY_EXISTS;
 
 import DNA_Backend.api_server.domain.location.model.entity.Location;
 import DNA_Backend.api_server.domain.workationReview.dto.mapper.WorkationReviewMapper;
@@ -12,7 +12,7 @@ import DNA_Backend.api_server.domain.user.service.UserService;
 import DNA_Backend.api_server.domain.workationSchedule.dto.request.WriteWorkationReviewRequest;
 import DNA_Backend.api_server.domain.workationSchedule.model.entity.WorkationSchedule;
 import DNA_Backend.api_server.domain.workationSchedule.service.WorkationScheduleService;
-import DNA_Backend.api_server.global.exception.DnaApplicationException;
+import DNA_Backend.api_server.common.exception.DnaApplicationException;
 import DNA_Backend.api_server.domain.workationReview.utils.WorkationReviewPage;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -29,16 +29,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class WorkationReviewService {
 
     private final WorkationReviewRepository workationReviewRepository;
-    private final WorkationScheduleService workationScheduleService;
     private final UserService userService;
+    private final WorkationScheduleService workationScheduleService;
+    private final LocationReviewService locationReviewService;
     private final WorkationReviewMapper workationReviewMapper;
-    private final WorkationScheduleReviewService workationScheduleReviewService;
 
     // USER - 워케이션 리뷰 작성
     @Transactional
     @Caching(evict = {
             @CacheEvict(cacheNames = "LocationDetail", key= "#p3"),
-            @CacheEvict(cacheNames = "AllWorkationReviews", allEntries = true),
+            @CacheEvict(cacheNames = "AllLocationWorkationReviews", allEntries = true),
             @CacheEvict(cacheNames = "LocationWorkationReviews", key= "#p3"),
     })
     public void writeWorkationReview(Long userId, Long scheduleId, WriteWorkationReviewRequest requestParam, Long locationId) {
@@ -47,7 +47,7 @@ public class WorkationReviewService {
         validateReviewNotExists(workationSchedule);
         saveWorkationReview(user, workationSchedule, requestParam);
         Location location = workationSchedule.getLocation();
-        workationScheduleReviewService.updateLocationData(location);
+        locationReviewService.updateReviewData(location);
     }
 
     private void validateReviewNotExists(WorkationSchedule workationSchedule) {
@@ -70,8 +70,8 @@ public class WorkationReviewService {
 
     // PUBLIC - 전체 워케이션 리뷰 조회
     @Transactional(readOnly = true)
-    @Cacheable(cacheNames = "AllWorkationReviews", keyGenerator = "WorkationReviewPageKeyGenerator", cacheManager = "redisCacheManager")
-    public WorkationReviewPage<WorkationReviewResponse> getAllWorkationReviews(Pageable pageable) {
+    @Cacheable(cacheNames = "AllLocationWorkationReviews", keyGenerator = "WorkationReviewPageKeyGenerator", cacheManager = "redisCacheManager")
+    public WorkationReviewPage<WorkationReviewResponse> getAllLocationWorkationReviews(Pageable pageable) {
         Page<WorkationReview> reviewPage = workationReviewRepository.findAll(pageable);
         return new WorkationReviewPage<>(reviewPage.map(workationReviewMapper::toResponse));
     }

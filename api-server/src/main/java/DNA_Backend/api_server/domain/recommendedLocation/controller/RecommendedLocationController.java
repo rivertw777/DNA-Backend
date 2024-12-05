@@ -4,7 +4,7 @@ import DNA_Backend.api_server.domain.recommendedLocation.dto.request.RecommendLo
 import DNA_Backend.api_server.domain.recommendedLocation.dto.response.RecommendLocationResponse;
 import DNA_Backend.api_server.domain.recommendedLocation.dto.response.RecommendedLocationResponse;
 import DNA_Backend.api_server.domain.recommendedLocation.service.RecommendedLocationService;
-import DNA_Backend.api_server.global.security.auth.UserDetailsCustom;
+import DNA_Backend.api_server.common.security.auth.UserDetailsCustom;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import java.util.List;

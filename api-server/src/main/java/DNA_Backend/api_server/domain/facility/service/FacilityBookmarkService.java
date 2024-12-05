@@ -1,7 +1,7 @@
 package DNA_Backend.api_server.domain.facility.service;
 
-import static DNA_Backend.api_server.domain.facility.message.FacilityExceptionMessage.ALREADY_BOOKMARK;
-import static DNA_Backend.api_server.domain.facility.message.FacilityExceptionMessage.ALREADY_UNBOOKMARK;
+import static DNA_Backend.api_server.domain.facility.exception.FacilityExceptionMessage.ALREADY_BOOKMARK;
+import static DNA_Backend.api_server.domain.facility.exception.FacilityExceptionMessage.ALREADY_UNBOOKMARK;
 
 import DNA_Backend.api_server.domain.facility.dto.mapper.FacilityBookmarkMapper;
 import DNA_Backend.api_server.domain.facility.dto.response.BookmarkedFacilityResponse;
@@ -11,7 +11,7 @@ import DNA_Backend.api_server.domain.facility.model.entity.FacilityBookmark;
 import DNA_Backend.api_server.domain.facility.repository.FacilityBookmarkRepository;
 import DNA_Backend.api_server.domain.user.model.entity.User;
 import DNA_Backend.api_server.domain.user.service.UserService;
-import DNA_Backend.api_server.global.exception.DnaApplicationException;
+import DNA_Backend.api_server.common.exception.DnaApplicationException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,8 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class FacilityBookmarkService {
 
     private final FacilityBookmarkRepository facilityBookmarkRepository;
-    private final FacilityService facilityService;
     private final UserService userService;
+    private final FacilityService facilityService;
     private final FacilityBookmarkMapper facilityBookmarkMapper;
 
     // USER - 시설 북마크

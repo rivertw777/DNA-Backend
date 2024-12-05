@@ -1,8 +1,8 @@
 package DNA_Backend.api_server.domain.facility.model.enums;
 
-import static DNA_Backend.api_server.domain.facility.message.FacilityExceptionMessage.UNKNOWN_TYPE;
+import static DNA_Backend.api_server.domain.facility.exception.FacilityExceptionMessage.UNKNOWN_TYPE;
 
-import DNA_Backend.api_server.global.exception.DnaApplicationException;
+import DNA_Backend.api_server.common.exception.DnaApplicationException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
