@@ -8,5 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LocationRepository extends JpaRepository<Location, Long> {
     List<Location> findAllByOrderByIdAsc();
+
     Optional<Location> findByName(LocationName locationName);
 }

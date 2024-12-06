@@ -80,7 +80,7 @@ public class RecommendedLocationService {
     // USER - 전체 추천 지역 조회
     @Transactional(readOnly = true)
     public List<RecommendedLocationResponse> getRecommendedLocations(Long userId) {
-        List<RecommendedLocation> recommendedLocations = recommendedLocationRepository.findByUserId(userId);
+        List<RecommendedLocation> recommendedLocations = recommendedLocationRepository.findByUserIdOrderByRankingAscWithFetchJoin(userId);
         return recommendedLocationMapper.toResponses(recommendedLocations);
     }
 

@@ -69,7 +69,7 @@ public class WorkationOfficeBookmarkService {
     // USER - 전체 북마크 워케이션 오피스 조회
     @Transactional(readOnly = true)
     public List<BookmarkedWorkationOfficeResponse> getAllBookmarkedWorkationOffices(Long userId) {
-        List<WorkationOfficeBookmark> workationOfficeBookmarks = workationOfficeBookmarkRepository.findByUserId(userId);
+        List<WorkationOfficeBookmark> workationOfficeBookmarks = workationOfficeBookmarkRepository.findByUserIdWithFetchJoin(userId);
         return workationOfficeBookmarkMapper.toResponses(workationOfficeBookmarks);
     }
 

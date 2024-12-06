@@ -51,7 +51,7 @@ public class WorkationScheduleService {
     }
 
     private void validateScheduleOverlap(Long userId, LocalDate startDate, LocalDate endDate) {
-        List<WorkationSchedule> schedules = workationScheduleRepository.findByUserId(userId);
+        List<WorkationSchedule> schedules = workationScheduleRepository.findByUserIdWithFetchJoin(userId);
         schedules.stream()
                 .filter(schedule -> isOverlapping(schedule.getStartDate(), schedule.getEndDate(), startDate, endDate))
                 .findAny()
@@ -73,7 +73,7 @@ public class WorkationScheduleService {
     // USER - 전체 워케이션 일정 조회
     @Transactional(readOnly = true)
     public List<WorkationScheduleResponse> getAllWorkationSchedules(Long userId) {
-        List<WorkationSchedule> workationSchedules = workationScheduleRepository.findByUserIdWithFetch(userId);
+        List<WorkationSchedule> workationSchedules = workationScheduleRepository.findByUserIdWithFetchJoin(userId);
         return workationScheduleMapper.toResponses(workationSchedules);
     }
 
@@ -110,7 +110,7 @@ public class WorkationScheduleService {
     // USER - 만료되고 리뷰 없는 일정 조회
     @Transactional
     public List<WorkationScheduleResponse> getExpiredNoReviewScheduleResponse(Long userId) {
-        List<WorkationSchedule> workationSchedules = workationScheduleRepository.findByUserIdAndIsExpiredTrueAndWorkationReviewIsNull(userId);
+        List<WorkationSchedule> workationSchedules = workationScheduleRepository.findByUserIdAndIsExpiredTrueAndWorkationReviewIsNullWithFetchJoin(userId);
         return workationScheduleMapper.toResponses(workationSchedules);
     }
 

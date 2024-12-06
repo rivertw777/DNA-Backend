@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FacilityRepository extends JpaRepository<Facility, Long>, FacilityRepositoryCustom {
     List<Facility> findByLocationIdAndType(Long locationId, FacilityType type);
+
     long countByLocationId(Long locationId);
 }

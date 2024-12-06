@@ -53,7 +53,7 @@ public class WorkationSchedule extends BaseTimeEntity {
     @JoinColumn(name = "location_id")
     private Location location;
 
-    // 수정 예정
+    // OneToOne 관계에서 비주인(키 X)쪽에서 지연 로딩 불가
     @OneToOne(mappedBy = "workationSchedule", cascade = CascadeType.ALL)
     private WorkationReview workationReview;
 

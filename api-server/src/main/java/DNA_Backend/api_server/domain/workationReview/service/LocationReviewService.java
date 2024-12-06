@@ -15,7 +15,7 @@ public class LocationReviewService {
 
     // 지역 평점, 리뷰 수 갱신
     public void updateReviewData(Location location) {
-        List<WorkationReview> workationReviews = workationReviewRepository.findByWorkationScheduleLocationId(location.getId());
+        List<WorkationReview> workationReviews = workationReviewRepository.findByWorkationScheduleLocationIdWithFetchJoin(location.getId());
         double averageRating = workationReviews.stream()
                 .mapToInt(WorkationReview::getRating)
                 .average()

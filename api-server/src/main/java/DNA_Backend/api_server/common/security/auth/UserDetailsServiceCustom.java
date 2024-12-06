@@ -19,8 +19,8 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceCustom implements UserDetailsService {
 
     private final UserRepository userRepository;
-    private final TokenManager tokenManager;
     private final UserCacheService userCacheService;
+    private final TokenManager tokenManager;
 
     // 이름으로 회원 조회
     @Override

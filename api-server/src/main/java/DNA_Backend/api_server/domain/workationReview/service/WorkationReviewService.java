@@ -14,7 +14,6 @@ import DNA_Backend.api_server.domain.workationSchedule.model.entity.WorkationSch
 import DNA_Backend.api_server.domain.workationSchedule.service.WorkationScheduleService;
 import DNA_Backend.api_server.common.exception.DnaApplicationException;
 import DNA_Backend.api_server.domain.workationReview.utils.WorkationReviewPage;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -61,18 +60,11 @@ public class WorkationReviewService {
         workationReviewRepository.save(workationReview);
     }
 
-    // USER - 전체 워케이션 리뷰 조회
-    @Transactional(readOnly = true)
-    public List<WorkationReviewResponse> getUserWorkationReviews(Long userId) {
-        List<WorkationReview> workationReviews = workationReviewRepository.findByUserId(userId);
-        return workationReviewMapper.toResponses(workationReviews);
-    }
-
-    // PUBLIC - 전체 워케이션 리뷰 조회
+    // PUBLIC - 전체 지역 워케이션 리뷰 조회
     @Transactional(readOnly = true)
     @Cacheable(cacheNames = "AllLocationWorkationReviews", keyGenerator = "WorkationReviewPageKeyGenerator", cacheManager = "redisCacheManager")
     public WorkationReviewPage<WorkationReviewResponse> getAllLocationWorkationReviews(Pageable pageable) {
-        Page<WorkationReview> reviewPage = workationReviewRepository.findAll(pageable);
+        Page<WorkationReview> reviewPage = workationReviewRepository.findAllWithFetchJoin(pageable);
         return new WorkationReviewPage<>(reviewPage.map(workationReviewMapper::toResponse));
     }
 
@@ -80,7 +72,7 @@ public class WorkationReviewService {
     @Transactional(readOnly = true)
     @Cacheable(cacheNames = "LocationWorkationReviews", keyGenerator = "WorkationReviewPageKeyGenerator", cacheManager = "redisCacheManager")
     public WorkationReviewPage<WorkationReviewResponse> getLocationWorkationReviews(Pageable pageable, Long locationId) {
-        Page<WorkationReview> reviewPage = workationReviewRepository.findByWorkationScheduleLocationId(locationId, pageable);
+        Page<WorkationReview> reviewPage = workationReviewRepository.findByWorkationScheduleLocationIdWithFetchJoin(locationId, pageable);
         return new WorkationReviewPage<>(reviewPage.map(workationReviewMapper::toResponse));
     }
 

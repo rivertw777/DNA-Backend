@@ -1,4 +1,4 @@
-package DNA_Backend.chat_server.global.redis.config;
+package DNA_Backend.chat_server.common.redis.config;
 
 import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Value;

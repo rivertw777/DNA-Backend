@@ -1,5 +1,6 @@
 package DNA_Backend.api_server.domain.facility.model.entity;
 
+import DNA_Backend.api_server.common.model.entity.BaseTimeEntity;
 import DNA_Backend.api_server.domain.user.model.entity.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Builder(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "facility_bookmarks")
-public class FacilityBookmark {
+public class FacilityBookmark extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

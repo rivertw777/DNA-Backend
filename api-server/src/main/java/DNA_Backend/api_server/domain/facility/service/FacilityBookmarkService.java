@@ -69,7 +69,7 @@ public class FacilityBookmarkService {
     // USER - 전체 북마크 시설 조회
     @Transactional(readOnly = true)
     public List<BookmarkedFacilityResponse> getAllBookmarkedFacilities(Long userId) {
-        List<FacilityBookmark> facilityBookmarks = facilityBookmarkRepository.findByUserId(userId);
+        List<FacilityBookmark> facilityBookmarks = facilityBookmarkRepository.findByUserIdWithFetchJoin(userId);
         return facilityBookmarkMapper.toResponses(facilityBookmarks);
     }
 

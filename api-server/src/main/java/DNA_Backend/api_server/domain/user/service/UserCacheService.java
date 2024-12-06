@@ -27,7 +27,11 @@ public class UserCacheService {
     public User getUserCache(String username) {
         String key = USER_CACHE_KEY_PREFIX + username;
         User user = userRedisTemplate.opsForValue().get(key);
-        log.info("User {} Cache find", username);
+        if (user != null) {
+            log.info("User {} Cache Found", username);
+        } else {
+            log.info("User {} Cache Not Found", username);
+        }
         return user;
     }
 

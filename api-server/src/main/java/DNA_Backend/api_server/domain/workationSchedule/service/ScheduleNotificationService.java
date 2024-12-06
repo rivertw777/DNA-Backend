@@ -27,7 +27,7 @@ public class ScheduleNotificationService {
     @Scheduled(cron = "0 0 2 * * *")
     public void notifyExpiredSchedules() {
         LocalDate now = LocalDate.now();
-        List<WorkationSchedule> expiredSchedules = workationScheduleRepository.findByEndDateBeforeAndIsExpiredFalse(now);
+        List<WorkationSchedule> expiredSchedules = workationScheduleRepository.findByEndDateBeforeAndIsExpiredFalseWithFetchJoin(now);
         expiredSchedules.forEach(this::sendEmail);
     }
 
