@@ -22,7 +22,6 @@ repositories {
 }
 
 ext {
-	set('springCloudVersion', "2023.0.2")
 	set('querydslVersion', "5.0.0")
 }
 
@@ -60,12 +59,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation ('it.ozimov:embedded-redis:0.7.3') { exclude group: "org.slf4j", module: "slf4j-simple" }
 
-	// Websocket
-	implementation 'org.springframework.boot:spring-boot-starter-websocket'
-
-	// Websocket Security
-	implementation 'org.springframework.security:spring-security-messaging'
-
 	// Email
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '3.0.5'
 
@@ -87,12 +80,6 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	testImplementation 'com.h2database:h2:1.4.200'
-}
-
-dependencyManagement {
-	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-	}
 }
 
 tasks.named('test') {
