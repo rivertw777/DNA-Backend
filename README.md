@@ -1,4 +1,4 @@
-.<div align="center">
+![image](https://github.com/user-attachments/assets/76992a59-35b7-445e-9e14-cda4c924f136).<div align="center">
 ![asdasdasdasd](https://github.com/user-attachments/assets/9981521a-b934-4c3b-ba90-158fc4d25226)
 </div>
 <br>
@@ -104,7 +104,7 @@
     <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJw8utG9EjSW1-doGUZw_aNQW5gDxw1dNIfQ&s" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS EC2</td>
   </tr>
   <tr>
-    <td><img src="https://seeklogo.com/images/A/aws-rds-relational-database-service-logo-99EA3E8EA4-seeklogo.com.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS RDS</td>
+    <td><img src="https://ih1.redbubble.net/image.4649980455.0604/mp,504x498,matte,f8f8f8,t-pad,600x600,f8f8f8.jpg" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS RDS</td>
   </tr>
   <tr>
     <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZn-0RTwQV0Aqu6kDoqEgYD2bIrdoSP5OLhhZQHNB0GA&s" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS ElastiCache</td>
