@@ -1,4 +1,5 @@
-![image](https://github.com/user-attachments/assets/76992a59-35b7-445e-9e14-cda4c924f136).<div align="center">
+<div align="center">
+
 ![asdasdasdasd](https://github.com/user-attachments/assets/9981521a-b934-4c3b-ba90-158fc4d25226)
 </div>
 <br>
